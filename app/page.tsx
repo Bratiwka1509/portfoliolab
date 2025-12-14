@@ -59,9 +59,16 @@ export default function HomePage() {
         <div className="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
           {/* TEXT */}
           <div className="space-y-4 max-w-xl">
-            <h2 className="text-xl sm:text-2xl font-semibold">
+            <h2 className="text-xl sm:text-2xl font-semibold flex items-center gap-3">
               What is an{" "}
               <span className="text-red-400">Engineering Portfolio</span>?
+              <Image
+                src="/ftcftc.png"
+                alt="FTC logo"
+                width={90}
+                height={90}
+                className="opacity-80"
+              />
             </h2>
 
             <p className="text-white/70 text-sm sm:text-base leading-relaxed">
@@ -71,26 +78,32 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* FAN PAGES */}
-          <div className="relative h-[360px] sm:h-[440px] flex items-center justify-center">
-            {/* LEFT */}
-            <div
-              className="absolute -translate-x-24 sm:-translate-x-40 rotate-[-12deg] sm:rotate-[-18deg] z-10
+          {/* CLICKABLE PORTFOLIOS */}
+          <div className="relative h-[300px] sm:h-[440px] flex items-center justify-center">
+            {/* LEFT — Raventech */}
+            <a
+              href="https://drive.google.com/file/d/1ksv2owVOhEm-_NBWZF68qLLZOPyM7yW4/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute -translate-x-20 sm:-translate-x-40 rotate-[-8deg] sm:rotate-[-18deg] z-10
                          transition-all duration-300
                          hover:scale-105 hover:z-40
                          hover:shadow-[0_0_40px_rgba(239,68,68,0.35)]"
             >
               <Image
                 src="/portfolio/page-1.png"
-                alt="Portfolio page 1"
-                width={180}
-                height={255}
+                alt="Raventech Engineering Portfolio"
+                width={160}
+                height={225}
                 className="sm:w-[210px] sm:h-[297px] border border-white/15"
               />
-            </div>
+            </a>
 
-            {/* CENTER */}
-            <div
+            {/* CENTER — Team Without a Cool Acronym */}
+            <a
+              href="https://drive.google.com/file/d/1qcJd5SlYUYxByHYqiFOVVqzkViauBZHz/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative z-30
                          transition-all duration-300
                          hover:scale-110 hover:z-50
@@ -98,28 +111,31 @@ export default function HomePage() {
             >
               <Image
                 src="/portfolio/page-2.png"
-                alt="Portfolio page 2"
-                width={200}
-                height={285}
+                alt="Team Without a Cool Acronym Portfolio"
+                width={180}
+                height={255}
                 className="sm:w-[230px] sm:h-[325px] border border-red-400/50"
               />
-            </div>
+            </a>
 
-            {/* RIGHT */}
-            <div
-              className="absolute translate-x-24 sm:translate-x-40 rotate-[12deg] sm:rotate-[18deg] z-20
+            {/* RIGHT — Rebel Robotics 18139 */}
+            <a
+              href="https://drive.google.com/file/d/1O0p5yHKNlYPYIZaGxYFj1FMmMe3jOlcz/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute translate-x-20 sm:translate-x-40 rotate-[8deg] sm:rotate-[18deg] z-20
                          transition-all duration-300
                          hover:scale-105 hover:z-40
                          hover:shadow-[0_0_40px_rgba(239,68,68,0.35)]"
             >
               <Image
                 src="/portfolio/page-3.png"
-                alt="Portfolio page 3"
-                width={180}
-                height={255}
+                alt="Rebel Robotics 18139 Portfolio"
+                width={160}
+                height={225}
                 className="sm:w-[210px] sm:h-[297px] border border-white/20"
               />
-            </div>
+            </a>
           </div>
         </div>
       </div>

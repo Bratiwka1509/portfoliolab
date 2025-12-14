@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "PortfolioLab",
   description: "Engineering portfolios for FTC teams",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.png",
   },
 };
 
@@ -56,7 +56,7 @@ export default function RootLayout({
                 alt="PortfolioLab logo"
                 width={32}
                 height={32}
-                className="sm:w-[34px] sm:h-[34px]"
+                className="sm:w-[34px] sm:h-[44px]"
                 priority
               />
               <span className="tracking-wide text-base sm:text-lg">

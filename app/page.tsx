@@ -25,7 +25,7 @@ export default function HomePage() {
             alt="PortfolioLab logo"
             width={40}
             height={40}
-            className="sm:w-[44px] sm:h-[55px]"
+            className="sm:w-[50px] sm:h-[70px]"
             priority
           />
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-wide">

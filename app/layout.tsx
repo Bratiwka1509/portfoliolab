@@ -13,7 +13,11 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "PortfolioLab",
   description: "Engineering portfolios for FTC teams",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
+
 
 export default function RootLayout({
   children,
@@ -39,23 +43,34 @@ export default function RootLayout({
 
         {/* NAVBAR */}
         <header className="sticky top-0 z-50 backdrop-blur border-b border-white/10">
-          <div className="w-full px-12 h-16 flex items-center justify-between">
+          <div
+            className="
+              w-full h-16 flex items-center justify-between
+              px-4 sm:px-8 md:px-12
+            "
+          >
             {/* LEFT */}
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3">
               <Image
                 src="/logo.png"
                 alt="PortfolioLab logo"
-                width={34}
-                height={34}
+                width={32}
+                height={32}
+                className="sm:w-[34px] sm:h-[34px]"
                 priority
               />
-              <span className="tracking-wide text-lg">
+              <span className="tracking-wide text-base sm:text-lg">
                 Portfolio<span className="text-red-400">Lab</span>
               </span>
             </Link>
 
             {/* RIGHT */}
-            <nav className="flex items-center gap-8 text-sm font-normal">
+            <nav
+              className="
+                flex items-center gap-4 sm:gap-6 md:gap-8
+                text-xs sm:text-sm font-normal
+              "
+            >
               <Link
                 href="/"
                 className="text-white/70 hover:text-red-400 transition"
@@ -70,10 +85,14 @@ export default function RootLayout({
               </Link>
               <Link
                 href="/guide"
-                className="px-4 py-1.5 rounded border border-red-500/40
-                           bg-gradient-to-br from-red-600/25 to-red-500/5
-                           hover:from-red-600/35 hover:to-red-500/15
-                           text-white transition"
+                className="
+                  px-3 sm:px-4 py-1.5 rounded
+                  border border-red-500/40
+                  bg-gradient-to-br from-red-600/25 to-red-500/5
+                  hover:from-red-600/35 hover:to-red-500/15
+                  text-white transition
+                  text-xs sm:text-sm
+                "
               >
                 Guide & Reviews
               </Link>
@@ -85,13 +104,22 @@ export default function RootLayout({
         <main>{children}</main>
 
         {/* FOOTER */}
-        <footer className="mt-32 border-t border-white/10">
-          <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row justify-between gap-6 text-sm">
+        <footer className="mt-24 sm:mt-32 border-t border-white/10">
+          <div
+            className="
+              max-w-6xl mx-auto
+              px-4 sm:px-6
+              py-8 sm:py-10
+              flex flex-col sm:flex-row
+              justify-between gap-4 sm:gap-6
+              text-xs sm:text-sm
+            "
+          >
             <span className="text-white/40">
               © {new Date().getFullYear()} PortfolioLab
             </span>
 
-            <div className="flex gap-6">
+            <div className="flex gap-4 sm:gap-6">
               <a
                 href="https://instagram.com"
                 target="_blank"

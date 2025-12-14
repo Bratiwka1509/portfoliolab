@@ -39,7 +39,7 @@ type Portfolio = {
   link: string;
 };
 
-/* ================= DATA (24 PORTFOLIOS) ================= */
+/* ================= DATA ================= */
 
 const portfolios: Portfolio[] = [
   {
@@ -230,14 +230,14 @@ export default function PortfolioPage() {
   });
 
   return (
-    <section className="px-6">
-      <div className="max-w-6xl mx-auto py-24 space-y-10">
+    <section className="px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto py-16 sm:py-24 space-y-8 sm:space-y-10">
         {/* FILTERS */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <select
             value={season}
             onChange={(e) => setSeason(e.target.value as Season)}
-            className="bg-black border border-white/20 px-4 py-2 text-sm"
+            className="bg-black border border-white/20 px-3 sm:px-4 py-2 text-sm"
           >
             <option value="all">All Seasons</option>
             <option>2025 Decode</option>
@@ -252,7 +252,7 @@ export default function PortfolioPage() {
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value as Level)}
-            className="bg-black border border-white/20 px-4 py-2 text-sm"
+            className="bg-black border border-white/20 px-3 sm:px-4 py-2 text-sm"
           >
             <option value="all">All Levels</option>
             <option>Regional</option>
@@ -264,7 +264,7 @@ export default function PortfolioPage() {
           <select
             value={award}
             onChange={(e) => setAward(e.target.value as Award)}
-            className="bg-black border border-white/20 px-4 py-2 text-sm"
+            className="bg-black border border-white/20 px-3 sm:px-4 py-2 text-sm"
           >
             <option value="all">All Awards</option>
             <option>Inspire</option>
@@ -280,25 +280,30 @@ export default function PortfolioPage() {
         </div>
 
         {/* GRID */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filtered.map((p, i) => (
             <a
               key={i}
               href={p.link}
               target="_blank"
-              className="block border border-white/10 p-6 space-y-2
-                         hover:border-red-400/70
-                         hover:shadow-[0_0_24px_rgba(239,68,68,0.25)]
-                         transition"
+              className="
+                block border border-white/10
+                p-4 sm:p-6 space-y-2
+                hover:border-red-400/70
+                hover:shadow-[0_0_24px_rgba(239,68,68,0.25)]
+                transition active:scale-[0.98]
+              "
             >
-              <h3 className="font-semibold">
+              <h3 className="font-semibold text-sm sm:text-base">
                 {p.team}{" "}
                 {p.number && (
                   <span className="text-white/40">#{p.number}</span>
                 )}
               </h3>
+
               <p className="text-xs text-white/50">{p.season}</p>
               <p className="text-xs text-white/50">{p.event}</p>
+
               {p.award !== "None" && (
                 <p className="text-sm text-red-400">{p.award} Award</p>
               )}

@@ -1,117 +1,157 @@
+"use client";
+
 import "./globals.css";
-import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { Montserrat } from "next/font/google";
+import { useState } from "react";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
-
-export const metadata: Metadata = {
-  title: "PortfolioLab",
-  description: "Engineering portfolios for FTC teams",
-  icons: {
-    icon: "/logo.png",
-  },
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
     <html lang="en">
-      <body className={`${montserrat.className} bg-black text-white`}>
-        {/* GLOBAL TECH BACKGROUND */}
-        <div className="fixed inset-0 -z-10 pointer-events-none">
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
-            }}
-          />
-          <div className="absolute -top-48 -left-48 w-[600px] h-[600px] bg-violet-500/20 blur-[180px]" />
-          <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-violet-600/10 blur-[180px]" />
-        </div>
-
-        {/* NAVBAR */}
-        <header className="sticky top-0 z-50 backdrop-blur border-b border-white/10 bg-black/70">
-          <div className="w-full h-14 sm:h-16 flex items-center justify-between px-3 sm:px-8 md:px-12">
+      <body
+        className={`
+          ${montserrat.className}
+          min-h-screen
+          text-white
+          bg-black
+        `}
+      >
+        {/* ================= NAVBAR ================= */}
+        <header className="sticky top-0 z-50 border-b border-red-900/40 bg-black">
+          <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             
-            {/* LEFT */}
-            <Link href="/" className="flex items-center gap-2">
-              {/* LOGO — DESKTOP ONLY */}
-              <Image
-                src="/logo.png"
-                alt="PortfolioLab logo"
-                width={32}
-                height={32}
-                priority
-                className="hidden sm:block"
-              />
-
-              {/* TEXT — DESKTOP ONLY */}
-              <span className="hidden sm:inline font-semibold tracking-wide text-lg">
-                Portfolio<span className="text-violet-400">Lab</span>
+            {/* LOGO */}
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/logo.png" alt="PortfolioLab" width={28} height={28} />
+              <span className="font-semibold tracking-wide">
+                Portfolio<span className="text-red-500">Lab</span>
               </span>
             </Link>
 
-            {/* RIGHT */}
-            <nav className="flex items-center gap-3 sm:gap-6 text-[11px] sm:text-sm">
-              <Link
-                href="/"
-                className="text-white/70 hover:text-violet-400 transition"
-              >
+            {/* DESKTOP NAV — НЕ ТРОГАЕМ */}
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <Link href="/" className="hover:text-red-400 transition">
                 Home
               </Link>
-              <Link
-                href="/portfolio"
-                className="text-white/70 hover:text-violet-400 transition"
-              >
+              <Link href="/portfolio" className="hover:text-red-400 transition">
                 Portfolio
               </Link>
-              <Link
-                href="/guide"
-                className="px-2.5 sm:px-3 py-1.5 rounded border border-violet-500/40 hover:bg-violet-500/10 transition"
-              >
+              <Link href="/guide" className="hover:text-red-400 transition">
                 Guide
               </Link>
-            </nav>
-          </div>
+              <Link
+                href="/portai"
+                className="px-4 py-2 rounded-md border border-red-600 text-red-500 hover:bg-red-600 hover:text-white transition"
+              >
+                PortAI
+              </Link>
+              <Link
+                href="/submit"
+                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 transition"
+              >
+                Submit
+              </Link>
+            </div>
+
+            {/* MOBILE MENU BUTTON */}
+            <button
+              onClick={() => setOpen(true)}
+              className="md:hidden text-2xl px-2"
+              aria-label="Open menu"
+            >
+              ⋮
+            </button>
+          </nav>
         </header>
 
-        {/* PAGE CONTENT */}
-        <main className="pt-14 sm:pt-16">{children}</main>
+        {/* ================= MOBILE MENU ================= */}
+        {open && (
+          <div
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          >
+            <div
+              className="absolute right-0 top-0 h-full w-72 bg-black border-l border-red-900/40 p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <span className="font-semibold">Menu</span>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-sm text-gray-400 hover:text-white"
+                >
+                  Close
+                </button>
+              </div>
 
-        {/* FOOTER */}
-        <footer className="mt-24 border-t border-white/10">
-          <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between gap-4 text-xs sm:text-sm text-white/40">
-            <span>© {new Date().getFullYear()} PortfolioLab</span>
+              <nav className="flex flex-col gap-4 text-base">
+                <Link href="/" onClick={() => setOpen(false)}>
+                  Home
+                </Link>
+                <Link href="/portfolio" onClick={() => setOpen(false)}>
+                  Portfolio
+                </Link>
+                <Link href="/guide" onClick={() => setOpen(false)}>
+                  Guide
+                </Link>
+                <Link
+                  href="/portai"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 px-4 py-2 rounded-md border border-red-600 text-red-500 text-center"
+                >
+                  PortAI
+                </Link>
+                <Link
+                  href="/submit"
+                  onClick={() => setOpen(false)}
+                  className="px-4 py-3 rounded-md bg-red-600 text-center font-semibold"
+                >
+                  Submit
+                </Link>
+              </nav>
+            </div>
+          </div>
+        )}
 
-            <div className="flex gap-6">
-              <a
+        {/* ================= PAGE CONTENT ================= */}
+        <main>{children}</main>
+
+        {/* ================= FOOTER ================= */}
+        <footer className="border-t border-red-900/30 mt-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col items-center gap-3 text-xs text-gray-500">
+
+            <div className="flex gap-4">
+              <Link
+                href="/sponsor"
+                className="hover:text-red-500 transition"
+              >
+                Become a sponsor
+              </Link>
+
+              <Link
                 href="https://www.instagram.com/ftc.portfoliolab/"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-violet-400 transition"
+                className="hover:text-red-500 transition"
               >
                 Instagram
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-violet-400 transition"
-              >
-                YouTube
-              </a>
+              </Link>
             </div>
+
+            <span>
+              © {new Date().getFullYear()} PortfolioLab
+            </span>
           </div>
         </footer>
       </body>

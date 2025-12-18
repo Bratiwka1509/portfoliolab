@@ -1,21 +1,22 @@
 export default function GuidePage() {
   return (
-    <section className="px-4 sm:px-6">
-      <div className="max-w-4xl mx-auto py-20 sm:py-28 space-y-12 sm:space-y-16">
+    <section className="min-h-screen px-4 sm:px-6 text-white bg-gradient-to-br from-black via-[#120606] to-[#3b0a0a]">
+      <div className="max-w-4xl mx-auto py-16 sm:py-28 space-y-10 sm:space-y-16">
+
         {/* HEADER */}
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
             Portfolio Guide & Reviews
           </h1>
 
-          <p className="text-white/60 text-sm sm:text-base max-w-2xl leading-relaxed">
+          <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto sm:mx-0 leading-relaxed">
             Everything you need to understand, write, and improve your FTC
             engineering portfolio — from theory to real examples.
           </p>
         </div>
 
         {/* GUIDEBOOK */}
-        <div className="border border-white/10 p-4 sm:p-8 space-y-3 sm:space-y-4">
+        <div className="border border-red-900/40 bg-black/40 backdrop-blur p-4 sm:p-8 space-y-3 sm:space-y-4 rounded-xl">
           <h2 className="text-lg sm:text-xl font-semibold">
             Guidebook
           </h2>
@@ -32,7 +33,7 @@ export default function GuidePage() {
         </div>
 
         {/* REVIEWS */}
-        <div className="border border-white/10 p-4 sm:p-8 space-y-3 sm:space-y-4">
+        <div className="border border-red-900/40 bg-black/40 backdrop-blur p-4 sm:p-8 space-y-3 sm:space-y-4 rounded-xl">
           <h2 className="text-lg sm:text-xl font-semibold">
             Video Portfolio Reviews
           </h2>
@@ -47,6 +48,7 @@ export default function GuidePage() {
             Video reviews coming soon.
           </p>
         </div>
+
       </div>
     </section>
   );

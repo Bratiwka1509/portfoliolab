@@ -50,7 +50,7 @@ const portfolios = [
   "award": "Inspire Award Winner",
 
   "cover": "/portfolios/16091-1/cover.png",
-  "pdf": "/portfolios/16091-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/1Z0SvCbq8ko9SF0PTQ7NV6PXNmbSGRv3Q/view?usp=sharing",
 
   "summary":
     "A world-class FTC engineering portfolio with exceptional outreach scale, real engineering rigor, quantified decisions, and highly mature documentation. This is a benchmark portfolio, not merely a strong one.",
@@ -112,7 +112,7 @@ const portfolios = [
   "award": "Not specified",
 
   "cover": "/portfolios/26438-1/cover.png",
-  "pdf": "/portfolios/26438-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/18NReuWcn4L36J4rYIFVabCAmADhuFMdO/view?usp=sharing",
 
   "summary":
     "A visually strong and well-documented engineering portfolio with solid CAD work and iterative design. Technical depth is above average for FTC, but engineering thinking is often descriptive rather than analytical, with limited quantified trade-offs. Outreach is active but partially under-supported by strict FIRST definitions. Overall level: solid FTC, not Worlds-class.",
@@ -172,7 +172,7 @@ const portfolios = [
   "award": "Not specified",
 
   "cover": "/portfolios/19047-1/cover.jpg",
-  "pdf": "/portfolios/19047-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/1cPQ_DgALudChLxE2MWQyOXjvNeavnMjL/view?usp=sharing",
 
   "summary":
     "A strong Worlds-level engineering portfolio with exceptional technical depth, real trade-offs, calculations, and advanced software. Outreach is broad and active but lacks strict long-term impact metrics. Clearly above average FTC and competitive at Worlds, yet below Inspire-level global benchmarks.",
@@ -231,7 +231,7 @@ const portfolios = [
   "award": "Design Award - Winner",
 
   "cover": "/portfolios/12635-1/cover.png",
-  "pdf": "/portfolios/12635-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/1EnWguV1KVuKHBSV_nE2glaX6YrX1Yzez/view?usp=sharing",
 
   "summary":
     "A well-structured FTC engineering portfolio that clearly documents the robot design process and iterations. The team demonstrates solid engineering fundamentals and readable documentation, but lacks the technical depth, quantified evidence, and outreach scale required for top-tier Worlds-level recognition.",
@@ -290,7 +290,7 @@ const portfolios = [
     score: "49 / 55",
     award: "Motivate Award 3rd place",
     cover: "/portfolios/3747-1/cover.png",
-    pdf: "/portfolios/3747-1/portfolio.pdf",
+    pdf: "https://drive.google.com/file/d/10x23SfD81UZaXlOqNRvrq_pbrXNv1SJQ/view?usp=sharing",
 
     summary:
       "A strong Worlds-level engineering portfolio with exceptional, evidence-based outreach and advocacy, solid sustainability planning, and deep engineering rigor. Demonstrates clear trade-offs, calculations, iterations, and a mature software stack.",
@@ -348,7 +348,7 @@ const portfolios = [
   award: "Not specified",
 
   cover: "/portfolios/14503-1/cover.png",
-  pdf: "/portfolios/14503-1/portfolio.pdf",
+  pdf: "https://drive.google.com/file/d/1woz3rS1WQ3yimncLL62FRxlt0WJYnQwk/view?usp=sharing",
 
   summary:
     "A technically excellent FTC engineering portfolio with real calculations, strong iteration logic, and advanced autonomous systems. Engineering depth is near Worlds level, but outreach remains local and insufficiently measured, preventing Inspire-level evaluation.",
@@ -407,7 +407,7 @@ const portfolios = [
   "award": "Design Award 2nd place",
 
   "cover": "/portfolios/1002-1/cover.png",
-  "pdf": "/portfolios/1002-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/1cwvDL9i0-u9FlySgaa5LVqvF57re_7Cn/view?usp=sharing",
 
   "summary":
     "A strong Worlds-level FTC portfolio with outstanding outreach scale, long-term sustainability, and true ambassador-level impact. Engineering is solid, iterative, and calculation-backed, though slightly less tightly integrated and refined than the absolute global benchmarks.",
@@ -470,7 +470,7 @@ const portfolios = [
   "award": "Inspire Award Winner",
 
   "cover": "/portfolios/22105-1/cover.png",
-  "pdf": "/portfolios/22105-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/11A2khVf3LNyZF1pJ9M19dFL8jgr88xDX/view?usp=sharing",
 
   "summary":
     "A genuine Worlds-level FTC portfolio featuring exceptional mechanical and software engineering depth and rare policy-level outreach. Shows clear trade-offs, calculations, and risk mitigation. Slightly below absolute benchmark level due to limited long-term international sustain metrics and Inspire narrative integration.",
@@ -533,7 +533,7 @@ const portfolios = [
   "award": "Innovate Award 2nd place",
 
   "cover": "/portfolios/7842-1/cover.png",
-  "pdf": "/portfolios/7842-1/portfolio.pdf",
+  "pdf": "https://drive.google.com/file/d/1osaSeTzO8f1DSOafO8LDdkQPiKCw0NCn/view?usp=sharing",
 
   "summary":
     "A solid and clearly written FTC engineering portfolio that demonstrates a mature iterative design process and sound mechanical reasoning. Competitive at the regional/state level, but lacks the technical depth, originality, and outreach scale required for Worlds-level comparison.",
@@ -598,7 +598,7 @@ const portfolios = [
 "award": "Innovate Award 3rd place",
 
 "cover": "/portfolios/1002-2/cover.png",
-"pdf": "/portfolios/1002-2/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1y9zZ6EsLC1hktMMKzEwKpRmLjNO4Q__r/view?usp=sharing",
 
 "summary":
 "A high-level FTC engineering portfolio with exceptional technical depth, original mechanisms, clear iteration logic, and advanced software systems. Outreach is broad and well-documented, including national and international mentoring, but sustainability and long-term impact measurement are weaker than Inspire-level benchmarks.",
@@ -659,7 +659,7 @@ const portfolios = [
 "award": "Think Award Winner",
 
 "cover": "/portfolios/16021-1/cover.png",
-"pdf": "/portfolios/16021-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1a3pHSCByoilMvQz-sRVfAyqs2eZjdnYx/view?usp=sharing",
 
 "summary":
 "An elite student-driven engineering portfolio with extreme technical depth, rigorous iteration logic, advanced software architecture, and a strong open-source philosophy. Outreach is authentic and impactful within the FTC ecosystem, but broader societal scale and long-term sustainability fall slightly short of Inspire-level benchmarks.",
@@ -720,7 +720,7 @@ const portfolios = [
 "award": "Innovate Award Winner",
 
 "cover": "/portfolios/16461-1/cover.png",
-"pdf": "/portfolios/16461-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1IZx1IDDLVcXyBYk8sxCHLSwYZe3N-ltB/view?usp=sharing",
 
 "summary":
 "A world-class FTC engineering and outreach portfolio demonstrating exceptional technical originality, deep engineering reasoning, large-scale sustainable outreach, and verified global impact. Engineering decisions are rigorously justified with simulations, calculations, and iteration histories, while outreach programs show permanence, scale, and measurable influence across the global FTC ecosystem.",
@@ -781,7 +781,7 @@ const portfolios = [
 "award": "Motivate Award Winner",
 
 "cover": "/portfolios/14270-1/cover.png",
-"pdf": "/portfolios/14270-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1dwSqUKUmMU5szriGbvFwJm2utsyf9px1/view?usp=sharing",
 
 "summary":
 "A very strong, engineering-driven FTC portfolio with deep mechanical design, real calculations, clear trade-offs, and structured documentation. Outreach is broad and sustained at national level, though impact metrics are often descriptive rather than rigorously quantified. Competitive at Worlds level, but not fully comparable to global Inspire benchmarks.",
@@ -842,7 +842,7 @@ const portfolios = [
 "award": "Think Award Winner",
 
 "cover": "/portfolios/19706-1/cover.png",
-"pdf": "/portfolios/19706-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1d1-wJUnh9qGTINNEUzANms6CJU3p3DCd/view?usp=sharing",
 
 "summary":
 "An exceptionally strong Worlds-level FTC engineering portfolio combining deep, well-argued mechanical and software design with rare, evidence-based advocacy and sustained outreach. Demonstrates real trade-offs, math-driven decisions, and measurable long-term impact. Falls slightly short of absolute Inspire benchmark only due to presentation density and limited global-scale replication.",
@@ -903,7 +903,7 @@ const portfolios = [
 "award": "Inspire Award 2nd place",
 
 "cover": "/portfolios/6165-1/cover.png",
-"pdf": "/portfolios/6165-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1Oq6fiOUk0IsToTmRHCecBNpT3_kuqOic/view?usp=sharing",
 
 "summary":
 "A world-class Inspire/Champions-level FTC portfolio demonstrating exceptional engineering rigor, original algorithms, open-source contributions, and one of the strongest documented global outreach and advocacy ecosystems in FTC. Fully comparable to top international benchmarks, with sustained, scalable, and verifiable impact far beyond competition performance.",
@@ -964,7 +964,7 @@ const portfolios = [
 "award": "Motivate Award 2nd place",
 
 "cover": "/portfolios/18317-1/cover.png",
-"pdf": "/portfolios/18317-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1AY8NUbjwbhh-INfcDFghtn5EvYc3quWp/view?usp=sharing",
 
 "summary":
 "A solid mid-level FTC portfolio with extensive local and state-level outreach and clear effort toward sustainability and inclusivity. Engineering is competently documented with iteration history, but technical depth and trade-off rigor are below Worlds standards. Competitive for outreach-focused awards at state level, not an Inspire contender.",
@@ -1025,7 +1025,7 @@ const portfolios = [
 "award": "Inspire Award Winner",
 
 "cover": "/portfolios/19213-1/cover.png",
-"pdf": "/portfolios/19213-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1yzmLqKysMR47ZeVFSSG1yIqr9F3IOlaU/view?usp=sharing",
 
 "summary":
 "A well-organized, outreach-heavy FTC portfolio with long-term local impact and clear community growth evidence. Engineering is functional and reliable but conservative, relying on modular simplicity and FTC Blocks rather than advanced algorithms or quantitative trade-offs. Strong at regional and national level for Reach, not competitive for Inspire at Worlds.",
@@ -1086,7 +1086,7 @@ const portfolios = [
 "award": "Think Award Winner",
 
 "cover": "/portfolios/23511-1/cover.png",
-"pdf": "/portfolios/23511-1/portfolio.pdf",
+"pdf": "https://drive.google.com/file/d/1R4RXE7qOjKOF38JKxg0HyHTvHHyXvSUl/view?usp=sharing",
 
 "summary":
 "A very strong, engineering-heavy FTC portfolio with clear calculations, iteration history, advanced control architecture, and open-source contributions. Outreach is meaningful and sustained with some national and international elements, but impact metrics and Inspire-level synthesis are not yet fully comparable to global benchmarks.",

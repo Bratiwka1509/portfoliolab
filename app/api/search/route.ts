@@ -3,18 +3,22 @@ import portfolios from "@/data/portfolios";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const q = (searchParams.get("q") || "").toLowerCase();
+  const q = (searchParams.get("q") || "").trim().toLowerCase();
 
-  if (!q || q.length < 1) {
+  if (!q) {
     return NextResponse.json([]);
   }
 
   const results = portfolios
     .filter((p) => {
+      const teamName = p.teamName.toLowerCase();
+      const teamNumber = String(p.teamNumber);
+      const country = p.country?.toLowerCase() ?? "";
+
       return (
-        p.teamName.toLowerCase().includes(q) ||
-        String(p.teamNumber).includes(q) ||
-        p.country?.toLowerCase().includes(q)
+        teamName.includes(q) ||
+        teamNumber.includes(q) ||
+        country.includes(q)
       );
     })
     .slice(0, 11)

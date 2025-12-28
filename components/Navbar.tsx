@@ -15,17 +15,24 @@ type Suggestion = {
 export default function Navbar() {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Suggestion[]>([]);
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
 
-  /* ===== CLOSE DROPDOWN ON OUTSIDE CLICK ===== */
+  /* ===== CLOSE DROPDOWNS ===== */
   useEffect(() => {
     function close(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target as Node) &&
+        mobileRef.current &&
+        !mobileRef.current.contains(e.target as Node)
+      ) {
         setShow(false);
+        setOpen(false);
       }
     }
     document.addEventListener("mousedown", close);
@@ -63,7 +70,7 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-red-900/40 bg-black">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-6">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
 
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
@@ -73,7 +80,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* SEARCH */}
+          {/* DESKTOP SEARCH */}
           <div
             ref={ref}
             className="hidden md:flex flex-1 justify-center relative"
@@ -120,7 +127,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* LINKS */}
+          {/* DESKTOP LINKS */}
           <div className="hidden md:flex items-center gap-6 text-sm">
             <Link href="/" className="hover:text-red-400">Home</Link>
             <Link href="/portfolio" className="hover:text-red-400">Portfolio</Link>
@@ -139,15 +146,85 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* MOBILE MENU */}
+          {/* MOBILE BUTTON */}
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden text-2xl px-2"
+            className="md:hidden text-xl px-2 ml-auto"
           >
-            ⋮
+            ☰
           </button>
         </nav>
       </header>
+
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end">
+          <div
+            ref={mobileRef}
+            className="w-80 max-w-full h-full bg-black border-l border-red-900/40 p-6 flex flex-col gap-6"
+          >
+            <div className="flex justify-between items-center">
+              <span className="font-semibold">Menu</span>
+              <button onClick={() => setOpen(false)} className="text-xl">
+                ✕
+              </button>
+            </div>
+
+            {/* MOBILE SEARCH */}
+            <div className="relative">
+              <input
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShow(true);
+                }}
+                onKeyDown={(e) => e.key === "Enter" && goSearch()}
+                placeholder="Search…"
+                className="
+                  w-full
+                  bg-zinc-900
+                  border border-zinc-700
+                  rounded-md
+                  px-4 py-2
+                  text-sm
+                  placeholder-gray-400
+                  focus:outline-none
+                  focus:border-red-500
+                "
+              />
+
+              {show && results.length > 0 && (
+                <div className="absolute top-full mt-1 w-full bg-zinc-800 border border-zinc-700 rounded-md overflow-hidden shadow-xl">
+                  {results.map((r) => (
+                    <button
+                      key={r.id}
+                      onClick={() => goSearch(r.teamName)}
+                      className="w-full px-4 py-2 text-sm text-left hover:bg-zinc-700"
+                    >
+                      #{r.teamNumber} — {r.teamName}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* MOBILE LINKS */}
+            <nav className="flex flex-col gap-4 text-sm">
+              <Link href="/" onClick={() => setOpen(false)}>Home</Link>
+              <Link href="/portfolio" onClick={() => setOpen(false)}>Portfolio</Link>
+              <Link href="/guide" onClick={() => setOpen(false)}>Guide</Link>
+              <Link href="/portai" onClick={() => setOpen(false)}>PortAI</Link>
+              <Link
+                href="/submit"
+                onClick={() => setOpen(false)}
+                className="mt-2 px-4 py-2 rounded-md bg-red-600 text-center"
+              >
+                Submit
+              </Link>
+            </nav>
+          </div>
+        </div>
+      )}
     </>
   );
 }

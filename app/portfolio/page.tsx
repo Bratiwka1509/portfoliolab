@@ -12,7 +12,7 @@ export default function PortfolioPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[60vh] items-center justify-center text-zinc-400">
+        <div className="flex min-h-[60vh] items-center justify-center text-sm sm:text-base text-zinc-400">
           Loading portfolios…
         </div>
       }

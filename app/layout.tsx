@@ -32,13 +32,14 @@ export default function RootLayout({
           min-h-screen
           bg-black
           text-white
+          overflow-x-hidden
         `}
       >
         <Navbar />
 
         <main>{children}</main>
 
-        <footer className="border-t border-red-900/30 mt-32">
+        <footer className="border-t border-red-900/30 mt-20 sm:mt-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col items-center gap-3 text-xs text-gray-500">
             <div className="flex gap-4">
               <a href="/sponsor" className="hover:text-red-500 transition">

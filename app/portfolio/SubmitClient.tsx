@@ -122,21 +122,20 @@ export default function SubmitClient() {
   }, [randomized, season, level, award, stars, query]);
 
   return (
-    <main className="min-h-screen text-white px-6 py-24 bg-gradient-to-b from-[#0b0000] via-[#140404] to-black">
-      <div className="max-w-7xl mx-auto space-y-10">
+    <main className="min-h-screen text-white px-4 sm:px-6 py-20 sm:py-24 bg-gradient-to-b from-[#0b0000] via-[#140404] to-black">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
 
         {/* HEADER */}
         <section className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold">Engineering Portfolios</h1>
-            <p className="text-gray-400 mt-2 max-w-2xl">
+            <h1 className="text-2xl sm:text-4xl font-bold">Engineering Portfolios</h1>
+            <p className="text-gray-400 mt-2 max-w-2xl text-sm sm:text-base">
               FTC engineering portfolios reviewed by PortfolioLab using a strict,
               criteria-based star system.
             </p>
           </div>
 
-          {/* ACTION BUTTONS */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <button
               onClick={() => setShowEvaluationInfo(true)}
               className="px-4 py-2 rounded-md border border-zinc-700 hover:border-red-600 text-sm"
@@ -161,7 +160,7 @@ export default function SubmitClient() {
         </section>
 
         {/* FILTERS */}
-        <section className="flex flex-wrap items-center gap-3">
+        <section className="flex flex-wrap items-center gap-2 sm:gap-3">
           {[SEASONS, LEVELS, AWARDS, STARS].map((opts, i) => (
             <select
               key={i}
@@ -178,7 +177,7 @@ export default function SubmitClient() {
         </section>
 
         {/* GRID */}
-        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
           {filtered.map((p) => (
             <button
               key={p.id}
@@ -451,7 +450,9 @@ export default function SubmitClient() {
     </div>
   </div>
 )}
+ 
 
+ 
     </main>
   );
 }

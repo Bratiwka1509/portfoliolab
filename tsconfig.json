@@ -18,6 +18,13 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+
+    /* 🔴 ВАЖНО — ВОТ ЭТИ ДВЕ СТРОКИ */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    },
+
     "plugins": [
       {
         "name": "next"

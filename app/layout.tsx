@@ -55,6 +55,8 @@ export default function RootLayout({
             <span>© {new Date().getFullYear()} FTCPortfolioLab</span>
           </div>
         </footer>
+
+        <Analytics />
       </body>
     </html>
   );

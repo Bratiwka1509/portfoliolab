@@ -713,7 +713,7 @@ const portfolios = [
 "teamNumber": 16461,
 "country": "USA",
 "city": "Matthews, North Carolina",
-"season": "2021–2022 Freight Frenzy",
+"season": "2021 Freight Frenzy",
 "level": "Nationals",
 "stars": "★★★★★",
 "score": "47 / 55",
@@ -1132,7 +1132,1293 @@ const portfolios = [
 
 "benchmarkComparison":
 "Closer to Rebel Robotics than to mid-level FTC portfolios. Clearly far above baseline examples like Yaku or Crowns and competitive at Worlds level for Design and Control, but still slightly below Team Without a Cool Acronym in outreach scale and Inspire-level integration."
+},
+
+
+
+{
+"id": "31445-1",
+"teamName": "V-Legacy",
+"teamNumber": 31445,
+"country": "Brazil",
+"city": "Barra dos Coqueiros / Aracaju, Sergipe",
+"season": "2023 Centerstage",
+"level": "Regionals",
+"stars": "★★★☆☆",
+"score": "31 / 55",
+"award": "Not specified",
+
+"cover": "/portfolios/31445-1/cover.png",
+"pdf": "https://drive.google.com/file/d/1oFu8NF_tN4UQp7AsKFaxnStGvinGbEX_/view?usp=sharing",
+
+"summary":
+"A solid mid-level FTC portfolio with a strong technical focus and clear engineering depth. The team demonstrates a well-structured design process, supported by calculations and explicit trade-offs. Outreach activity is present and active but remains mostly local, with limited quantitative evidence of long-term or scalable impact. Visual design is strong and generally supports understanding, though the portfolio is sometimes text-heavy and leans toward storytelling over metrics.",
+
+"awardsBreakdown": [
+["Inspire", "3 / 5"],
+["Reach", "3 / 5"],
+["Sustain", "3 / 5"],
+["Connect", "3 / 5"],
+["Design", "4 / 5"],
+["Innovate", "3 / 5"],
+["Control", "4 / 5"]
+],
+
+"criteria": [
+["Judging Questions Alignment", "3 / 5"],
+["Engineering Thinking", "4 / 5"],
+["Technical Depth", "4 / 5"],
+["Outreach & Impact", "3 / 5"],
+["Evidence & Proof", "3 / 5"],
+["Clarity & Structure", "3 / 5"],
+["Claim Realism", "4 / 5"],
+["Design as Tool", "4 / 5"]
+],
+
+"strengths": [
+"Clearly demonstrated engineering process with iterations, rejected concepts, and justified trade-offs.",
+"Strong technical depth for a regional-level team, including pulley ratios, speed calculations, PID control, Limelight, and AprilTag integration.",
+"Visual design effectively supports understanding of mechanisms and system architecture rather than obscuring them."
+],
+
+"weaknesses": [
+"Outreach is primarily local and event-based, lacking a sustained regional or national program.",
+"Limited measurable impact metrics such as repeat engagement, school coverage, or long-term outcomes.",
+"Portfolio density and text volume reduce readability within the 5–7 minute judging window."
+],
+
+"improvements": [
+"Transform outreach activities into a structured, repeatable program with partners and defined KPIs.",
+"Add quantitative impact data: number of schools reached, recurring events, participant retention, and growth metrics.",
+"Streamline narrative sections and align each page more explicitly with FTC Judging Questions."
+],
+
+"benchmarkComparison":
+"The portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its engineering rigor and documented trade-offs, but it remains well below Team Without a Cool Acronym and Rebel Robotics because of limited outreach scale and the absence of sustained, evidence-backed impact. It aligns with a competitive but non-elite FTC level."
+},
+
+
+{
+"id": "23532-1",
+"teamName": "ITKAN MYCC",
+"teamNumber": 23532,
+"country": "USA",
+"city": "Raleigh, North Carolina",
+"season": "2025 Decode",
+"level": "Regionals",
+"stars": "★★★★☆",
+"score": "41 / 55",
+"award": "Not specified",
+
+"cover": "/portfolios/23532-1/cover.png",
+"pdf": "https://drive.google.com/file/d/1oLPKTkCyPpDeFcYfQJyPlRLkAv1akf_C/view?usp=sharing",
+
+"summary":
+"A strong, technically mature FTC portfolio with clear engineering rigor, explicit trade-offs, and unusually solid outreach for a regional-level team. The robot design is intentionally simple but deeply optimized, supported by detailed mechanical iterations, software architecture, and reliability systems. Outreach is structured, multi-directional, and includes mentorship, Open Alliance contributions, and inter-team collaboration, though large-scale measurable community impact is still developing.",
+
+"awardsBreakdown": [
+["Inspire", "4 / 5"],
+["Reach", "4 / 5"],
+["Sustain", "4 / 5"],
+["Connect", "4 / 5"],
+["Design", "5 / 5"],
+["Innovate", "4 / 5"],
+["Control", "5 / 5"]
+],
+
+"criteria": [
+["Judging Questions Alignment", "4 / 5"],
+["Engineering Thinking", "5 / 5"],
+["Technical Depth", "5 / 5"],
+["Outreach & Impact", "4 / 5"],
+["Evidence & Proof", "4 / 5"],
+["Clarity & Structure", "4 / 5"],
+["Claim Realism", "5 / 5"],
+["Design as Tool", "5 / 5"]
+],
+
+"strengths": [
+"Exceptional engineering thinking: clear design alternatives, explicit pros/cons, and justified final decisions across drivetrain, intake, turret, and shooter.",
+"High technical depth in both hardware and software, including PIDF control, mathematical modeling, odometry + vision fusion, autonomous optimization, and reliability fail-safes.",
+"Strong outreach quality for FTC: Open Alliance with real adoption, direct mentoring of multiple FTC teams, and technical knowledge sharing beyond superficial events."
+],
+
+"weaknesses": [
+"Outreach impact is strong within FTC but less demonstrated outside the robotics community (schools, districts, long-term pipelines).",
+"Most outreach metrics focus on participation and collaboration, with limited quantified long-term outcomes.",
+"Portfolio is long and dense; some sections exceed what is strictly needed for a 5–7 minute judging review."
+],
+
+"improvements": [
+"Expand outreach beyond FTC teams into a sustained external STEM pipeline with schools or community programs and track long-term engagement metrics.",
+"Add clearer quantitative impact indicators (students reached, retention, repeat workshops, year-over-year growth).",
+"Condense or visually summarize parts of the software sections to improve first-pass judge readability without losing depth."
+],
+
+"benchmarkComparison":
+"This portfolio is clearly far above baseline examples like Yaku or Crowns and approaches Worlds-level quality. While it does not yet match Team Without a Cool Acronym or Rebel Robotics in scale of outreach impact, its engineering depth, documentation quality, and realism are directly comparable. Overall, it aligns with a strong Worlds-contender tier just below the global gold standard."
+},
+
+
+{
+"id": "23393-1",
+"teamName": "JFK Robotics",
+"teamNumber": 23393,
+"country": "USA",
+"city": "Sacramento, California",
+"season": "2025 Decode",
+"level": "Regionals",
+"stars": "★★★★☆",
+"score": "42 / 55",
+"award": "Not Specified",
+
+"cover": "/portfolios/23393-1/cover.png",
+"pdf": "https://drive.google.com/file/d/1Ii3-_pkg4s-18752Bt0V9UI9CfhRo5Oz/view?usp=sharing",
+
+"summary":
+"A very strong engineering-focused FTC portfolio with exceptional mechanical depth, iteration rigor, and manufacturing maturity. The team demonstrates a professional-grade design process, including full pre-manufacturing CAD, extensive prototyping, in-house CNC fabrication, and well-justified system-level decisions. Outreach is broad and diverse but partially diluted by its breadth and uneven depth. Overall, this is a competitive Worlds-level engineering portfolio slightly held back by outreach structure and clarity.",
+
+"awardsBreakdown": [
+["Inspire", "4 / 5"],
+["Reach", "4 / 5"],
+["Sustain", "4 / 5"],
+["Connect", "4 / 5"],
+["Design", "5 / 5"],
+["Innovate", "4 / 5"],
+["Control", "5 / 5"]
+],
+
+"criteria": [
+["Judging Questions Alignment", "4 / 5"],
+["Engineering Thinking", "5 / 5"],
+["Technical Depth", "5 / 5"],
+["Outreach & Impact", "4 / 5"],
+["Evidence & Proof", "4 / 5"],
+["Clarity & Structure", "3 / 5"],
+["Claim Realism", "5 / 5"],
+["Design as Tool", "5 / 5"]
+],
+
+"strengths": [
+"Elite mechanical engineering depth: clear evolution from concept to final robot with explicit failures, redesigns, and justified trade-offs.",
+"Outstanding manufacturing capability for FTC: in-house CNC milling, CAM workflows, fixture design, powder coating, and DFM thinking.",
+"Strong software-engineering discipline, including RoadRunner-based autonomy, Take-Back-Half shooter control, modular action architecture, and Limelight integration."
+],
+
+"weaknesses": [
+"Outreach is wide but not always systematized; many activities are one-off or loosely connected under a single long-term strategy.",
+"Portfolio readability suffers from density and length; several sections exceed what judges can realistically process in 5–7 minutes.",
+"Impact metrics for outreach and mentoring are inconsistently quantified or tied to long-term outcomes."
+],
+
+"improvements": [
+"Reframe outreach under 2–3 flagship, long-term programs with clear goals, timelines, and measurable impact.",
+"Aggressively condense descriptive engineering text using diagrams, tables, and iteration summaries for faster judge comprehension.",
+"Explicitly map outreach and engineering sections to specific FTC Judging Questions to strengthen Inspire and Reach alignment."
+],
+
+"benchmarkComparison":
+"This portfolio is far above baseline examples such as Yaku or Crowns and sits just below the top global benchmark. In engineering rigor, manufacturing maturity, and design documentation, it is directly comparable to Worlds-level teams and approaches the standard of Team Without a Cool Acronym and Rebel Robotics. It falls short of the absolute top tier primarily due to outreach structure and judge-time efficiency, not technical quality."
+},
+
+
+{
+"id": "25300-1",
+"teamName": "Uran Team (URAN92)",
+"teamNumber": 25300,
+"country": "Kazakhstan",
+"city": "Almaty",
+"season": "2024 Into The Deep",
+"level": "Nationals",
+"stars": "★★★☆☆",
+"score": "30 / 55",
+"award": "Design Award 3rd place ",
+
+"cover": "/portfolios/25300-1/cover.png",
+"pdf": "https://drive.google.com/file/d/1AMscWUoCJcd3PHJbIqvWElvEMyzgoUts/view?usp=sharing",
+
+"summary":
+"A visually polished engineering portfolio that clearly presents the robot architecture and subsystems, but remains mostly descriptive. The team shows solid FTC-level engineering execution and iteration, yet provides limited quantitative analysis, trade-off justification, and proof of impact beyond competition performance. Outreach and awards are present but not developed at a scale or depth competitive with Worlds-level portfolios.",
+
+"awardsBreakdown": [
+["Inspire", "3 / 5"],
+["Reach", "2 / 5"],
+["Sustain", "2 / 5"],
+["Connect", "3 / 5"],
+["Design", "3 / 5"],
+["Innovate", "3 / 5"],
+["Control", "3 / 5"]
+],
+
+"criteria": [
+["Judging Questions Alignment", "3 / 5"],
+["Engineering Thinking", "3 / 5"],
+["Technical Depth", "3 / 5"],
+["Outreach & Impact", "2 / 5"],
+["Evidence & Proof", "2 / 5"],
+["Clarity & Structure", "4 / 5"],
+["Claim Realism", "4 / 5"],
+["Design as Tool", "4 / 5"]
+],
+
+"strengths": [
+"Clear visual presentation of robot subsystems (base, intake, outtake, hang, control) that is easy to follow for judges.",
+"Real competition experience with documented awards and iterative improvements based on failures.",
+"Claims and results are generally realistic and aligned with the team’s resources and experience level."
+],
+
+"weaknesses": [
+"Engineering sections are mostly descriptive, with minimal comparison of alternatives, calculations, or performance metrics.",
+"Outreach lacks scale, structure, and measurable long-term impact; activities are not framed as sustained programs.",
+"Limited evidence and data to support claims (cycle times, success rates, testing results, quantified outreach reach)."
+],
+
+"improvements": [
+"Add explicit engineering trade-offs with numbers: why mechanisms were chosen, what alternatives failed, and how performance improved.",
+"Develop 1–2 sustained outreach programs with clear goals, repetition, and measurable outcomes instead of isolated activities.",
+"Integrate data and proof throughout the portfolio: testing tables, before/after metrics, and quantified impact."
+],
+
+"benchmarkComparison":
+"This portfolio is clearly stronger than baseline examples like Yaku or Crowns due to coherent engineering execution and clean structure, but it is not comparable to Team Without a Cool Acronym or Rebel Robotics. It aligns with a typical solid national-level FTC portfolio rather than a Worlds-contender standard."
+},
+
+
+{
+  "id": "19163-1",
+  "teamName": "MLP",
+  "teamNumber": 19163,
+  "country": "Kazakhstan",
+  "city": "Almaty",
+  "season": "2024 Into The Deep",
+  "level": "Nationals",
+  "stars": "★☆☆☆☆",
+  "score": "14 / 55",
+  "award": "Innovate Award Winner",
+
+  "cover": "/portfolios/19163-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1U0aTnROmxdMxRC58vMFjkdBZ57ajbda_/view",
+
+  "summary":
+    "A weak FTC portfolio that demonstrates basic participation in the competition but lacks the depth, structure, and evidence required for meaningful award consideration. Engineering content is fragmented and overly complex without clear justification, while outreach is narrowly focused within the FTC ecosystem and does not demonstrate sustained or scalable impact. Overall, the portfolio does not meet the expectations of a competitive FTC standard.",
+
+  "awardsBreakdown": [
+    ["Inspire", "1 / 5"],
+    ["Reach", "1 / 5"],
+    ["Sustain", "1 / 5"],
+    ["Connect", "2 / 5"],
+    ["Design", "2 / 5"],
+    ["Innovate", "1 / 5"],
+    ["Control", "2 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "1 / 5"],
+    ["Engineering Thinking", "2 / 5"],
+    ["Technical Depth", "2 / 5"],
+    ["Outreach & Impact", "1 / 5"],
+    ["Evidence & Proof", "2 / 5"],
+    ["Clarity & Structure", "1 / 5"],
+    ["Claim Realism", "2 / 5"],
+    ["Design as Tool", "1 / 5"]
+  ],
+
+  "strengths": [
+    "Demonstrates participation in FTC with exposure to advanced concepts.",
+    "Includes references to real mechanisms and control approaches.",
+    "Shows intent to document engineering and outreach activities."
+  ],
+
+  "weaknesses": [
+    "Engineering explanations are overly dense and poorly structured, making it difficult to understand decisions within a 5–7 minute judging window.",
+    "Outreach is largely limited to FTC teams and lacks scale, sustainability, and measurable societal impact.",
+    "Many claims are presented without sufficient context, prioritization, or clear evidence tied to judging criteria."
+  ],
+
+  "improvements": [
+    "Rebuild the portfolio structure around FTC Judging Questions with clear, minimal, and focused explanations.",
+    "Reduce engineering sections to core decisions with simple metrics instead of advanced but poorly contextualized theory.",
+    "Develop a basic, sustained outreach program with measurable results outside the FTC community."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is closer to baseline or weak reference examples such as Yaku or Crowns than to competitive Worlds-level portfolios. It does not approach the standard set by Team Without a Cool Acronym or Rebel Robotics and currently reflects a low-impact, poorly optimized FTC portfolio."
+},
+
+{
+  "id": "24697-1",
+  "teamName": "SANA",
+  "teamNumber": 24697,
+  "country": "Kazakhstan",
+  "city": "Almaty",
+  "season": "2024 Into The Deep",
+  "level": "Nationals",
+  "stars": "★★★☆☆",
+  "score": "33 / 55",
+  "award": " Inspire Award 3rd place",
+
+  "cover": "/portfolios/24697-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1xCYEDG1K6snAwD5XtDSbN_fojWJpVFJA/view?usp=sharing",
+
+  "summary":
+    "A solid and well-developed FTC portfolio that demonstrates clear engineering competence and active outreach, but does not reach a true Worlds or Champions-level standard. The portfolio shows strong effort and ambition, yet lacks the consistency, clarity, and globally competitive depth required for higher-tier evaluations.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "3 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "3 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "3 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "3 / 5"]
+  ],
+
+  "strengths": [
+    "Demonstrates clear FTC-level engineering understanding with multiple subsystems and iterations.",
+    "Active outreach presence with visible engagement in the FTC and local STEM community.",
+    "Claims and achievements are generally realistic and aligned with team capabilities."
+  ],
+
+  "weaknesses": [
+    "Outreach impact is not presented as a fully sustained, scalable program with long-term metrics.",
+    "Engineering sections lack consistent quantitative comparison and deeper trade-off justification.",
+    "Portfolio structure and density reduce clarity under a 5–7 minute judging review."
+  ],
+
+  "improvements": [
+    "Strengthen outreach by focusing on fewer but long-term programs with measurable impact.",
+    "Add clearer engineering metrics, testing data, and explicit comparisons between design alternatives.",
+    "Improve readability by simplifying layouts and tightening explanations around Judging Questions."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly above baseline examples such as Yaku or Crowns, but it is not comparable to Team Without a Cool Acronym or Rebel Robotics. It aligns most closely with a typical, competent FTC portfolio that is competitive at the national level but not at the global elite tier."
+},
+{
+  "id": "17230-1",
+  "teamName": "Aluminum Falcons",
+  "teamNumber": 17230,
+  "country": "USA",
+  "city": "Utah",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "34 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/17230-1/cover.png",
+  "pdf": "/https://drive.google.com/file/d/1-7aVYQ8cHMVimqEcCNoZhcnUExx-s7yd/view?usp=sharing",
+
+  "summary":
+    "A solid and well-structured FTC portfolio that demonstrates clear understanding of the engineering process, organized team management, and active local outreach. The portfolio shows good alignment with FTC judging criteria and includes mathematical analysis, iteration, and outreach evidence. However, most efforts remain local and introductory in depth, placing the portfolio firmly at a competent FTC level rather than a Worlds-competitive standard.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "3 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "3 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear application of the engineering design process with documented iterations, trade-offs, and mathematical analysis.",
+    "Well-organized portfolio structure that is easy to navigate within a judging time window.",
+    "Active outreach including STEM nights, founding an FLL team, and consistent local community engagement."
+  ],
+
+  "weaknesses": [
+    "Outreach impact is primarily local and short-term, with limited evidence of sustained regional or national programs.",
+    "Engineering depth is solid but not competitive with Worlds-level teams; many solutions follow established FTC patterns.",
+    "Quantitative performance metrics and long-term impact measurements are limited."
+  ],
+
+  "improvements": [
+    "Develop 1–2 long-term outreach programs with measurable outcomes tracked across multiple seasons.",
+    "Add deeper quantitative engineering validation such as performance testing data, cycle time analysis, and failure rates.",
+    "Condense descriptive sections and strengthen direct mapping to Judging Questions to improve Inspire alignment."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns, but well below Team Without a Cool Acronym and Rebel Robotics. It aligns most closely with a typical, competent FTC portfolio that performs well at regional competitions without reaching a Worlds-contender level."
+},
+{
+  "id": "27003-1",
+  "teamName": "Churchill Hawks 2.0",
+  "teamNumber": 27003,
+  "country": "USA",
+  "city": "New York",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "29 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/27003-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1xAIgO9pbqSrlXrH7iZUAcGi1-wLerVmz/view?usp=sharing",
+
+  "summary":
+    "A beginner-to-intermediate FTC engineering portfolio focused on team formation, learning process, and basic robot development. The portfolio clearly documents collaboration, reflection, and early-stage prototyping, but lacks technical depth, quantitative analysis, and structured outreach required for higher competitive tiers.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "2 / 5"],
+    ["Sustain", "2 / 5"],
+    ["Connect", "2 / 5"],
+    ["Design", "3 / 5"],
+    ["Innovate", "2 / 5"],
+    ["Control", "2 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "2 / 5"],
+    ["Outreach & Impact", "2 / 5"],
+    ["Evidence & Proof", "2 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear documentation of team formation, mentoring support, and student growth in a rookie or early-stage FTC environment.",
+    "Well-organized and visually clean portfolio that is easy to read within a short judging window.",
+    "Demonstrates a genuine engineering process mindset through prototyping, iteration, and team reflection."
+  ],
+
+  "weaknesses": [
+    "Limited technical depth: no calculations, performance metrics, or quantitative validation of design choices.",
+    "Outreach is minimal and limited to internal school FLL mentoring and a single fundraising activity.",
+    "Engineering decisions are described narratively without trade-off analysis or comparison to alternatives."
+  ],
+
+  "improvements": [
+    "Add quantitative engineering data such as cycle times, success rates, testing results, and comparison tables.",
+    "Develop a sustained outreach program beyond the school with measurable goals and repeat engagement.",
+    "Explicitly document design trade-offs, failed alternatives, and reasons for final mechanism choices."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is stronger than the weakest baseline examples due to clarity and honest documentation, but remains closer to the lower-mid FTC tier. It is not comparable to Team Without a Cool Acronym or Rebel Robotics and aligns with a developing team still building foundational engineering and outreach capacity."
+},
+{
+  "id": "27832-1",
+  "teamName": "Uly Dala",
+  "teamNumber": 27832,
+  "country": "Kazakhstan",
+  "city": "Almaty",
+  "season": "2024 Into The Deep",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "34 / 55",
+  "award": "Inspire 2nd place",
+
+  "cover": "/portfolios/27832-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1pKjQAeSlQ0kmjJe0G35AKsETrjwZPwxP/view?usp=sharing",
+
+  "summary":
+    "A solid, well-documented FTC portfolio with strong visual quality and clearly presented robot systems. The team demonstrates real engineering iteration, meaningful outreach activity, and active community engagement. However, much of the content remains descriptive rather than analytical, with limited quantitative validation and insufficient system-level trade-off justification to reach a Worlds-competitive tier.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Large-scale and diverse outreach activity including mentoring, workshops, camps, festivals, and partnerships, supported by hours, participant counts, and geographic reach.",
+    "Clear visual presentation of robot subsystems with real iteration history, mechanical improvements, and documented failures and fixes.",
+    "Good use of modern FTC technologies including odometry, LimeLight vision, Pedro Pathing, encoder-based control, and structured autonomous routines."
+  ],
+
+  "weaknesses": [
+    "Engineering sections are often narrative-heavy, with limited comparative analysis between alternatives and incomplete performance metrics.",
+    "Outreach impact is broad but not always framed as sustained flagship programs with long-term outcome tracking.",
+    "Portfolio density is high, which reduces efficiency within a strict 5–7 minute judging review window."
+  ],
+
+  "improvements": [
+    "Add explicit engineering trade-offs with numbers: cycle times, success rates, weight comparisons, and before/after performance tables.",
+    "Reframe outreach into 2–3 long-term core programs with year-over-year metrics instead of listing many parallel activities.",
+    "Introduce short executive summaries and decision tables to improve judge-time efficiency without losing depth."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its scale of outreach, clean structure, and real engineering iteration. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics, as it lacks the depth of analytical engineering reasoning and tightly measured, sustained impact required for a Worlds-elite standard. It aligns with a strong national-level FTC portfolio."
+},
+{
+  "id": "18597-1",
+  "teamName": "RoboClovers – Delta",
+  "teamNumber": 18597,
+  "country": "USA",
+  "city": "Winder, Georgia",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "36 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/18597-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1U3OLbbI1Y5ndJ67QnHGeQQJ2LkZeX3Tw/view?usp=sharing",
+
+  "summary":
+    "A strong and well-rounded FTC portfolio with clear engineering process documentation, real iteration history, and solid community outreach. The team demonstrates maturity in planning, design iteration, and software architecture. However, while competitive at the regional level, the portfolio does not reach Worlds-level due to limited quantitative engineering validation and outreach impact that is primarily local rather than scalable or systemic.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Very clear engineering design process with documented iterations, failures, fixes, and decision rationale across drivetrain, intake, launcher, and software.",
+    "Strong team organization and sustainability: annual business plan, budget planning, alumni involvement, FLL pipeline, and consistent school system support.",
+    "Solid software maturity for FTC level, including modular architecture, Pedro Pathing, odometry, redundancy systems, and open-source code sharing."
+  ],
+
+  "weaknesses": [
+    "Technical depth is mostly qualitative; limited hard performance metrics such as cycle times, accuracy percentages, or before/after numerical comparisons.",
+    "Outreach impact, while broad and consistent, is largely local and not framed as scalable regional or national programs.",
+    "Some sections rely on narrative explanations where concise tables or data summaries would improve judge-time efficiency."
+  ],
+
+  "improvements": [
+    "Add quantitative engineering validation: launcher accuracy %, cycle time comparisons, autonomous consistency metrics, and weight/power trade-off tables.",
+    "Reframe outreach into a small number of flagship programs with year-over-year growth metrics and clearly defined long-term goals.",
+    "Condense descriptive sections using diagrams, charts, and iteration tables to improve readability within a 5–7 minute judging window."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns and represents a high-quality regional FTC standard. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics due to limited analytical depth and lack of large-scale, sustained outreach impact. It aligns with a solid, competitive FTC portfolio rather than a Worlds-contender tier."
+},
+{
+  "id": "26886-1",
+  "teamName": "Overchargers",
+  "teamNumber": 26886,
+  "country": "USA",
+  "city": "Potomac, Maryland",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "35 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/26886-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1GKU2DKIjYJFdshTZlZTbyTpVmm0H8z29/view?usp=sharing",
+
+  "summary":
+    "A strong second-year FTC engineering portfolio with clear structure, disciplined project management, and notable technical ambition. The team demonstrates real engineering thinking through requirements definition, probability-based decision-making, and advanced control concepts. Outreach is active and well-documented, but remains mostly regional in scope and does not yet demonstrate the scale or long-term sustainability required for a Worlds-level portfolio.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "4 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "4 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "4 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear use of a formal engineering process adapted from NASA project life cycle, including requirements reviews and design reviews.",
+    "Above-average technical depth for a second-year team, including probability-based design decisions, ballistic calculations, PD control, AprilTag vision, and RoadRunner integration.",
+    "Well-documented outreach with concrete numbers: 5,000+ students reached, 30+ students mentored in summer programs, multiple FTC teams mentored, and advocacy at the county education board level."
+  ],
+
+  "weaknesses": [
+    "Outreach impact, while broad, is mostly regional and event-based, with limited evidence of long-term longitudinal programs.",
+    "Some engineering claims are described conceptually without full quantitative validation (cycle consistency, accuracy percentages, reliability metrics).",
+    "Portfolio is dense and information-heavy, which may challenge judges within a strict 5–7 minute review window."
+  ],
+
+  "improvements": [
+    "Convert outreach efforts into 1–2 flagship, multi-year programs with tracked retention, growth, and downstream impact.",
+    "Add hard performance metrics such as shooting accuracy %, autonomous success rates, and cycle time comparisons.",
+    "Introduce brief executive summaries and decision tables to further improve judge-time efficiency."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns and represents a solid, competitive regional FTC standard. It does not approach the global benchmark set by Team Without a Cool Acronym or Rebel Robotics due to limited outreach scalability and incomplete quantitative validation, placing it firmly in the mid-tier FTC range."
+},
+{
+  "id": "18658-1",
+  "teamName": "Purple Rain",
+  "teamNumber": 18658,
+  "country": "USA",
+  "city": "Hammond, Louisiana",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★☆☆☆",
+  "score": "24 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/18658-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1XilQy96SAXtheUBH3teCI_4ceDTUjxve/view?usp=sharing",
+
+  "summary":
+    "A beginner-level FTC portfolio that focuses primarily on team introduction, basic robot description, and internal organization. The portfolio shows honest documentation of a developing team but lacks engineering depth, analytical reasoning, structured outreach, and evidence required for higher FTC award competitiveness.",
+
+  "awardsBreakdown": [
+    ["Inspire", "2 / 5"],
+    ["Reach", "2 / 5"],
+    ["Sustain", "2 / 5"],
+    ["Connect", "2 / 5"],
+    ["Design", "2 / 5"],
+    ["Innovate", "2 / 5"],
+    ["Control", "2 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "2 / 5"],
+    ["Engineering Thinking", "2 / 5"],
+    ["Technical Depth", "2 / 5"],
+    ["Outreach & Impact", "2 / 5"],
+    ["Evidence & Proof", "2 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "3 / 5"]
+  ],
+
+  "strengths": [
+    "Clear and honest presentation of team members, roles, and internal organization.",
+    "Good visual consistency and clean layout that is easy to read for judges.",
+    "Realistic claims that align with the team’s experience level and resources."
+  ],
+
+  "weaknesses": [
+    "Engineering sections are descriptive only, with no calculations, trade-offs, testing data, or performance metrics.",
+    "Outreach is minimal, consisting of only two events with no sustained program or measurable impact.",
+    "No explicit alignment to FTC Judging Questions or award criteria beyond surface-level mentions."
+  ],
+
+  "improvements": [
+    "Add engineering analysis such as design alternatives, trade-offs, testing results, and quantified robot performance.",
+    "Develop a sustained outreach program with clear goals, repetition, and measurable impact.",
+    "Explicitly structure the portfolio around FTC Judging Questions and award requirements."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is closer to baseline examples such as Yaku or Crowns than to mid- or top-tier FTC portfolios. It reflects an early-stage team still building foundational engineering, outreach, and documentation skills."
+},
+{
+  "id": "8300-1",
+  "teamName": "Pinnacle",
+  "teamNumber": 8300,
+  "country": "USA",
+  "city": "Shelby, North Carolina",
+  "season": "2021 Freight Frenzy",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "32 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/8300-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1selknHuGTg-Y6qY0Y7lwyKXM99RUmIVq/view?usp=sharing",
+
+  "summary":
+    "A competent mid-tier FTC portfolio that clearly documents team structure, learning process, basic engineering iteration, and consistent local outreach. The portfolio shows honest reflection, sustained FLL mentoring, and a functional robot design, but remains largely descriptive with limited analytical depth, quantitative validation, and global competitiveness.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "3 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "3 / 5"],
+    ["Design", "3 / 5"],
+    ["Innovate", "2 / 5"],
+    ["Control", "3 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "2 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "3 / 5"]
+  ],
+
+  "strengths": [
+    "Clear documentation of team structure, sustainability challenges, and recovery after loss of experienced members.",
+    "Consistent outreach with measurable effort: FLL mentoring, Girl Scout STEM sessions, community parades, and online content creation.",
+    "Honest reflection and realistic claims aligned with the team’s actual competitive and technical level."
+  ],
+
+  "weaknesses": [
+    "Engineering sections are mostly narrative, with minimal quantitative analysis, performance metrics, or formal trade-off evaluation.",
+    "Technical depth in programming and mechanisms remains introductory compared to Worlds-level standards.",
+    "Outreach impact is largely local and not framed as scalable, long-term flagship programs."
+  ],
+
+  "improvements": [
+    "Add quantitative engineering validation such as cycle times, scoring consistency, autonomous success rates, and testing tables.",
+    "Formalize outreach into 1–2 sustained programs with year-over-year metrics instead of listing many isolated activities.",
+    "Introduce concise decision tables and summaries to better support judge review within a 5–7 minute window."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than the weakest baseline examples like Yaku or Crowns due to its structure, reflection, and sustained local outreach. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics and aligns most closely with a solid, typical FTC mid-tier portfolio."
+},
+{
+  "id": "24331-1",
+  "teamName": "Caesar Circuitry",
+  "teamNumber": 24331,
+  "country": "USA",
+  "city": "Huntsville, Alabama",
+  "season": "2023 Centerstage",
+  "level": "Regionals",
+  "stars": "★★★★☆",
+  "score": "40 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/24331-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/11qAy83AGB9-EMn1ImQd3YtamS8jfdO-p/view?usp=sharing",
+
+  "summary":
+    "A very strong rookie FTC portfolio with unusually high engineering rigor, explicit trade-off analysis, and well-documented outreach impact. The team demonstrates mature system-level thinking, structured design processes, and advanced software concepts rarely seen at the regional level. Outreach is broad, quantified, and sustained, making this portfolio competitive beyond a typical rookie standard.",
+
+  "awardsBreakdown": [
+    ["Inspire", "4 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "5 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "4 / 5"],
+    ["Control", "5 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "5 / 5"],
+    ["Technical Depth", "5 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "4 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Exceptional engineering thinking for a rookie team: clear decision matrices, iteration counts, failure analysis, and explicit trade-offs across intake, outtake, slides, and endgame mechanisms.",
+    "High technical depth in software and control: RoadRunner 1.0, feedforward vs PID justification, OpenCV color detection iterations, autonomous scoring breakdowns, and sensor fusion.",
+    "Strong, well-evidenced outreach with scale and credibility: 10,000+ people reached, mentor recruitment, partnerships with Boeing, NASA, Dynetics, and sustained FIRST ecosystem support."
+  ],
+
+  "weaknesses": [
+    "Portfolio density is very high and may challenge judges within a strict 5–7 minute review window.",
+    "Some engineering performance claims (cycle time, accuracy, consistency) could benefit from clearer numeric validation.",
+    "Outreach breadth is excellent, but long-term outcome tracking per program is not always explicitly shown."
+  ],
+
+  "improvements": [
+    "Add concise executive summaries and decision tables at the start of major sections to improve judge-time efficiency.",
+    "Introduce explicit performance metrics such as scoring accuracy percentages, autonomous success rates, and cycle times.",
+    "Group outreach results into a small number of flagship programs with year-over-year outcome tracking."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is far above baseline examples such as Yaku or Crowns and clearly exceeds the typical rookie standard. While its outreach scale and engineering rigor approach Worlds-level quality, it does not yet fully match Team Without a Cool Acronym or Rebel Robotics in longitudinal impact and refinement. It aligns with a strong Worlds-contender tier just below the global benchmark."
+},
+{
+  "id": "22581-1",
+  "teamName": "Red Ring of Death",
+  "teamNumber": 22581,
+  "country": "USA",
+  "city": "Kennesaw, Georgia",
+  "season": "2024 Into The Deep",
+  "level": "Regionals",
+  "stars": "★★★★☆",
+  "score": "42 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/22581-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1hKrUcJWOn6rZvb1b__LqAmyEsjKTg62Y/view?usp=sharing",
+
+  "summary":
+    "A very strong engineering-focused FTC portfolio with unusually high technical depth, explicit design trade-offs, and advanced control systems for a regional-level team. The portfolio clearly documents a full transition from COTS to a fully custom robot, supported by physics modeling, CAD-driven iteration, and sophisticated software architecture. Outreach and sustainability are present and genuine but remain secondary to the portfolio’s primary strength: engineering rigor.",
+
+  "awardsBreakdown": [
+    ["Inspire", "4 / 5"],
+    ["Reach", "3 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "5 / 5"],
+    ["Innovate", "4 / 5"],
+    ["Control", "5 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "5 / 5"],
+    ["Technical Depth", "5 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "4 / 5"],
+    ["Clarity & Structure", "3 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "5 / 5"]
+  ],
+
+  "strengths": [
+    "Exceptional engineering depth with explicit trade-offs, lessons learned, and quantified constraints across drivetrain, intake, extendo, outtake, and control systems.",
+    "Advanced mechanical and materials engineering for FTC: laser-cut POM-C frame, PPDT drivetrain, custom double extendo, herringbone gearing, and modular architecture.",
+    "High-level software and controls: FSM-based automation, odometry + IMU sensor fusion, Pedro Pathing, Bézier spline planning, current sensing, and vision-assisted intake alignment."
+  ],
+
+  "weaknesses": [
+    "Outreach is genuine but limited in scale and primarily local, with few long-term, high-impact flagship programs.",
+    "Portfolio density and visual saturation reduce efficiency for a 5–7 minute judging review.",
+    "Some performance claims (cycle time, reliability, autonomous success rates) would benefit from clearer numerical summaries."
+  ],
+
+  "improvements": [
+    "Add concise performance tables summarizing cycle times, autonomous success %, and scoring consistency.",
+    "Elevate outreach by formalizing 1–2 sustained programs with year-over-year metrics and broader regional reach.",
+    "Introduce executive summaries and decision matrices at the start of major sections to improve judge-time efficiency."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is far above baseline examples such as Yaku or Crowns and clearly exceeds the typical regional FTC standard. In pure engineering depth and design rigor, it approaches Worlds-contender quality. However, it does not fully match Team Without a Cool Acronym or Rebel Robotics due to limited outreach scale and judge-time efficiency. It aligns with a strong upper-tier FTC engineering portfolio just below the global elite."
+},
+{
+  "id": "14855-1",
+  "teamName": "Shamrocks",
+  "teamNumber": 14855,
+  "country": "USA",
+  "city": "Yuma, Arizona",
+  "season": "2024 Into The Deep",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "31 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/14855-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1KnU4-X8weR7H5RAzXLchN0F6pwM-aYHI/view?usp=sharing",
+
+  "summary":
+    "A well-organized mid-tier FTC portfolio that clearly documents team structure, community service, and a complete robot build cycle. The team demonstrates genuine engagement with outreach and a consistent engineering process, but most technical sections remain qualitative and lack the analytical depth, metrics, and trade-off rigor required for Worlds-level competitiveness.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "3 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "3 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear and honest documentation of team identity, sustainability planning, finances, and internal organization.",
+    "Broad and genuine outreach with quantified metrics: 650+ people reached, 20 FIRST teams impacted, coding camps, FLL support, STEM expos, and civic engagement.",
+    "Complete engineering process coverage from brainstorming to iteration, with real lessons learned and visible robot evolution."
+  ],
+
+  "weaknesses": [
+    "Engineering depth is largely descriptive with minimal numerical validation, calculations, or explicit comparison of alternatives.",
+    "Outreach activities are numerous but not framed as a small number of sustained flagship programs with long-term outcome tracking.",
+    "Technical sections lack performance metrics such as cycle times, scoring consistency, autonomous success rates, or reliability data."
+  ],
+
+  "improvements": [
+    "Add quantitative engineering validation including cycle times, accuracy percentages, weight comparisons, and before/after performance tables.",
+    "Consolidate outreach into 2–3 long-term core programs with year-over-year metrics instead of listing many parallel activities.",
+    "Introduce concise decision matrices and summaries explicitly tied to Judging Questions to improve Inspire Award competitiveness."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its structure, outreach breadth, and complete robot documentation. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics, as it lacks the analytical engineering rigor, sustained large-scale impact, and quantitative proof required for a Worlds-elite standard. It aligns with a solid, typical national-level FTC portfolio."
+},
+{
+  "id": "27238-1",
+  "teamName": "Unity Robotics",
+  "teamNumber": 27238,
+  "country": "USA",
+  "city": "McAllen, Texas (RGV)",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "35 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/27238-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1y1FQm2Ku0lovqSaVGiQ9m95dHZFkNS1c/view?usp=sharing",
+
+  "summary":
+    "A well-structured and thoughtful FTC portfolio that demonstrates a clear engineering design process, real iteration, and strong mentor-driven development. The team shows solid outreach volume and documentation, but most engineering claims remain lightly quantified, and outreach impact—while broad—is not yet organized into long-term flagship programs with clear sustainability metrics.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear and complete documentation of the engineering design process with defined requirements, iterations, pros/cons, and trade-offs across drivetrain, intake, lift, and automation.",
+    "Strong outreach volume with detailed tracking: 40,000+ people reached through showcases, media appearances, virtual outreach, community events, and alumni engagement.",
+    "Excellent mentor and alumni integration, with clear evidence of skill transfer in engineering, communication, outreach, and professional development."
+  ],
+
+  "weaknesses": [
+    "Technical depth is mostly qualitative; performance claims such as cycle time, scoring consistency, and reliability are not rigorously quantified.",
+    "Outreach activities are numerous but not framed as a small number of sustained flagship programs with long-term outcome tracking.",
+    "Portfolio density is high, which may challenge judges within a strict 5–7 minute review window."
+  ],
+
+  "improvements": [
+    "Add quantitative engineering validation such as cycle times, autonomous success rates, accuracy percentages, and before/after performance tables.",
+    "Consolidate outreach into 2–3 core long-term programs with year-over-year metrics instead of listing many individual events.",
+    "Introduce concise executive summaries and decision tables to improve judge-time efficiency while preserving depth."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its structure, outreach volume, and real engineering iteration. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics, as it lacks the analytical engineering depth, sustained flagship outreach programs, and quantitative rigor required for a Worlds-elite standard. It aligns with a strong, well-executed national-level FTC portfolio."
+},
+{
+  "id": "14596-1",
+  "teamName": "XLR8",
+  "teamNumber": 14596,
+  "country": "USA",
+  "city": "Osceola, Indiana",
+  "season": "2024 Into The Deep",
+  "level": "Regionals",
+  "stars": "★★★★☆",
+  "score": "41 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/14596-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1G5UZlebf5nkazuwxD7xcIE-tzI_djdti/view?usp=sharing",
+
+  "summary":
+    "A strong, well-rounded FTC portfolio demonstrating mature engineering iteration, clear trade-off reasoning, and sustained community outreach. The team shows depth across mechanical design, programming, and reliability practices, supported by real iteration history and quantitative elements. Outreach is broad and well-documented, making this portfolio competitive above a typical regional standard, though not fully at a global elite level.",
+
+  "awardsBreakdown": [
+    ["Inspire", "4 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "4 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "4 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "4 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear engineering iteration across drivetrain, intake, scoring mechanisms, ascent, and programming, with documented failures, redesigns, and reasoning.",
+    "Above-average technical depth including voltage management, PID control, autonomous tuning, reliability engineering, and structured software architecture.",
+    "Sustained and quantified outreach: thousands reached through community events, mentoring multiple FTC/FLL teams, extensive volunteering, and consistent FIRST advocacy."
+  ],
+
+  "weaknesses": [
+    "Some performance claims would benefit from more concise numerical summaries (cycle times, accuracy %, autonomous success rates).",
+    "Portfolio density is high, requiring judges to actively navigate content within a limited review window.",
+    "Outreach is broad but could be framed more clearly into a small number of flagship, multi-year programs."
+  ],
+
+  "improvements": [
+    "Add compact performance tables summarizing autonomous consistency, scoring accuracy, and cycle efficiency.",
+    "Consolidate outreach into 2–3 long-term programs with clear year-over-year growth metrics.",
+    "Introduce short executive summaries at the start of major sections to improve 5–7 minute judge readability."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is significantly stronger than baseline examples such as Yaku or Crowns and clearly exceeds a typical regional FTC standard. While it does not fully match Team Without a Cool Acronym or Rebel Robotics in analytical rigor and global outreach scale, it aligns with a strong Worlds-bubble tier portfolio that is competitive and well-executed."
+},
+{
+  "id": "24478-1",
+  "teamName": "EngiNeerds",
+  "teamNumber": 24478,
+  "country": "Romania",
+  "city": "Slatina, Olt",
+  "season": "2024 Into The Deep",
+  "level": "Nationals",
+  "stars": "★★★☆☆",
+  "score": "34 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/24478-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1QSYQA4VxRgRxhrCj3ySxDvZgg8RMiuPH/view?usp=sharing",
+
+  "summary":
+    "A visually strong and well-documented FTC portfolio with clear robot architecture, solid iteration history, and active outreach efforts. The team demonstrates good FTC-level engineering execution and modern software usage, but the portfolio remains largely descriptive, with limited quantitative validation, trade-off analysis, and long-term impact framing required for a Worlds-competitive tier.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "4 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Very strong visual design that clearly explains robot architecture, subsystems, and evolution (intake, outtake, slides, drivetrain, sensors).",
+    "Above-average technical implementation for FTC: odometry, Limelight vision, Pedro Pathing, RoadRunner, PID/Feedforward control, and modular software structure.",
+    "Large and diverse outreach volume with quantified reach, media presence, mentoring, LEGO robotics programs, podcasts, Discord community, and public events."
+  ],
+
+  "weaknesses": [
+    "Engineering reasoning is mostly narrative; explicit trade-offs, calculations, and performance comparisons are limited.",
+    "Outreach impact is broad but not structured into a small number of sustained flagship programs with long-term outcome tracking.",
+    "Some technical claims lack concise numerical summaries such as cycle time, accuracy percentages, or reliability metrics."
+  ],
+
+  "improvements": [
+    "Add explicit engineering trade-off tables with numbers: cycle time, success rate, weight, power, and reliability comparisons.",
+    "Reframe outreach into 2–3 long-term core programs with year-over-year metrics instead of listing many parallel activities.",
+    "Introduce short executive summaries and decision matrices to improve judge-time efficiency in a 5–7 minute review."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its technical completeness, visual clarity, and outreach scale. However, it is not comparable to Team Without a Cool Acronym or Rebel Robotics, as it lacks deep analytical engineering justification and tightly measured, sustained impact. It aligns with a strong national-level FTC portfolio rather than a Worlds-elite standard."
+},
+{
+  "id": "9974-1",
+  "teamName": "T.H.O.R.",
+  "teamNumber": 9974,
+  "country": "USA",
+  "city": "Johnston, Iowa",
+  "season": "2020 Ultimate Goal",
+  "level": "Regionals",
+  "stars": "★★★★☆",
+  "score": "39 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/9974-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1x-sqHnPbrggZfTKOYNmvyUHsxA3FzY6j/view?usp=sharing",
+
+  "summary":
+    "A strong and unusually mature FTC engineering portfolio for its season, showing clear strategic thinking, deep mechanical reasoning, and explicit design trade-offs supported by calculations and testing. The portfolio combines solid outreach, transparent sustainability planning, and advanced autonomous and control concepts. While not aligned with modern Worlds-scale outreach expectations, it stands out as a high-quality portfolio for its era.",
+
+  "awardsBreakdown": [
+    ["Inspire", "4 / 5"],
+    ["Reach", "4 / 5"],
+    ["Sustain", "4 / 5"],
+    ["Connect", "4 / 5"],
+    ["Design", "5 / 5"],
+    ["Innovate", "4 / 5"],
+    ["Control", "5 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "4 / 5"],
+    ["Engineering Thinking", "5 / 5"],
+    ["Technical Depth", "5 / 5"],
+    ["Outreach & Impact", "4 / 5"],
+    ["Evidence & Proof", "5 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "5 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Excellent engineering rigor with explicit design matrices, failure mode analysis, and quantified decisions across intake, shooter, drivetrain, and wobble goal mechanisms.",
+    "High technical depth for the era: mecanum kinematics with ~3 cm accuracy, motion profiling, custom vision pipeline with <5% failure rate, dual-motor shooter optimization, and clear autonomous goals.",
+    "Well-documented outreach and sustainability with quantified hours, food drive impact (4,991 meals), mentoring, Fair Play contributions, and transparent budgeting."
+  ],
+
+  "weaknesses": [
+    "Outreach scale and structure are strong for 2020 but would be considered limited by modern Worlds standards.",
+    "Portfolio is text-heavy and less visually optimized compared to current elite benchmarks.",
+    "Some future plans are stated aspirationally without follow-up outcome validation."
+  ],
+
+  "improvements": [
+    "Condense narrative sections into summary tables to improve judge-time efficiency.",
+    "Expand outreach framing into longer-term programs with multi-year outcome tracking.",
+    "Add clearer performance summaries (cycle consistency, shot accuracy %) alongside calculations."
+  ],
+
+  "benchmarkComparison":
+    "For its season, this portfolio sits well above average and approaches top-tier regional standards. It is significantly stronger than baseline examples like Yaku or Crowns and, within its historical context, shows engineering rigor comparable to early versions of Worlds-level portfolios. However, it does not fully match modern global benchmarks such as Team Without a Cool Acronym or Rebel Robotics in outreach scale and presentation efficiency."
+},
+{
+  "id": "26562-1",
+  "teamName": "MechTech",
+  "teamNumber": 26562,
+  "country": "USA",
+  "city": "Fulton County, Georgia",
+  "season": "2025 Decode",
+  "level": "Regionals",
+  "stars": "★★★☆☆",
+  "score": "33 / 55",
+  "award": "Not Specified",
+
+  "cover": "/portfolios/26562-1/cover.png",
+  "pdf": "https://drive.google.com/file/d/1ZVXLEJ9r2UIYNizWYd6zjA5AvHuCQFor/view?usp=sharing",
+
+  "summary":
+    "A clear and honest FTC portfolio from a small, second-year team that demonstrates real engineering learning, iteration, and decision-making. The portfolio shows explicit trade-offs, basic quantitative reasoning, and early use of math and vision concepts. However, outreach scale is limited, technical depth is uneven, and most analysis remains introductory, placing the portfolio at a solid but non-elite FTC level.",
+
+  "awardsBreakdown": [
+    ["Inspire", "3 / 5"],
+    ["Reach", "2 / 5"],
+    ["Sustain", "2 / 5"],
+    ["Connect", "2 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "4 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "4 / 5"],
+    ["Technical Depth", "3 / 5"],
+    ["Outreach & Impact", "2 / 5"],
+    ["Evidence & Proof", "3 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "4 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Clear demonstration of engineering thinking with explicit alternatives, pros/cons, and justified decisions for turret, intake, and artifact handling mechanisms.",
+    "Good use of quantitative reasoning for an FTC mid-tier team: RPM comparisons, Desmos-based match optimization, autonomous and teleop statistics, and AprilTag math explained from first principles.",
+    "Strong clarity and readability: clean structure, logical flow, and visuals that support understanding rather than hide engineering."
+  ],
+
+  "weaknesses": [
+    "Outreach is minimal and mostly event-based, with limited scale, sustainability, or long-term impact metrics.",
+    "Technical depth is inconsistent: some sections show real analysis, while others remain descriptive without validation.",
+    "Most performance metrics are single-event or short-term and lack longitudinal comparison or reliability analysis."
+  ],
+
+  "improvements": [
+    "Develop at least one sustained outreach program with repeat engagement and quantified year-over-year impact.",
+    "Add deeper technical validation such as cycle time distributions, shooting accuracy percentages, and failure-rate analysis.",
+    "Expand system-level trade-offs by comparing multiple full-robot strategies, not only individual mechanisms."
+  ],
+
+  "benchmarkComparison":
+    "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its honest engineering reasoning, visible trade-offs, and use of math and data. However, it is far below Team Without a Cool Acronym or Rebel Robotics in outreach scale, technical depth, and competitive polish. It aligns with a solid, competent FTC portfolio typical of developing teams at the regional level."
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ];
 

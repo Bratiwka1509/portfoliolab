@@ -1321,69 +1321,6 @@ const portfolios = [
 "This portfolio is far above baseline examples such as Yaku or Crowns and sits just below the top global benchmark. In engineering rigor, manufacturing maturity, and design documentation, it is directly comparable to Worlds-level teams and approaches the standard of Team Without a Cool Acronym and Rebel Robotics. It falls short of the absolute top tier primarily due to outreach structure and judge-time efficiency, not technical quality."
 },
 
-
-{
-"id": "25300-1",
-"teamName": "Uran Team (URAN92)",
-"teamNumber": 25300,
-"country": "Kazakhstan",
-"city": "Almaty",
-"season": "2024 Into The Deep",
-"level": "Nationals",
-"stars": "★★★☆☆",
-"score": "30 / 55",
-"award": "Design Award 3rd place ",
-
-"cover": "/portfolios/25300-1/cover.png",
-"pdf": "https://drive.google.com/file/d/1AMscWUoCJcd3PHJbIqvWElvEMyzgoUts/view?usp=sharing",
-
-"summary":
-"A visually polished engineering portfolio that clearly presents the robot architecture and subsystems, but remains mostly descriptive. The team shows solid FTC-level engineering execution and iteration, yet provides limited quantitative analysis, trade-off justification, and proof of impact beyond competition performance. Outreach and awards are present but not developed at a scale or depth competitive with Worlds-level portfolios.",
-
-"awardsBreakdown": [
-["Inspire", "3 / 5"],
-["Reach", "2 / 5"],
-["Sustain", "2 / 5"],
-["Connect", "3 / 5"],
-["Design", "3 / 5"],
-["Innovate", "3 / 5"],
-["Control", "3 / 5"]
-],
-
-"criteria": [
-["Judging Questions Alignment", "3 / 5"],
-["Engineering Thinking", "3 / 5"],
-["Technical Depth", "3 / 5"],
-["Outreach & Impact", "2 / 5"],
-["Evidence & Proof", "2 / 5"],
-["Clarity & Structure", "4 / 5"],
-["Claim Realism", "4 / 5"],
-["Design as Tool", "4 / 5"]
-],
-
-"strengths": [
-"Clear visual presentation of robot subsystems (base, intake, outtake, hang, control) that is easy to follow for judges.",
-"Real competition experience with documented awards and iterative improvements based on failures.",
-"Claims and results are generally realistic and aligned with the team’s resources and experience level."
-],
-
-"weaknesses": [
-"Engineering sections are mostly descriptive, with minimal comparison of alternatives, calculations, or performance metrics.",
-"Outreach lacks scale, structure, and measurable long-term impact; activities are not framed as sustained programs.",
-"Limited evidence and data to support claims (cycle times, success rates, testing results, quantified outreach reach)."
-],
-
-"improvements": [
-"Add explicit engineering trade-offs with numbers: why mechanisms were chosen, what alternatives failed, and how performance improved.",
-"Develop 1–2 sustained outreach programs with clear goals, repetition, and measurable outcomes instead of isolated activities.",
-"Integrate data and proof throughout the portfolio: testing tables, before/after metrics, and quantified impact."
-],
-
-"benchmarkComparison":
-"This portfolio is clearly stronger than baseline examples like Yaku or Crowns due to coherent engineering execution and clean structure, but it is not comparable to Team Without a Cool Acronym or Rebel Robotics. It aligns with a typical solid national-level FTC portfolio rather than a Worlds-contender standard."
-},
-
-
 {
   "id": "19163-1",
   "teamName": "MLP",

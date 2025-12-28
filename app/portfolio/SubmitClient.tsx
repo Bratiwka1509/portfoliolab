@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 
+function getDrivePreview(pdfUrl: string) {
+  const match = pdfUrl.match(/\/d\/([^/]+)/);
+  if (!match) return null;
+  return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+}
+
+
 /* ================= FILTER OPTIONS ================= */
 
 const SEASONS = [
@@ -98,66 +105,6 @@ const portfolios = [
 
   "benchmarkComparison":
     "This portfolio functions as the benchmark itself. It most closely matches World Inspire Finalist portfolios and exceeds the majority of Worlds submissions due to verified impact, engineering rigor, and documentation maturity."
-},
-
-{
-  "id": "26438-1",
-  "teamName": "CROWN",
-  "teamNumber": 26438,
-  "country": "India",
-  "season": "2024 Into The Deep",
-  "level": "Not specifies",
-  "stars": "★★★☆☆",
-  "score": "31 / 55",
-  "award": "Not specified",
-
-  "cover": "/portfolios/26438-1/cover.png",
-  "pdf": "https://drive.google.com/file/d/18NReuWcn4L36J4rYIFVabCAmADhuFMdO/view?usp=sharing",
-
-  "summary":
-    "A visually strong and well-documented engineering portfolio with solid CAD work and iterative design. Technical depth is above average for FTC, but engineering thinking is often descriptive rather than analytical, with limited quantified trade-offs. Outreach is active but partially under-supported by strict FIRST definitions. Overall level: solid FTC, not Worlds-class.",
-
-  "awardsBreakdown": [
-    ["Inspire", "2 / 5"],
-    ["Reach", "3 / 5"],
-    ["Sustain", "3 / 5"],
-    ["Connect", "3 / 5"],
-    ["Design", "4 / 5"],
-    ["Innovate", "3 / 5"],
-    ["Control", "3 / 5"]
-  ],
-
-  "criteria": [
-    ["Judging Questions Alignment", "3 / 5"],
-    ["Engineering Thinking", "3 / 5"],
-    ["Technical Depth", "4 / 5"],
-    ["Outreach & Impact", "3 / 5"],
-    ["Evidence & Proof", "2 / 5"],
-    ["Clarity & Structure", "4 / 5"],
-    ["Claim Realism", "3 / 5"],
-    ["Design as Tool", "4 / 5"]
-  ],
-
-  "strengths": [
-    "Strong CAD and iterative design workflow",
-    "Detailed explanation of mechanisms and evolution",
-    "Clear visual structure and layout",
-    "Good understanding of mechanical constraints"
-  ],
-
-  "weaknesses": [
-    "Limited quantified trade-off analysis",
-    "Outreach claims not always aligned with FIRST definitions",
-    "Insufficient data-backed decision justification",
-    "Inspire-level impact not demonstrated"
-  ],
-
-  "improvements": [
-    "Add explicit trade-off matrices with metrics",
-    "Strictly classify outreach using FIRST terminology",
-    "Demonstrate how test data directly influenced design",
-    "Reduce narrative in favor of engineering evidence"
-  ]
 },
 
 {
@@ -645,7 +592,65 @@ const portfolios = [
 "benchmarkComparison":
 "Closer to Rebel Robotics than to baseline portfolios due to extreme technical rigor and originality, but falls short of Team Without a Cool Acronym in Inspire-level cohesion, sustainability proof, and integrated global impact."
 },
+{
+  "id": "26438-1",
+  "teamName": "CROWN",
+  "teamNumber": 26438,
+  "country": "India",
+  "season": "2024 Into The Deep",
+  "level": "Not specifies",
+  "stars": "★★★☆☆",
+  "score": "31 / 55",
+  "award": "Not specified",
 
+  "cover": "/portfolios/26438-1/cover.jpg",
+  "pdf": "https://drive.google.com/file/d/18NReuWcn4L36J4rYIFVabCAmADhuFMdO/view?usp=sharing",
+
+  "summary":
+    "A visually strong and well-documented engineering portfolio with solid CAD work and iterative design. Technical depth is above average for FTC, but engineering thinking is often descriptive rather than analytical, with limited quantified trade-offs. Outreach is active but partially under-supported by strict FIRST definitions. Overall level: solid FTC, not Worlds-class.",
+
+  "awardsBreakdown": [
+    ["Inspire", "2 / 5"],
+    ["Reach", "3 / 5"],
+    ["Sustain", "3 / 5"],
+    ["Connect", "3 / 5"],
+    ["Design", "4 / 5"],
+    ["Innovate", "3 / 5"],
+    ["Control", "3 / 5"]
+  ],
+
+  "criteria": [
+    ["Judging Questions Alignment", "3 / 5"],
+    ["Engineering Thinking", "3 / 5"],
+    ["Technical Depth", "4 / 5"],
+    ["Outreach & Impact", "3 / 5"],
+    ["Evidence & Proof", "2 / 5"],
+    ["Clarity & Structure", "4 / 5"],
+    ["Claim Realism", "3 / 5"],
+    ["Design as Tool", "4 / 5"]
+  ],
+
+  "strengths": [
+    "Strong CAD and iterative design workflow",
+    "Detailed explanation of mechanisms and evolution",
+    "Clear visual structure and layout",
+    "Good understanding of mechanical constraints"
+  ],
+
+  "weaknesses": [
+    "Limited quantified trade-off analysis",
+    "Outreach claims not always aligned with FIRST definitions",
+    "Insufficient data-backed decision justification",
+    "Inspire-level impact not demonstrated"
+  ],
+
+  "improvements": [
+    "Add explicit trade-off matrices with metrics",
+    "Strictly classify outreach using FIRST terminology",
+    "Demonstrate how test data directly influenced design",
+    "Reduce narrative in favor of engineering evidence"
+  ]
+},
 {
 "id": "16021-1",
 "teamName": "TechnoManiacs",
@@ -2506,9 +2511,12 @@ export default function PortfolioPage() {
               className="rounded-xl border border-zinc-800 bg-zinc-950 hover:border-red-600 transition text-left overflow-hidden"
             >
               <div
-                className="aspect-[210/297] bg-cover bg-center"
-                style={{ backgroundImage: `url(${p.cover})` }}
-              />
+  className="aspect-[210/297] bg-cover bg-center"
+  style={{
+    backgroundImage: `url(${getDrivePreview(p.pdf)})`,
+  }}
+/>
+
               <div className="p-3 space-y-1">
                 <h3 className="text-sm font-semibold">{p.teamName}</h3>
                 <p className="text-xs text-gray-400">

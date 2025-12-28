@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import SubmitClient from "./SubmitClient";
 
 export const metadata: Metadata = {
@@ -8,5 +9,15 @@ export const metadata: Metadata = {
 };
 
 export default function PortfolioPage() {
-  return <SubmitClient />;
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center text-zinc-400">
+          Loading portfolios…
+        </div>
+      }
+    >
+      <SubmitClient />
+    </Suspense>
+  );
 }

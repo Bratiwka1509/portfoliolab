@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+
+/* ================= HELPERS ================= */
 
 function getDrivePreview(pdfUrl: string) {
   const match = pdfUrl.match(/\/d\/([^/]+)/);
@@ -8,6 +10,14 @@ function getDrivePreview(pdfUrl: string) {
   return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 /* ================= FILTER OPTIONS ================= */
 
@@ -23,7 +33,14 @@ const SEASONS = [
   "Not specified",
 ];
 
-const LEVELS = ["All Levels", "Regionals", "Nationals", "Worlds", "Premier Event", "Not specified"];
+const LEVELS = [
+  "All Levels",
+  "Regionals",
+  "Nationals",
+  "Worlds",
+  "Premier Event",
+  "Not specified",
+];
 
 const AWARDS = [
   "All Awards",
@@ -39,7 +56,14 @@ const AWARDS = [
   "Not specified",
 ];
 
-const STARS = ["All Stars", "★★★★★", "★★★★☆", "★★★☆☆", "★★☆☆☆", "★☆☆☆☆"];
+const STARS = [
+  "All Stars",
+  "★★★★★",
+  "★★★★☆",
+  "★★★☆☆",
+  "★★☆☆☆",
+  "★☆☆☆☆",
+];
 
 /* ================= DATA ================= */
 
@@ -2348,20 +2372,6 @@ const portfolios = [
     "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its honest engineering reasoning, visible trade-offs, and use of math and data. However, it is far below Team Without a Cool Acronym or Rebel Robotics in outreach scale, technical depth, and competitive polish. It aligns with a solid, competent FTC portfolio typical of developing teams at the regional level."
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];
 
 /* ================= PAGE ================= */
@@ -2378,8 +2388,16 @@ export default function PortfolioPage() {
   const [openPortfolio, setOpenPortfolio] = useState<any>(null);
   const [showInfo, setShowInfo] = useState(false);
 
+  /* ======= RANDOMIZED BASE LIST ======= */
+  const [randomized, setRandomized] = useState<typeof portfolios>([]);
+
+  useEffect(() => {
+    setRandomized(shuffleArray(portfolios));
+  }, []);
+
+  /* ======= SEARCH SUGGESTIONS ======= */
   const suggestions = search.trim()
-    ? portfolios.filter((p) => {
+    ? randomized.filter((p) => {
         const q = search.toLowerCase();
         return (
           p.teamName.toLowerCase().includes(q) ||
@@ -2388,37 +2406,29 @@ export default function PortfolioPage() {
       })
     : [];
 
-  const filtered = portfolios.filter((p) => {
-    if (season !== "All Seasons" && p.season !== season) return false;
-    if (level !== "All Levels" && p.level !== level) return false;
-    if (award !== "All Awards" && !p.award.includes(award)) return false;
-    if (stars !== "All Stars" && p.stars !== stars) return false;
+  /* ======= FILTERED RESULT ======= */
+  const filtered = useMemo(() => {
+    return randomized.filter((p) => {
+      if (season !== "All Seasons" && p.season !== season) return false;
+      if (level !== "All Levels" && p.level !== level) return false;
+      if (award !== "All Awards" && !p.award.includes(award)) return false;
+      if (stars !== "All Stars" && p.stars !== stars) return false;
 
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      if (
-        !p.teamName.toLowerCase().includes(q) &&
-        !String(p.teamNumber).includes(q)
-      )
-        return false;
-    }
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        if (
+          !p.teamName.toLowerCase().includes(q) &&
+          !String(p.teamNumber).includes(q)
+        )
+          return false;
+      }
 
-    return true;
-  });
+      return true;
+    });
+  }, [randomized, season, level, award, stars, search]);
 
   return (
-    <main
-      className="
-        min-h-screen
-        text-white
-        px-6
-        py-24
-        bg-gradient-to-b
-        from-[#0b0000]
-        via-[#140404]
-        to-black
-      "
-    >
+    <main className="min-h-screen text-white px-6 py-24 bg-gradient-to-b from-[#0b0000] via-[#140404] to-black">
       <div className="max-w-7xl mx-auto space-y-10">
 
         {/* HEADER */}
@@ -2511,11 +2521,11 @@ export default function PortfolioPage() {
               className="rounded-xl border border-zinc-800 bg-zinc-950 hover:border-red-600 transition text-left overflow-hidden"
             >
               <div
-  className="aspect-[210/297] bg-cover bg-center"
-  style={{
-    backgroundImage: `url(${getDrivePreview(p.pdf)})`,
-  }}
-/>
+                className="aspect-[210/297] bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${getDrivePreview(p.pdf)})`,
+                }}
+              />
 
               <div className="p-3 space-y-1">
                 <h3 className="text-sm font-semibold">{p.teamName}</h3>
@@ -2528,149 +2538,6 @@ export default function PortfolioPage() {
             </button>
           ))}
         </section>
-
-        {/* ================= PORTFOLIO MODAL ================= */}
-        {openPortfolio && (
-          <div
-            className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4"
-            onClick={() => setOpenPortfolio(null)}
-          >
-            <div
-              className="bg-zinc-900 border border-zinc-700 rounded-xl max-w-4xl w-full p-6 overflow-y-auto max-h-[85vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 className="text-xl font-bold mb-2">
-                {openPortfolio.teamName} #{openPortfolio.teamNumber}
-              </h2>
-
-              <p className="text-sm text-gray-400 mb-2">
-                {openPortfolio.country} · {openPortfolio.season} ·{" "}
-                {openPortfolio.level}
-              </p>
-
-              <p className="text-red-500 mb-4">
-                {openPortfolio.stars} · {openPortfolio.score}
-              </p>
-
-              <p className="text-sm text-gray-300 mb-6">
-                {openPortfolio.summary}
-              </p>
-
-              <h3 className="font-semibold mb-2">Awards</h3>
-              <ul className="grid grid-cols-2 text-sm mb-6">
-                {openPortfolio.awardsBreakdown.map((a: any) => (
-                  <li key={a[0]}>{a[0]} — {a[1]}</li>
-                ))}
-              </ul>
-
-              <h3 className="font-semibold mb-2">Criteria</h3>
-              <ul className="grid grid-cols-2 text-sm mb-6">
-                {openPortfolio.criteria.map((c: any) => (
-                  <li key={c[0]}>{c[0]} — {c[1]}</li>
-                ))}
-              </ul>
-
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                <div>
-                  <h4 className="font-semibold mb-1">Strengths</h4>
-                  <ul className="list-disc ml-4">
-                    {openPortfolio.strengths.map((s: string) => (
-                      <li key={s}>{s}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-1">Weaknesses</h4>
-                  <ul className="list-disc ml-4">
-                    {openPortfolio.weaknesses.map((w: string) => (
-                      <li key={w}>{w}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-1">Improvements</h4>
-                  <ul className="list-disc ml-4">
-                    {openPortfolio.improvements.map((i: string) => (
-                      <li key={i}>{i}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setOpenPortfolio(null)}
-                  className="px-4 py-2 bg-zinc-800 rounded-md"
-                >
-                  Close
-                </button>
-
-                <a
-                  href={openPortfolio.pdf}
-                  target="_blank"
-                  className="px-4 py-2 bg-red-700 rounded-md"
-                >
-                  Open portfolio
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ================= EVALUATION MODAL ================= */}
-        {showInfo && (
-          <div
-            className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4"
-            onClick={() => setShowInfo(false)}
-          >
-            <div
-              className="bg-zinc-900 border border-zinc-700 rounded-xl max-w-2xl w-full p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 className="text-xl font-bold mb-3">
-                How portfolios are evaluated
-              </h2>
-
-              <p className="text-sm text-gray-300 mb-4">
-                PortfolioLab uses a strict, criteria-based star evaluation
-                system. Each portfolio is scored on fixed criteria from 0 to 5,
-                weighted, and converted into a final star rating.
-              </p>
-
-              <table className="w-full text-sm mb-4">
-                <tbody>
-                  <tr><td>Awards (each)</td><td className="text-right">High weight</td></tr>
-                  <tr><td>Outreach & Impact</td><td className="text-right">High weight</td></tr>
-                  <tr><td>Engineering Thinking</td><td className="text-right">High weight</td></tr>
-                  <tr><td>Technical Depth</td><td className="text-right">High weight</td></tr>
-                  <tr><td>Evidence & Proof</td><td className="text-right">Medium</td></tr>
-                  <tr><td>Clarity & Structure</td><td className="text-right">Medium</td></tr>
-                  <tr><td>Design as Tool</td><td className="text-right">Medium</td></tr>
-                  <tr><td>Claim Realism</td><td className="text-right">Medium</td></tr>
-                </tbody>
-              </table>
-
-              <p className="text-xs text-gray-400">
-                ★★★★★ is extremely rare (top ~1%). Automatic caps apply if
-                outreach, engineering thinking, or technical depth are weak.
-                PortfolioLab ratings are independent and not official FIRST
-                scores. Portfolios evaluated using PortAI.
-              </p>
-
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={() => setShowInfo(false)}
-                  className="px-4 py-2 bg-zinc-800 rounded-md"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
       </div>
     </main>
   );

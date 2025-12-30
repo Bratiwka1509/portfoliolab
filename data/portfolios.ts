@@ -75,6 +75,64 @@ const portfolios = [
     "This portfolio functions as the benchmark itself. It most closely matches World Inspire Finalist portfolios and exceeds the majority of Worlds submissions due to verified impact, engineering rigor, and documentation maturity."
 },
 
+
+{
+"id": "21062-1",
+"teamName": "QUANT",
+"teamNumber": 21062,
+"country": "Kazakhstan",
+"city": "Astana",
+"season": "2025 Decode",
+"level": "Regionals",
+"stars": "★★☆☆☆",
+"score": "23 / 55",
+"award": "Inspire Award Winners",
+"cover": "https://drive.google.com/file/d/1hpBvVcJX3majGM1CHaKd7vWwkqHE_jdP/view?usp=sharing",
+"pdf": "https://drive.google.com/file/d/1hpBvVcJX3majGM1CHaKd7vWwkqHE_jdP/view?usp=sharing",
+"summary": "A formally dense portfolio with many activities and claims, but under strict FTC criteria and benchmark comparison it shows limited evidentiary rigor, shallow engineering justification, and overstated impact. The level is below competitive Worlds portfolios.",
+
+"awardsBreakdown": [
+["Inspire", "2 / 5"],
+["Reach", "3 / 5"],
+["Sustain", "2 / 5"],
+["Connect", "3 / 5"],
+["Design", "2 / 5"],
+["Innovate", "2 / 5"],
+["Control", "3 / 5"]
+],
+
+"criteria": [
+["Judging Questions Alignment", "3 / 5"],
+["Engineering Thinking", "2 / 5"],
+["Technical Depth", "2 / 5"],
+["Outreach & Impact", "3 / 5"],
+["Evidence & Proof", "2 / 5"],
+["Clarity & Structure", "4 / 5"],
+["Claim Realism", "2 / 5"],
+["Design as Tool", "3 / 5"]
+],
+
+"strengths": [
+"Well-designed and visually readable portfolio that can be understood within 5–7 minutes.",
+"Outreach is quantified and extends beyond a single school or internal audience.",
+"The Control section formally meets FTC requirements and demonstrates understanding of autonomous systems."
+],
+
+"weaknesses": [
+"Engineering thinking is mostly descriptive; systematic trade-offs, alternatives, and comparisons are missing.",
+"Technical depth is limited: calculations are superficial and not tied to on-field performance metrics.",
+"A significant portion of claims is not supported by primary evidence (logs, code, CAD data, testing results)."
+],
+
+"improvements": [
+"Add explicit engineering alternatives with clear comparisons explaining why one solution was chosen over others.",
+"Replace general statements with concrete metrics: cycle times, reliability percentages, repeatability data.",
+"Reduce storytelling and strengthen the portfolio with test graphs, data tables, and links to real artifacts."
+],
+
+"benchmarkComparison": "The portfolio is clearly stronger than the lower-bound examples (Yaku, Crowns), but under strict calibration it aligns much closer to weak-to-average FTC portfolios than to global benchmarks. The gap to Team Without a Cool Acronym and Rebel Robotics is significant in engineering rigor, evidence quality, and innovation maturity."
+}
+,
 {
   "id": "19047-1",
   "teamName": "RAVENTECH",

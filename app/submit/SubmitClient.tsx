@@ -1,24 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+
+type Submission = {
+  id: string;
+  teamName: string;
+  teamNumber: number;
+  country?: string | null;
+  season?: string | null;
+  level?: string | null;
+  eventName?: string | null;
+  contactEmail?: string | null;
+  pdfUrl: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  createdAt: string;
+};
 
 export default function SubmitPage() {
+  const { status } = useSession();
   const [level, setLevel] = useState("");
   const [teamNumber, setTeamNumber] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [mySubmissions, setMySubmissions] = useState<Submission[]>([]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    fetch("/api/submissions")
+      .then((r) => (r.ok ? r.json() : []))
+      .then(setMySubmissions)
+      .catch(() => {});
+  }, [status]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status !== "authenticated") return;
     setLoading(true);
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
+    const payload = {
+      teamNumber: Number(formData.get("team_number")),
+      teamName: String(formData.get("team_name") ?? ""),
+      country: String(formData.get("country") ?? ""),
+      season: String(formData.get("season") ?? ""),
+      level:
+        level === "Other"
+          ? String(formData.get("other_level") ?? "Other")
+          : String(formData.get("level") ?? ""),
+      eventName: String(formData.get("event_name") ?? ""),
+      pdfUrl: String(formData.get("portfolio_link") ?? ""),
+      contactEmail: String(formData.get("contact_email") ?? ""),
+    };
 
-    const response = await fetch("https://formspree.io/f/xzdppqjj", {
+    const response = await fetch("/api/submissions", {
       method: "POST",
-      headers: { Accept: "application/json" },
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
     setLoading(false);
@@ -28,8 +70,11 @@ export default function SubmitPage() {
       e.currentTarget.reset();
       setLevel("");
       setTeamNumber("");
+      const created = await response.json().catch(() => null);
+      if (created) setMySubmissions((prev) => [created, ...prev]);
     } else {
-      alert("Submission failed. Please try again.");
+      const data = await response.json().catch(() => ({}));
+      setError(data?.error ?? "Submission failed. Please try again.");
     }
   }
 
@@ -49,11 +94,33 @@ export default function SubmitPage() {
           </p>
         </div>
 
-        {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5 sm:space-y-6 bg-black/40 border border-red-900/40 rounded-2xl p-5 sm:p-8"
-        >
+        {status !== "authenticated" ? (
+          <div className="bg-black/40 border border-red-900/40 rounded-2xl p-6 sm:p-8 space-y-4">
+            <p className="text-gray-300">
+              You need an account to submit a portfolio.
+            </p>
+            <div className="flex gap-3">
+              <Link
+                href="/auth/login"
+                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 transition"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/auth/register"
+                className="px-4 py-2 rounded-md border border-zinc-700 hover:border-red-600 transition"
+              >
+                Create account
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* FORM */}
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5 sm:space-y-6 bg-black/40 border border-red-900/40 rounded-2xl p-5 sm:p-8"
+            >
           {/* TEAM NUMBER */}
           <div>
             <label className="block text-sm mb-1 text-gray-300">
@@ -217,11 +284,17 @@ export default function SubmitPage() {
             </label>
             <input
               type="email"
-              name="email"
+              name="contact_email"
               required
               className="w-full bg-black border border-zinc-800 rounded px-4 py-2 text-white focus:outline-none focus:border-red-700"
             />
           </div>
+
+          {error && (
+            <div className="text-sm text-red-400 border border-red-900/40 bg-red-950/30 rounded p-3">
+              {error}
+            </div>
+          )}
 
           {/* SUBMIT */}
           <button
@@ -231,7 +304,49 @@ export default function SubmitPage() {
           >
             {loading ? "Sending..." : "Submit Portfolio"}
           </button>
-        </form>
+            </form>
+
+            {/* MY SUBMISSIONS */}
+            <div className="mt-8 bg-black/30 border border-zinc-800 rounded-2xl p-5 sm:p-6">
+              <h2 className="text-lg font-semibold mb-3">My submissions</h2>
+              {mySubmissions.length === 0 ? (
+                <p className="text-sm text-gray-400">No submissions yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {mySubmissions.slice(0, 6).map((s) => (
+                    <div
+                      key={s.id}
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border border-zinc-800 rounded-xl p-4 bg-black/40"
+                    >
+                      <div>
+                        <div className="font-medium">
+                          #{s.teamNumber} — {s.teamName}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {s.season ?? ""} {s.level ? `· ${s.level}` : ""}{" "}
+                          {s.eventName ? `· ${s.eventName}` : ""}
+                        </div>
+                      </div>
+                      <div className="text-sm">
+                        <span
+                          className={
+                            s.status === "APPROVED"
+                              ? "text-green-400"
+                              : s.status === "REJECTED"
+                              ? "text-red-400"
+                              : "text-yellow-400"
+                          }
+                        >
+                          {s.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* INFO MODAL */}
@@ -263,7 +378,7 @@ export default function SubmitPage() {
               Request sent
             </h2>
             <p className="text-gray-300 mb-6">
-              Thank you! We will contact you shortly.
+              Thank you! Your portfolio is now pending admin review.
             </p>
             <button
               onClick={() => setSubmitted(false)}

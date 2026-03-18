@@ -2493,3 +2493,6 @@ const portfolios = [
   benchmarkComparison:
     "This portfolio is clearly stronger than baseline examples such as Yaku or Crowns due to its outreach scale and sustainability. However, it remains well below the Inspire and Champions benchmarks set by Team Without a Cool Acronym and Rebel Robotics, primarily due to weaker evidence, limited engineering trade-off analysis, and moderate technical depth."
 }
+];
+
+export default portfolios;

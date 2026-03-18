@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(USER)
+  bannedAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions PortfolioSubmission[]
+  likes       PortfolioLike[]
+  comments    PortfolioComment[]
+}
+
+model PortfolioSubmission {
+  id          String   @id @default(cuid())
+  teamName    String
+  teamNumber  Int
+  country     String?
+  season      String?
+  level       String?  // League / Regionals / Worlds etc.
+  eventName   String?
+  contactEmail String?
+  coverUrl    String?  // ссылка на обложку или файл
+  pdfUrl      String   // ссылка на PDF (Google Drive или загрузка)
+  summary     String?
+
+  status      SubmissionStatus @default(PENDING)
+  adminNote   String?
+
+  publishedPortfolio   Portfolio? @relation(fields: [publishedPortfolioId], references: [id])
+  publishedPortfolioId String? @unique
+
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Portfolio {
+  id         String   @id @default(cuid())
+  teamName   String
+  teamNumber Int
+  country    String?
+  season     String?
+  level      String?
+  eventName  String?
+  coverUrl   String?
+  pdfUrl     String
+
+  aiEvaluation Json?
+
+  likesCount   Int @default(0)
+
+  submission   PortfolioSubmission?
+  likes        PortfolioLike[]
+  comments     PortfolioComment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PortfolioLike {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+  portfolioId String
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, portfolioId])
+}
+
+model PortfolioComment {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+  portfolioId String
+  text        String
+  deletedAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

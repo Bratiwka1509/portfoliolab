@@ -28,6 +28,7 @@ export type PortfolioRecord = {
   award: string;
   cover?: string;
   pdf: string;
+  pdfStoragePath?: string;
   summary?: string;
   score?: string;
   awardsBreakdown?: PortfolioBreakdown[];

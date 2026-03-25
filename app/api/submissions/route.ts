@@ -82,9 +82,14 @@ export async function POST(req: Request) {
       ok: true,
       message: "Portfolio uploaded successfully and is waiting for admin approval.",
     });
-  } catch {
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Upload failed. Please try again.";
+
     return NextResponse.json(
-      { error: "Upload failed. Please try again." },
+      { error: message },
       { status: 500 }
     );
   }

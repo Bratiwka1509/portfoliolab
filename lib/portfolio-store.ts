@@ -1,5 +1,6 @@
 import "server-only";
 
+import { del, get, put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -15,6 +16,10 @@ const dataDir = path.join(process.cwd(), "data");
 const uploadsDir = path.join(process.cwd(), "public", "uploads", "portfolios");
 const submissionsFile = path.join(dataDir, "submissions.json");
 const approvedPortfoliosFile = path.join(dataDir, "approved-portfolios.json");
+const blobPrefix = "portfoliolab";
+const submissionsBlobPath = `${blobPrefix}/submissions.json`;
+const approvedPortfoliosBlobPath = `${blobPrefix}/approved-portfolios.json`;
+const uploadsBlobPrefix = `${blobPrefix}/uploads`;
 
 export const ADMIN_PASSWORD = "29292RSX";
 const MAX_PDF_SIZE_BYTES = 500 * 1024 * 1024;
@@ -41,6 +46,18 @@ async function ensureStore() {
   ]);
 }
 
+function getStorageMode() {
+  return process.env.BLOB_READ_WRITE_TOKEN ? "blob" : "local";
+}
+
+function assertProductionUploadsConfigured() {
+  if (getStorageMode() === "local" && process.env.VERCEL === "1") {
+    throw new Error(
+      "Uploads are not configured in production yet. Connect a Vercel Blob store to enable portfolio submissions."
+    );
+  }
+}
+
 async function ensureJsonFile(filePath: string) {
   try {
     await fs.access(filePath);
@@ -58,7 +75,15 @@ function isMissingFileError(error: unknown) {
   );
 }
 
-async function readJsonFile<T>(filePath: string): Promise<T[]> {
+function isBlobUrl(value: string) {
+  try {
+    return new URL(value).hostname.endsWith(".blob.vercel-storage.com");
+  } catch {
+    return false;
+  }
+}
+
+async function readLocalJsonFile<T>(filePath: string): Promise<T[]> {
   try {
     const raw = await fs.readFile(filePath, "utf8");
     const parsed = JSON.parse(raw);
@@ -72,9 +97,58 @@ async function readJsonFile<T>(filePath: string): Promise<T[]> {
   }
 }
 
-async function writeJsonFile<T>(filePath: string, value: T[]) {
+async function readBlobJsonFile<T>(
+  blobPath: string,
+  fallbackFilePath: string
+): Promise<T[]> {
+  try {
+    const result = await get(blobPath, {
+      access: "private",
+      useCache: false,
+    });
+
+    if (!result || result.statusCode !== 200) {
+      return readLocalJsonFile<T>(fallbackFilePath);
+    }
+
+    const raw = await new Response(result.stream).text();
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return readLocalJsonFile<T>(fallbackFilePath);
+  }
+}
+
+async function readJsonFile<T>(
+  filePath: string,
+  blobPath: string
+): Promise<T[]> {
+  if (getStorageMode() === "blob") {
+    return readBlobJsonFile<T>(blobPath, filePath);
+  }
+
+  return readLocalJsonFile<T>(filePath);
+}
+
+async function writeJsonFile<T>(
+  filePath: string,
+  blobPath: string,
+  value: T[]
+) {
+  const payload = `${JSON.stringify(value, null, 2)}\n`;
+
+  if (getStorageMode() === "blob") {
+    await put(blobPath, payload, {
+      access: "private",
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: "application/json",
+    });
+    return;
+  }
+
   await ensureStore();
-  await fs.writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await fs.writeFile(filePath, payload, "utf8");
 }
 
 function sanitizeName(fileName: string) {
@@ -100,6 +174,10 @@ function cleanBreakdowns(
 function cleanTextList(values?: string[]) {
   const cleaned = values?.map((value) => value.trim()).filter(Boolean) ?? [];
   return cleaned.length > 0 ? cleaned : undefined;
+}
+
+function createPortfolioPdfUrl(id: string) {
+  return `/api/portfolio-files/${id}.pdf`;
 }
 
 function applyReviewInput(
@@ -139,7 +217,8 @@ function createPublicPortfolio(
       level: submission.level,
       stars: "New submission",
       award: submission.eventName,
-      pdf: submission.pdfUrl,
+      pdf: createPortfolioPdfUrl(submission.id),
+      pdfStoragePath: submission.pdfPath,
       source: "Community submission",
       eventName: submission.eventName,
       summary: `Approved community portfolio submitted for ${submission.eventName}.`,
@@ -153,12 +232,18 @@ export function getMaxPdfSizeBytes() {
 }
 
 export async function getPendingSubmissions() {
-  const submissions = await readJsonFile<SubmissionRecord>(submissionsFile);
+  const submissions = await readJsonFile<SubmissionRecord>(
+    submissionsFile,
+    submissionsBlobPath
+  );
   return submissions.sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
 }
 
 export async function getApprovedPortfolios() {
-  const approved = await readJsonFile<PortfolioRecord>(approvedPortfoliosFile);
+  const approved = await readJsonFile<PortfolioRecord>(
+    approvedPortfoliosFile,
+    approvedPortfoliosBlobPath
+  );
   return approved;
 }
 
@@ -168,14 +253,30 @@ export async function getPublishedPortfolios() {
 }
 
 export async function createSubmission(input: SubmissionInput) {
-  await ensureStore();
+  assertProductionUploadsConfigured();
 
   const id = crypto.randomUUID();
   const safeName = sanitizeName(input.fileName || `${id}.pdf`);
   const finalFileName = `${id}-${safeName.toLowerCase().endsWith(".pdf") ? safeName : `${safeName}.pdf`}`;
-  const diskPath = path.join(uploadsDir, finalFileName);
+  let pdfUrl = "";
+  let pdfPath = "";
 
-  await fs.writeFile(diskPath, input.fileBuffer);
+  if (getStorageMode() === "blob") {
+    const uploadedPdf = await put(`${uploadsBlobPrefix}/${finalFileName}`, input.fileBuffer, {
+      access: "private",
+      addRandomSuffix: false,
+      contentType: "application/pdf",
+      multipart: input.fileBuffer.length > 5 * 1024 * 1024,
+    });
+    pdfUrl = createPortfolioPdfUrl(id);
+    pdfPath = uploadedPdf.url;
+  } else {
+    await ensureStore();
+    const diskPath = path.join(uploadsDir, finalFileName);
+    await fs.writeFile(diskPath, input.fileBuffer);
+    pdfUrl = createPortfolioPdfUrl(id);
+    pdfPath = diskPath;
+  }
 
   const submission: SubmissionRecord = {
     id,
@@ -186,15 +287,15 @@ export async function createSubmission(input: SubmissionInput) {
     level: input.level,
     eventName: input.eventName,
     email: input.email,
-    pdfUrl: `/uploads/portfolios/${finalFileName}`,
-    pdfPath: diskPath,
+    pdfUrl,
+    pdfPath,
     originalFileName: input.fileName,
     submittedAt: new Date().toISOString(),
   };
 
   const submissions = await getPendingSubmissions();
   submissions.unshift(submission);
-  await writeJsonFile(submissionsFile, submissions);
+  await writeJsonFile(submissionsFile, submissionsBlobPath, submissions);
 
   return submission;
 }
@@ -203,6 +304,7 @@ export async function approveSubmission(
   submissionId: string,
   review: PortfolioReviewInput
 ) {
+  assertProductionUploadsConfigured();
   const submissions = await getPendingSubmissions();
   const submission = submissions.find((item) => item.id === submissionId);
 
@@ -214,8 +316,11 @@ export async function approveSubmission(
   const approved = await getApprovedPortfolios();
   const publicPortfolio = createPublicPortfolio(submission, review);
 
-  await writeJsonFile(submissionsFile, remaining);
-  await writeJsonFile(approvedPortfoliosFile, [publicPortfolio, ...approved]);
+  await writeJsonFile(submissionsFile, submissionsBlobPath, remaining);
+  await writeJsonFile(approvedPortfoliosFile, approvedPortfoliosBlobPath, [
+    publicPortfolio,
+    ...approved,
+  ]);
 
   return publicPortfolio;
 }
@@ -224,6 +329,7 @@ export async function updateApprovedPortfolio(
   portfolioId: string,
   review: PortfolioReviewInput
 ) {
+  assertProductionUploadsConfigured();
   const approved = await getApprovedPortfolios();
   const portfolioIndex = approved.findIndex((item) => item.id === portfolioId);
 
@@ -236,12 +342,17 @@ export async function updateApprovedPortfolio(
   const nextApproved = [...approved];
   nextApproved[portfolioIndex] = updatedPortfolio;
 
-  await writeJsonFile(approvedPortfoliosFile, nextApproved);
+  await writeJsonFile(
+    approvedPortfoliosFile,
+    approvedPortfoliosBlobPath,
+    nextApproved
+  );
 
   return updatedPortfolio;
 }
 
 export async function deleteApprovedPortfolio(portfolioId: string) {
+  assertProductionUploadsConfigured();
   const approved = await getApprovedPortfolios();
   const portfolio = approved.find((item) => item.id === portfolioId);
 
@@ -250,14 +361,23 @@ export async function deleteApprovedPortfolio(portfolioId: string) {
   }
 
   const nextApproved = approved.filter((item) => item.id !== portfolioId);
-  await writeJsonFile(approvedPortfoliosFile, nextApproved);
+  await writeJsonFile(
+    approvedPortfoliosFile,
+    approvedPortfoliosBlobPath,
+    nextApproved
+  );
 
-  if (portfolio.pdf.startsWith("/uploads/portfolios/")) {
-    const relativePdfPath = portfolio.pdf.replace(/^\//, "");
-    const diskPath = path.join(process.cwd(), "public", relativePdfPath);
+  const storedPdfPath = portfolio.pdfStoragePath ?? portfolio.pdf;
 
+  if (isBlobUrl(storedPdfPath)) {
     try {
-      await fs.unlink(diskPath);
+      await del(storedPdfPath);
+    } catch {
+      // Ignore missing files during cleanup.
+    }
+  } else if (storedPdfPath && !storedPdfPath.startsWith("http")) {
+    try {
+      await fs.unlink(storedPdfPath);
     } catch {
       // Ignore missing files during cleanup.
     }
@@ -267,6 +387,7 @@ export async function deleteApprovedPortfolio(portfolioId: string) {
 }
 
 export async function rejectSubmission(submissionId: string) {
+  assertProductionUploadsConfigured();
   const submissions = await getPendingSubmissions();
   const submission = submissions.find((item) => item.id === submissionId);
 
@@ -275,12 +396,20 @@ export async function rejectSubmission(submissionId: string) {
   }
 
   const remaining = submissions.filter((item) => item.id !== submissionId);
-  await writeJsonFile(submissionsFile, remaining);
+  await writeJsonFile(submissionsFile, submissionsBlobPath, remaining);
 
-  try {
-    await fs.unlink(submission.pdfPath);
-  } catch {
-    // Ignore missing files during cleanup.
+  if (isBlobUrl(submission.pdfPath)) {
+    try {
+      await del(submission.pdfPath);
+    } catch {
+      // Ignore missing files during cleanup.
+    }
+  } else {
+    try {
+      await fs.unlink(submission.pdfPath);
+    } catch {
+      // Ignore missing files during cleanup.
+    }
   }
 
   return submission;

@@ -49,14 +49,25 @@ async function ensureJsonFile(filePath: string) {
   }
 }
 
-async function readJsonFile<T>(filePath: string): Promise<T[]> {
-  await ensureStore();
+function isMissingFileError(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === "ENOENT"
+  );
+}
 
+async function readJsonFile<T>(filePath: string): Promise<T[]> {
   try {
     const raw = await fs.readFile(filePath, "utf8");
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
-  } catch {
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return [];
+    }
+
     return [];
   }
 }

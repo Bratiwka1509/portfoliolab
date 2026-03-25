@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
 
 type Suggestion = {
   id: string;
@@ -13,11 +12,10 @@ type Suggestion = {
   country?: string;
 };
 
+const ADMIN_SEARCH_KEY = "admin1709";
+
 export default function Navbar() {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  type UserWithRole = { role?: "USER" | "ADMIN" | "SUPERADMIN" };
-  const role = (session?.user as unknown as UserWithRole | undefined)?.role;
   const ref = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +43,9 @@ export default function Navbar() {
 
   /* ===== FETCH AUTOCOMPLETE ===== */
   useEffect(() => {
-    if (query.length < 1) return;
+    if (query.length < 1 || query.trim().toLowerCase() === ADMIN_SEARCH_KEY) {
+      return;
+    }
 
     const controller = new AbortController();
 
@@ -62,27 +62,35 @@ export default function Navbar() {
   function goSearch(value?: string) {
     const q = (value ?? query).trim();
     if (!q) return;
+
+    if (q.toLowerCase() === ADMIN_SEARCH_KEY) {
+      router.push("/adminmode");
+      setQuery("");
+      setResults([]);
+      setShow(false);
+      setOpen(false);
+      return;
+    }
+
     router.push(`/portfolio?q=${encodeURIComponent(q)}`);
     setQuery("");
+    setResults([]);
     setShow(false);
     setOpen(false);
+  }
+
+  function handleQueryChange(value: string) {
+    setQuery(value);
+    setShow(value.length > 0);
+
+    if (value.length < 1) {
+      setResults([]);
+    }
   }
 
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-red-900/40 bg-black">
-        {(role === "ADMIN" || role === "SUPERADMIN") && (
-          <div className="border-b border-red-900/30 bg-red-950/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between text-xs">
-              <span className="text-red-300 font-semibold tracking-wide">
-                Admin mode
-              </span>
-              <span className="text-gray-400">
-                {role === "SUPERADMIN" ? "Superadmin" : "Admin"}
-              </span>
-            </div>
-          </div>
-        )}
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
 
           {/* LOGO */}
@@ -100,12 +108,7 @@ export default function Navbar() {
           >
             <input
               value={query}
-              onChange={(e) => {
-                const v = e.target.value;
-                setQuery(v);
-                if (v.length < 1) setResults([]);
-                setShow(true);
-              }}
+              onChange={(e) => handleQueryChange(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && goSearch()}
               placeholder="Search team, number or country…"
               className="
@@ -147,9 +150,6 @@ export default function Navbar() {
             <Link href="/" className="hover:text-red-400">Home</Link>
             <Link href="/portfolio" className="hover:text-red-400">Portfolio</Link>
             <Link href="/guide" className="hover:text-red-400">Guide</Link>
-            {(role === "ADMIN" || role === "SUPERADMIN") && (
-              <Link href="/admin" className="hover:text-red-400">Admin</Link>
-            )}
             <Link
               href="/portai"
               className="px-4 py-2 rounded-md border border-red-600 text-red-500 hover:bg-red-600 hover:text-white transition"
@@ -162,21 +162,6 @@ export default function Navbar() {
             >
               Submit
             </Link>
-            {status === "authenticated" ? (
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="px-4 py-2 rounded-md border border-zinc-700 hover:border-red-600 transition"
-              >
-                Log out
-              </button>
-            ) : (
-              <Link
-                href="/auth/login"
-                className="px-4 py-2 rounded-md border border-zinc-700 hover:border-red-600 transition"
-              >
-                Log in
-              </Link>
-            )}
           </div>
 
           {/* MOBILE BUTTON */}
@@ -207,12 +192,7 @@ export default function Navbar() {
             <div className="relative">
               <input
                 value={query}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setQuery(v);
-                  if (v.length < 1) setResults([]);
-                  setShow(true);
-                }}
+                onChange={(e) => handleQueryChange(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && goSearch()}
                 placeholder="Search…"
                 className="
@@ -249,9 +229,6 @@ export default function Navbar() {
               <Link href="/portfolio" onClick={() => setOpen(false)}>Portfolio</Link>
               <Link href="/guide" onClick={() => setOpen(false)}>Guide</Link>
               <Link href="/portai" onClick={() => setOpen(false)}>PortAI</Link>
-              {(role === "ADMIN" || role === "SUPERADMIN") && (
-                <Link href="/admin" onClick={() => setOpen(false)}>Admin</Link>
-              )}
               <Link
                 href="/submit"
                 onClick={() => setOpen(false)}
@@ -259,21 +236,6 @@ export default function Navbar() {
               >
                 Submit
               </Link>
-              {status === "authenticated" ? (
-                <button
-                  onClick={async () => {
-                    setOpen(false);
-                    await signOut({ callbackUrl: "/" });
-                  }}
-                  className="px-4 py-2 rounded-md border border-zinc-700 text-left"
-                >
-                  Log out
-                </button>
-              ) : (
-                <Link href="/auth/login" onClick={() => setOpen(false)}>
-                  Log in
-                </Link>
-              )}
             </nav>
           </div>
         </div>

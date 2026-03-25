@@ -1,72 +1,91 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+
+import { createSubmission, getMaxPdfSizeBytes } from "@/lib/portfolio-store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  const userEmail = session?.user?.email;
-  if (!userEmail) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+function getRequiredString(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
+}
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-    select: { id: true, bannedAt: true },
-  });
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (user.bannedAt) return NextResponse.json({ error: "Banned" }, { status: 403 });
-
-  const submissions = await prisma.portfolioSubmission.findMany({
-    where: { authorId: user.id },
-    orderBy: { createdAt: "desc" },
-  });
-
-  return NextResponse.json(submissions);
+function isPdf(file: File) {
+  return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  const userEmail = session?.user?.email;
-  if (!userEmail) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const formData = await req.formData();
+    const teamName = getRequiredString(formData, "team_name");
+    const teamNumberRaw = getRequiredString(formData, "team_number");
+    const country = getRequiredString(formData, "country");
+    const season = getRequiredString(formData, "season");
+    const level = getRequiredString(formData, "level");
+    const otherLevel = getRequiredString(formData, "other_level");
+    const eventName = getRequiredString(formData, "event_name");
+    const email = getRequiredString(formData, "email");
+    const portfolioFile = formData.get("portfolio_file");
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-    select: { id: true, bannedAt: true },
-  });
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (user.bannedAt) return NextResponse.json({ error: "Banned" }, { status: 403 });
+    if (
+      !teamName ||
+      !teamNumberRaw ||
+      !country ||
+      !season ||
+      !level ||
+      !eventName ||
+      !email ||
+      !(portfolioFile instanceof File)
+    ) {
+      return NextResponse.json(
+        { error: "Please fill out all fields and upload a PDF." },
+        { status: 400 }
+      );
+    }
 
-  const body = await req.json().catch(() => null);
-  const teamName = String(body?.teamName ?? "").trim();
-  const teamNumber = Number(body?.teamNumber);
-  const country = body?.country ? String(body.country).trim() : null;
-  const season = body?.season ? String(body.season).trim() : null;
-  const level = body?.level ? String(body.level).trim() : null;
-  const eventName = body?.eventName ? String(body.eventName).trim() : null;
-  const contactEmail = body?.contactEmail ? String(body.contactEmail).trim() : null;
-  const coverUrl = body?.coverUrl ? String(body.coverUrl).trim() : null;
-  const pdfUrl = String(body?.pdfUrl ?? "").trim();
+    if (!isPdf(portfolioFile)) {
+      return NextResponse.json(
+        { error: "Only PDF files are allowed." },
+        { status: 400 }
+      );
+    }
 
-  if (!teamName || !Number.isFinite(teamNumber) || teamNumber <= 0 || !pdfUrl) {
-    return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
-  }
+    if (portfolioFile.size > getMaxPdfSizeBytes()) {
+      return NextResponse.json(
+        { error: "PDF is too large. Maximum size is 500 MB." },
+        { status: 400 }
+      );
+    }
 
-  const created = await prisma.portfolioSubmission.create({
-    data: {
+    const teamNumber = Number(teamNumberRaw);
+    if (!Number.isFinite(teamNumber)) {
+      return NextResponse.json(
+        { error: "Team number must be numeric." },
+        { status: 400 }
+      );
+    }
+
+    const arrayBuffer = await portfolioFile.arrayBuffer();
+    await createSubmission({
       teamName,
       teamNumber,
       country,
       season,
-      level,
+      level: level === "Other" ? otherLevel || "Other" : level,
       eventName,
-      contactEmail,
-      coverUrl,
-      pdfUrl,
-      authorId: user.id,
-    },
-  });
+      email,
+      fileName: portfolioFile.name,
+      fileBuffer: Buffer.from(arrayBuffer),
+    });
 
-  return NextResponse.json(created, { status: 201 });
+    return NextResponse.json({
+      ok: true,
+      message: "Portfolio uploaded successfully and is waiting for admin approval.",
+    });
+  } catch {
+    return NextResponse.json(
+      { error: "Upload failed. Please try again." },
+      { status: 500 }
+    );
+  }
 }
-

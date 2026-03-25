@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import portfolios from "@/data/portfolios";
+import { getPublishedPortfolios } from "@/lib/portfolio-store";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -8,6 +10,8 @@ export async function GET(req: Request) {
   if (!q) {
     return NextResponse.json([]);
   }
+
+  const portfolios = await getPublishedPortfolios();
 
   const results = portfolios
     .filter((p) => {

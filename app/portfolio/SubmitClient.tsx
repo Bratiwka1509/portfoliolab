@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import type { PortfolioBreakdown, PortfolioRecord } from "@/lib/portfolio-types";
 
 /* ================= HELPERS ================= */
 
@@ -12,9 +13,52 @@ function getDrivePreview(pdfUrl: string) {
   return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
 }
 
+function getPdfPreviewUrl(pdfUrl: string) {
+  if (!pdfUrl.toLowerCase().includes(".pdf")) {
+    return null;
+  }
+
+  return `${pdfUrl}#page=1&view=FitH&toolbar=0&navpanes=0&scrollbar=0`;
+}
+
+function getPreviewStyle(portfolio: PortfolioRecord) {
+  const drivePreview = getDrivePreview(portfolio.pdf);
+
+  if (drivePreview) {
+    return {
+      backgroundImage: `url(${drivePreview})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    };
+  }
+
+  if (portfolio.cover) {
+    return {
+      backgroundImage: `url(${portfolio.cover})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    };
+  }
+
+  return {
+    background:
+      "linear-gradient(135deg, rgba(127,29,29,0.9), rgba(10,10,10,0.95))",
+  };
+}
+
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function highlight(text: string, query: string) {
   if (!query) return text;
-  const parts = text.split(new RegExp(`(${query})`, "gi"));
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escapedQuery})`, "gi"));
   return parts.map((part, i) =>
     part.toLowerCase() === query.toLowerCase() ? (
       <span key={i} className="text-red-400">{part}</span>
@@ -47,87 +91,61 @@ const LEVELS = [
   "Not specified",
 ];
 
+const AWARDS = [
+  "All Awards",
+  "Inspire",
+  "Think",
+  "Reach",
+  "Sustain",
+  "Connect",
+  "Design",
+  "Innovate",
+  "Control",
+  "Motivate",
+  "Not specified",
+];
+
+const STARS = [
+  "All Stars",
+  "★★★★★",
+  "★★★★☆",
+  "★★★☆☆",
+  "★★☆☆☆",
+  "★☆☆☆☆",
+];
+
 /* ================= PAGE ================= */
 
-type AiEvaluation = {
-  summary: string;
-  awardsBreakdown: [string, string][];
-  criteria: [string, string][];
-  strengths: string[];
-  weaknesses: string[];
-  improvements: string[];
+type Props = {
+  portfolios: PortfolioRecord[];
 };
 
-type PortfolioListItem = {
-  id: string;
-  teamName: string;
-  teamNumber: number;
-  country?: string | null;
-  season?: string | null;
-  level?: string | null;
-  eventName?: string | null;
-  coverUrl?: string | null;
-  pdfUrl: string;
-  likesCount: number;
-  createdAt: string;
-};
-
-type PortfolioDetails = PortfolioListItem & {
-  aiEvaluation?: AiEvaluation | null;
-};
-
-type CommentItem = {
-  id: string;
-  text: string;
-  createdAt: string;
-  user: { id: string; name: string | null; email: string };
-};
-
-type PortfolioResponse = {
-  portfolio: PortfolioDetails & { comments: CommentItem[] };
-  likedByMe: boolean;
-};
-
-type Sort = "newest" | "oldest" | "popular";
-
-export default function SubmitClient() {
+export default function SubmitClient({ portfolios }: Props) {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") || "").toLowerCase();
 
   const [season, setSeason] = useState("All Seasons");
   const [level, setLevel] = useState("All Levels");
-  const [sort, setSort] = useState<Sort>("newest");
-  const [items, setItems] = useState<PortfolioListItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [openPortfolio, setOpenPortfolio] = useState<PortfolioResponse | null>(null);
-  const [commentText, setCommentText] = useState("");
-  const [commentSending, setCommentSending] = useState(false);
+  const [award, setAward] = useState("All Awards");
+  const [stars, setStars] = useState("All Stars");
+
+  const [randomized, setRandomized] = useState<typeof portfolios>([]);
+  const [openPortfolio, setOpenPortfolio] = useState<PortfolioRecord | null>(null);
 
   const [showEvaluationInfo, setShowEvaluationInfo] = useState(false);
   const [showSources, setShowSources] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-    fetch(`/api/portfolios?sort=${sort}`)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((data: PortfolioListItem[]) => {
-        if (!cancelled) setItems(data);
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [sort]);
+    setRandomized(shuffleArray(portfolios));
+  }, [portfolios]);
 
   const filtered = useMemo(() => {
-    return items.filter((p) => {
-      if (season !== "All Seasons" && (p.season ?? "Not specified") !== season)
-        return false;
-      if (level !== "All Levels" && (p.level ?? "Not specified") !== level)
-        return false;
+    return randomized.filter((p) => {
+      if (season !== "All Seasons" && p.season !== season) return false;
+      if (level !== "All Levels" && p.level !== level) return false;
+      if (award !== "All Awards" && !p.award.includes(award)) return false;
+      if (stars !== "All Stars" && p.stars !== stars) return false;
+
       if (query) {
         if (
           !p.teamName.toLowerCase().includes(query) &&
@@ -139,7 +157,7 @@ export default function SubmitClient() {
       }
       return true;
     });
-  }, [items, season, level, query]);
+  }, [randomized, season, level, award, stars, query]);
 
   return (
     <main className="min-h-screen text-white px-4 sm:px-6 py-20 sm:py-24 bg-gradient-to-b from-[#0b0000] via-[#140404] to-black">
@@ -150,8 +168,8 @@ export default function SubmitClient() {
           <div>
             <h1 className="text-2xl sm:text-4xl font-bold">Engineering Portfolios</h1>
             <p className="text-gray-400 mt-2 max-w-2xl text-sm sm:text-base">
-              FTC engineering portfolios reviewed by PortfolioLab using a strict,
-              criteria-based star system.
+              Explore rated benchmark portfolios and newly approved community PDF
+              submissions in one place.
             </p>
           </div>
 
@@ -181,63 +199,51 @@ export default function SubmitClient() {
 
         {/* FILTERS */}
         <section className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <select
-            className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
-            onChange={(e) => setSeason(e.target.value)}
-            value={season}
-          >
-            {SEASONS.map((o) => (
-              <option key={o}>{o}</option>
-            ))}
-          </select>
-
-          <select
-            className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
-            onChange={(e) => setLevel(e.target.value)}
-            value={level}
-          >
-            {LEVELS.map((o) => (
-              <option key={o}>{o}</option>
-            ))}
-          </select>
-
-          <select
-            className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
-            onChange={(e) => {
-              setLoading(true);
-              setSort(e.target.value as Sort);
-            }}
-            value={sort}
-          >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="popular">Most liked</option>
-          </select>
+          {[SEASONS, LEVELS, AWARDS, STARS].map((opts, i) => (
+            <select
+              key={i}
+              className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+              onChange={(e) =>
+                [setSeason, setLevel, setAward, setStars][i](e.target.value)
+              }
+            >
+              {opts.map((o) => (
+                <option key={o}>{o}</option>
+              ))}
+            </select>
+          ))}
         </section>
 
         {/* GRID */}
         <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-          {loading && (
-            <div className="col-span-full text-sm text-gray-400">
-              Loading…
-            </div>
-          )}
           {filtered.map((p) => (
             <button
               key={p.id}
-              onClick={async () => {
-                const res = await fetch(`/api/portfolios/${p.id}`);
-                if (!res.ok) return;
-                const details = (await res.json()) as PortfolioResponse;
-                setCommentText("");
-                setOpenPortfolio(details);
-              }}
+              onClick={() => setOpenPortfolio(p)}
               className="rounded-xl border border-zinc-800 bg-zinc-950 hover:border-red-600 transition text-left overflow-hidden"
             >
               <div
-                className="aspect-[210/297] bg-cover bg-center"
-                style={{ backgroundImage: `url(${getDrivePreview(p.pdfUrl)})` }}
-              />
+                className="relative aspect-[210/297] overflow-hidden bg-cover bg-center"
+                style={getPreviewStyle(p)}
+              >
+                {!getDrivePreview(p.pdf) && !p.cover && getPdfPreviewUrl(p.pdf) ? (
+                  <>
+                    <iframe
+                      src={getPdfPreviewUrl(p.pdf) ?? undefined}
+                      title={`${p.teamName} cover preview`}
+                      className="pointer-events-none h-full w-full scale-[1.02] bg-white"
+                      loading="lazy"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
+                  </>
+                ) : null}
+
+                {!getDrivePreview(p.pdf) && !p.cover && !getPdfPreviewUrl(p.pdf) && (
+                  <div className="flex h-full items-end justify-start bg-black/20 p-3 text-xs font-medium uppercase tracking-[0.24em] text-red-100">
+                    PDF
+                  </div>
+                )}
+              </div>
 
               <div className="p-3 space-y-1">
                 <h3 className="text-sm font-semibold">
@@ -245,14 +251,12 @@ export default function SubmitClient() {
                 </h3>
 
                 <p className="text-xs text-gray-400">
-                  #{p.teamNumber} · {p.season ?? "Not specified"} ·{" "}
-                  {p.level ?? "Not specified"}
+                  #{p.teamNumber} · {p.season} · {p.level}
                 </p>
 
                 <p className="text-xs text-gray-500">{p.country}</p>
-                <p className="text-xs text-gray-400">
-                  ❤ {p.likesCount}
-                </p>
+                <div className="text-red-500 text-sm">{p.stars}</div>
+                <p className="text-xs text-yellow-400">🏆 {p.award}</p>
               </div>
             </button>
           ))}
@@ -384,44 +388,38 @@ export default function SubmitClient() {
       <div className="flex items-start justify-between px-8 pt-6 pb-4 border-b border-zinc-800">
         <div className="space-y-1">
           <h2 className="text-2xl font-bold">
-            {openPortfolio.portfolio.teamName} #{openPortfolio.portfolio.teamNumber}
+            {openPortfolio.teamName} #{openPortfolio.teamNumber}
           </h2>
 
           <p className="text-gray-400 text-sm">
-            {openPortfolio.portfolio.country ?? "—"} ·{" "}
-            {openPortfolio.portfolio.season ?? "Not specified"} ·{" "}
-            {openPortfolio.portfolio.level ?? "Not specified"}
+            {openPortfolio.country} · {openPortfolio.season} · {openPortfolio.level}
           </p>
+
+          {(openPortfolio.stars || openPortfolio.score) && (
+            <div className="flex items-center gap-3 mt-2">
+              {openPortfolio.stars && (
+                <span className="text-red-500 text-lg">
+                  {openPortfolio.stars}
+                </span>
+              )}
+              {openPortfolio.score && (
+                <span className="text-gray-400 text-sm">
+                  {openPortfolio.score}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* ACTIONS */}
         <div className="flex items-center gap-2">
           <a
-            href={openPortfolio.portfolio.pdfUrl}
+            href={openPortfolio.pdf}
             target="_blank"
             className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 text-sm"
           >
             Open portfolio
           </a>
-          <button
-            onClick={async () => {
-              const res = await fetch(`/api/portfolios/${openPortfolio.portfolio.id}/like`, { method: "POST" });
-              if (!res.ok) return;
-              const data = (await res.json()) as { liked: boolean; likesCount: number };
-              setOpenPortfolio((prev) =>
-                prev
-                  ? {
-                      ...prev,
-                      likedByMe: data.liked,
-                      portfolio: { ...prev.portfolio, likesCount: data.likesCount },
-                    }
-                  : prev
-              );
-            }}
-            className="px-4 py-2 rounded-md border border-zinc-700 hover:border-red-600 transition text-sm"
-          >
-            {openPortfolio.likedByMe ? "Unlike" : "Like"} · ❤ {openPortfolio.portfolio.likesCount}
-          </button>
           <button
             onClick={() => setOpenPortfolio(null)}
             className="px-3 py-2 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm"
@@ -435,19 +433,19 @@ export default function SubmitClient() {
       <div className="overflow-y-auto px-8 py-6 space-y-10">
 
         {/* SUMMARY */}
-        {openPortfolio.portfolio.aiEvaluation?.summary && (
+        {openPortfolio.summary && (
           <p className="text-gray-300 leading-relaxed">
-            {openPortfolio.portfolio.aiEvaluation.summary}
+            {openPortfolio.summary}
           </p>
         )}
 
         {/* ===== AWARDS ===== */}
-        {openPortfolio.portfolio.aiEvaluation?.awardsBreakdown && (
+        {openPortfolio.awardsBreakdown && (
           <div>
             <h3 className="font-semibold mb-3">Awards</h3>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
-              {openPortfolio.portfolio.aiEvaluation.awardsBreakdown.map(
-                ([name, value]: [string, string], i: number) => (
+              {openPortfolio.awardsBreakdown.map(
+                ([name, value]: PortfolioBreakdown, i: number) => (
                   <div key={i}>
                     {name} — {value}
                   </div>
@@ -458,12 +456,12 @@ export default function SubmitClient() {
         )}
 
         {/* ===== CRITERIA ===== */}
-        {openPortfolio.portfolio.aiEvaluation?.criteria && (
+        {(openPortfolio.criteriaBreakdown || openPortfolio.criteria) && (
           <div>
             <h3 className="font-semibold mb-3">Criteria</h3>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
-              {openPortfolio.portfolio.aiEvaluation.criteria.map(
-                ([name, value]: [string, string], i: number) => (
+              {(openPortfolio.criteriaBreakdown || openPortfolio.criteria || []).map(
+                ([name, value]: PortfolioBreakdown, i: number) => (
                   <div key={i}>
                     {name} — {value}
                   </div>
@@ -475,104 +473,36 @@ export default function SubmitClient() {
 
         {/* ===== STRENGTHS / WEAKNESSES / IMPROVEMENTS ===== */}
         <div className="grid md:grid-cols-3 gap-8">
-          {openPortfolio.portfolio.aiEvaluation?.strengths && (
+          {openPortfolio.strengths && (
             <div>
               <h4 className="font-semibold mb-2">Strengths</h4>
               <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.portfolio.aiEvaluation.strengths.map((s: string, i: number) => (
+                {openPortfolio.strengths.map((s: string, i: number) => (
                   <li key={i}>{s}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {openPortfolio.portfolio.aiEvaluation?.weaknesses && (
+          {openPortfolio.weaknesses && (
             <div>
               <h4 className="font-semibold mb-2">Weaknesses</h4>
               <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.portfolio.aiEvaluation.weaknesses.map((w: string, i: number) => (
+                {openPortfolio.weaknesses.map((w: string, i: number) => (
                   <li key={i}>{w}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {openPortfolio.portfolio.aiEvaluation?.improvements && (
+          {openPortfolio.improvements && (
             <div>
               <h4 className="font-semibold mb-2">Improvements</h4>
               <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.portfolio.aiEvaluation.improvements.map((im: string, i: number) => (
+                {openPortfolio.improvements.map((im: string, i: number) => (
                   <li key={i}>{im}</li>
                 ))}
               </ul>
-            </div>
-          )}
-        </div>
-
-        {/* COMMENTS */}
-        <div className="border-t border-zinc-800 pt-8 space-y-4">
-          <h3 className="font-semibold">Comments</h3>
-
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (commentSending) return;
-              setCommentSending(true);
-              const res = await fetch(
-                `/api/portfolios/${openPortfolio.portfolio.id}/comments`,
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ text: commentText }),
-                }
-              );
-              setCommentSending(false);
-              if (!res.ok) return;
-              const created = (await res.json()) as CommentItem;
-              setCommentText("");
-              setOpenPortfolio((prev) =>
-                prev
-                  ? {
-                      ...prev,
-                      portfolio: {
-                        ...prev.portfolio,
-                        comments: [created, ...prev.portfolio.comments],
-                      },
-                    }
-                  : prev
-              );
-            }}
-            className="space-y-2"
-          >
-            <textarea
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              className="w-full min-h-24 bg-black border border-zinc-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-red-700"
-              placeholder="Write a comment…"
-            />
-            <div className="flex justify-end">
-              <button
-                disabled={commentSending || commentText.trim().length < 2}
-                className="px-4 py-2 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm disabled:opacity-50"
-              >
-                {commentSending ? "Sending…" : "Post comment"}
-              </button>
-            </div>
-          </form>
-
-          {openPortfolio.portfolio.comments.length === 0 ? (
-            <p className="text-sm text-gray-400">No comments yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {openPortfolio.portfolio.comments.map((c) => (
-                <div key={c.id} className="border border-zinc-800 rounded-xl p-4 bg-black/30">
-                  <div className="text-xs text-gray-400 mb-1">
-                    {c.user.name ?? c.user.email} ·{" "}
-                    {new Date(c.createdAt).toLocaleString()}
-                  </div>
-                  <div className="text-sm text-gray-200 whitespace-pre-wrap">{c.text}</div>
-                </div>
-              ))}
             </div>
           )}
         </div>

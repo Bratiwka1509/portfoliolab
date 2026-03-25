@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Navbar from "../components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
-import Providers from "../components/Providers";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -36,10 +35,9 @@ export default function RootLayout({
           overflow-x-hidden
         `}
       >
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-        </Providers>
+        <Navbar />
+
+        <main>{children}</main>
 
         <footer className="border-t border-red-900/30 mt-20 sm:mt-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col items-center gap-3 text-xs text-gray-500">
@@ -50,9 +48,18 @@ export default function RootLayout({
               <a
                 href="https://www.instagram.com/ftc.portfoliolab/"
                 target="_blank"
+                rel="noreferrer"
                 className="hover:text-red-500 transition"
               >
                 Instagram
+              </a>
+              <a
+                href="https://www.threads.com/@ftc.portfoliolab"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-red-500 transition"
+              >
+                Threads
               </a>
             </div>
             <span>© {new Date().getFullYear()} FTCPortfolioLab</span>

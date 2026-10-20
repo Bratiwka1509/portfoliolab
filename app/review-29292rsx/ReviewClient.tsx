@@ -582,7 +582,7 @@ export default function ReviewClient() {
         <div className="relative z-10 mx-auto max-w-md rounded-2xl border border-emerald-500/20 bg-black/45 p-6 backdrop-blur-xl sm:p-8">
           <h1 className="mb-3 text-2xl font-semibold">Admin review</h1>
           <p className="mb-6 text-sm leading-relaxed text-gray-400">
-            Enter the admin password to review, edit, and publish submitted PDF portfolios.
+            Enter the admin password to review, edit, and publish submitted portfolios.
           </p>
 
           <form onSubmit={handleUnlock} className="space-y-4">
@@ -694,44 +694,56 @@ export default function ReviewClient() {
                         selectedTarget.id === submission.id;
 
                       return (
-                        <button
+                        <div
                           key={submission.id}
-                          type="button"
-                          onClick={() => {
-                            const nextTarget = { kind: "pending", id: submission.id } as const;
-                            setSelectedTarget(nextTarget);
-                            setDraft(createDraftFromSubmission(submission));
-                            setSuccessMessage("");
-                            setError("");
-                          }}
-                          className={`w-full rounded-2xl border p-4 text-left transition ${
+                          className={`w-full rounded-2xl border p-4 transition ${
                             selected
                               ? "border-emerald-400/60 bg-emerald-500/10"
                               : "border-white/10 bg-black/25 hover:border-emerald-500/30"
                           }`}
                         >
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <h3 className="text-base font-semibold">
-                                {submission.teamName} #{submission.teamNumber}
-                              </h3>
-                              <p className="mt-1 text-sm text-gray-400">
-                                {submission.country} · {submission.season} · {submission.level}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const nextTarget = { kind: "pending", id: submission.id } as const;
+                              setSelectedTarget(nextTarget);
+                              setDraft(createDraftFromSubmission(submission));
+                              setSuccessMessage("");
+                              setError("");
+                            }}
+                            className="w-full text-left"
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <h3 className="text-base font-semibold">
+                                  {submission.teamName} #{submission.teamNumber}
+                                </h3>
+                                <p className="mt-1 text-sm text-gray-400">
+                                  {submission.country} · {submission.season} · {submission.level}
+                                </p>
+                              </div>
+                              <span className="rounded-full border border-white/10 bg-black/30 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-gray-300">
+                                Pending
+                              </span>
+                            </div>
+
+                            <div className="mt-3 space-y-1 text-sm text-gray-300">
+                              <p>{submission.eventName}</p>
+                              <p className="text-gray-400">{submission.email}</p>
+                              <p className="text-xs text-gray-500">
+                                {new Date(submission.submittedAt).toLocaleString()}
                               </p>
                             </div>
-                            <span className="rounded-full border border-white/10 bg-black/30 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-gray-300">
-                              Pending
-                            </span>
-                          </div>
-
-                          <div className="mt-3 space-y-1 text-sm text-gray-300">
-                            <p>{submission.eventName}</p>
-                            <p className="text-gray-400">{submission.email}</p>
-                            <p className="text-xs text-gray-500">
-                              {new Date(submission.submittedAt).toLocaleString()}
-                            </p>
-                          </div>
-                        </button>
+                          </button>
+                          <a
+                            href={submission.portfolioUrl ?? submission.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-3 block truncate text-sm text-emerald-300 underline underline-offset-2 hover:text-emerald-200"
+                          >
+                            Open submitted portfolio link
+                          </a>
+                        </div>
                       );
                     })
                   )}
@@ -834,12 +846,12 @@ export default function ReviewClient() {
 
                     <div className="flex flex-wrap gap-3">
                       <a
-                        href={selectedSubmission?.pdfUrl ?? selectedPublishedPortfolio?.pdf ?? "#"}
+                        href={selectedSubmission?.portfolioUrl ?? selectedSubmission?.pdfUrl ?? selectedPublishedPortfolio?.pdf ?? "#"}
                         target="_blank"
                         rel="noreferrer"
                         className="rounded-xl border border-white/10 px-4 py-2 text-sm text-gray-200 transition hover:border-emerald-500/40 hover:text-white"
                       >
-                        Open PDF
+                        Open portfolio link
                       </a>
                       <button
                         type="button"

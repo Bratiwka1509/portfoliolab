@@ -1,6 +1,7 @@
 export type PortfolioBreakdown = [string, string];
 
 export type PortfolioReviewInput = {
+  program?: string;
   teamName: string;
   teamNumber: number;
   country: string;
@@ -19,6 +20,7 @@ export type PortfolioReviewInput = {
 
 export type PortfolioRecord = {
   id: string;
+  program?: string;
   teamName: string;
   teamNumber: number;
   country: string;
@@ -43,6 +45,7 @@ export type PortfolioRecord = {
 
 export type SubmissionRecord = {
   id: string;
+  program?: string;
   teamName: string;
   teamNumber: number;
   country: string;
@@ -51,8 +54,9 @@ export type SubmissionRecord = {
   eventName: string;
   email: string;
   pdfUrl: string;
-  pdfPath: string;
-  originalFileName: string;
+  pdfPath?: string;
+  originalFileName?: string;
+  portfolioUrl?: string;
   submittedAt: string;
 };
 

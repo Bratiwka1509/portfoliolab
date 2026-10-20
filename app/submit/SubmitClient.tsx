@@ -50,9 +50,8 @@ export default function SubmitPage() {
             Submit Your FTC Portfolio
           </h1>
           <p className="text-sm text-gray-400 leading-relaxed max-w-xl mx-auto">
-            Upload your portfolio PDF directly to PortfolioLab. New submissions
-            go to the admin review page first, and approved portfolios are
-            published automatically on the public portfolio page.
+            Share a link to your portfolio from Google Drive, Canva, or another
+            service. Submissions are reviewed by an admin before publication.
           </p>
         </div>
 
@@ -137,6 +136,7 @@ export default function SubmitPage() {
               className="w-full bg-black border border-zinc-800 rounded px-4 py-2 text-white focus:outline-none focus:border-red-700"
             >
               <option value="">Select season</option>
+              <option value="Biobuzz">Biobuzz</option>
               <option value="2025 Decode">2025 Decode</option>
               <option value="2024 Into The Deep">2024 Into The Deep</option>
               <option value="2023 Centerstage">2023 Centerstage</option>
@@ -194,20 +194,21 @@ export default function SubmitPage() {
             />
           </div>
 
-          {/* PDF UPLOAD */}
+          {/* PORTFOLIO LINK */}
           <div>
             <label className="block text-sm mb-1 text-gray-300">
-              Portfolio PDF
+              Portfolio link
             </label>
             <input
-              type="file"
-              name="portfolio_file"
-              accept="application/pdf,.pdf"
+              type="url"
+              name="portfolio_url"
               required
-              className="w-full bg-black border border-zinc-800 rounded px-4 py-2 text-white file:mr-4 file:border-0 file:bg-red-900/40 file:px-4 file:py-2 file:text-white file:cursor-pointer focus:outline-none focus:border-red-700"
+              placeholder="https://drive.google.com/..."
+              className="w-full bg-black border border-zinc-800 rounded px-4 py-2 text-white focus:outline-none focus:border-red-700"
             />
             <p className="mt-2 text-xs text-gray-500">
-              PDF only, up to 500 MB.
+              Add a Google Drive, Canva, or other share link. Make sure anyone
+              with the link can open and download the portfolio.
             </p>
           </div>
 
@@ -249,8 +250,8 @@ export default function SubmitPage() {
               Portfolio submitted
             </h2>
             <p className="text-gray-300 mb-6">
-              Your PDF has been uploaded successfully. It is now waiting for
-              admin approval before appearing on the site.
+              Your portfolio link was submitted successfully. It is now waiting
+              for admin approval before appearing on the site.
             </p>
             <button
               onClick={() => setSubmitted(false)}

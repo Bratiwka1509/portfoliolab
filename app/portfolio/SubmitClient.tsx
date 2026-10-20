@@ -72,6 +72,7 @@ function highlight(text: string, query: string) {
 
 const SEASONS = [
   "All Seasons",
+  "Biobuzz",
   "2025 Decode",
   "2024 Into The Deep",
   "2023 Centerstage",

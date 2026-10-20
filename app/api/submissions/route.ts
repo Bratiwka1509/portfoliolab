@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createSubmission, getMaxPdfSizeBytes } from "@/lib/portfolio-store";
+import { createSubmission } from "@/lib/portfolio-store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,8 +10,13 @@ function getRequiredString(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function isPdf(file: File) {
-  return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+function isValidPortfolioUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 export async function POST(req: Request) {
@@ -25,7 +30,7 @@ export async function POST(req: Request) {
     const otherLevel = getRequiredString(formData, "other_level");
     const eventName = getRequiredString(formData, "event_name");
     const email = getRequiredString(formData, "email");
-    const portfolioFile = formData.get("portfolio_file");
+    const portfolioUrl = getRequiredString(formData, "portfolio_url");
 
     if (
       !teamName ||
@@ -35,24 +40,17 @@ export async function POST(req: Request) {
       !level ||
       !eventName ||
       !email ||
-      !(portfolioFile instanceof File)
+      !portfolioUrl
     ) {
       return NextResponse.json(
-        { error: "Please fill out all fields and upload a PDF." },
+        { error: "Please fill out all fields and add a portfolio link." },
         { status: 400 }
       );
     }
 
-    if (!isPdf(portfolioFile)) {
+    if (!isValidPortfolioUrl(portfolioUrl)) {
       return NextResponse.json(
-        { error: "Only PDF files are allowed." },
-        { status: 400 }
-      );
-    }
-
-    if (portfolioFile.size > getMaxPdfSizeBytes()) {
-      return NextResponse.json(
-        { error: "PDF is too large. Maximum size is 500 MB." },
+        { error: "Please enter a valid link starting with http:// or https://." },
         { status: 400 }
       );
     }
@@ -65,7 +63,6 @@ export async function POST(req: Request) {
       );
     }
 
-    const arrayBuffer = await portfolioFile.arrayBuffer();
     await createSubmission({
       teamName,
       teamNumber,
@@ -74,13 +71,12 @@ export async function POST(req: Request) {
       level: level === "Other" ? otherLevel || "Other" : level,
       eventName,
       email,
-      fileName: portfolioFile.name,
-      fileBuffer: Buffer.from(arrayBuffer),
+      portfolioUrl,
     });
 
     return NextResponse.json({
       ok: true,
-      message: "Portfolio uploaded successfully and is waiting for admin approval.",
+      message: "Portfolio submitted successfully and is waiting for admin approval.",
     });
   } catch (error) {
     const message =

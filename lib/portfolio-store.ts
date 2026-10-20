@@ -19,12 +19,11 @@ const approvedPortfoliosFile = path.join(dataDir, "approved-portfolios.json");
 const blobPrefix = "portfoliolab";
 const submissionsBlobPath = `${blobPrefix}/submissions.json`;
 const approvedPortfoliosBlobPath = `${blobPrefix}/approved-portfolios.json`;
-const uploadsBlobPrefix = `${blobPrefix}/uploads`;
 
 export const ADMIN_PASSWORD = "29292RSX";
-const MAX_PDF_SIZE_BYTES = 500 * 1024 * 1024;
 
 type SubmissionInput = {
+  program?: string;
   teamName: string;
   teamNumber: number;
   country: string;
@@ -32,8 +31,7 @@ type SubmissionInput = {
   level: string;
   eventName: string;
   email: string;
-  fileName: string;
-  fileBuffer: Buffer;
+  portfolioUrl: string;
 };
 
 async function ensureStore() {
@@ -47,15 +45,49 @@ async function ensureStore() {
 }
 
 function getStorageMode() {
+  if (process.env.SUPABASE_URL || process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return "supabase";
+  }
+
   return process.env.BLOB_READ_WRITE_TOKEN ? "blob" : "local";
 }
 
-function assertProductionUploadsConfigured() {
+function assertProductionStoreConfigured() {
   if (getStorageMode() === "local" && process.env.VERCEL === "1") {
     throw new Error(
-      "Uploads are not configured in production yet. Connect a Vercel Blob store to enable portfolio submissions."
+      "Submissions are not configured in production. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, or configure Vercel Blob."
     );
   }
+}
+
+function getSupabaseConfig() {
+  const url = process.env.SUPABASE_URL?.trim();
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+
+  if (!url || !serviceRoleKey) {
+    throw new Error(
+      "Both SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured."
+    );
+  }
+
+  return { url: url.replace(/\/+$/, ""), serviceRoleKey };
+}
+
+function getSupabaseTableUrl(query: Record<string, string>) {
+  const { url } = getSupabaseConfig();
+  const tableUrl = new URL(`${url}/rest/v1/portfolio_store`);
+  for (const [key, value] of Object.entries(query)) {
+    tableUrl.searchParams.set(key, value);
+  }
+  return tableUrl;
+}
+
+function getSupabaseHeaders() {
+  const { serviceRoleKey } = getSupabaseConfig();
+  return {
+    apikey: serviceRoleKey,
+    Authorization: `Bearer ${serviceRoleKey}`,
+  };
 }
 
 async function ensureJsonFile(filePath: string) {
@@ -101,21 +133,90 @@ async function readBlobJsonFile<T>(
   blobPath: string,
   fallbackFilePath: string
 ): Promise<T[]> {
-  try {
-    const result = await get(blobPath, {
-      access: "private",
-      useCache: false,
-    });
+  const result = await get(blobPath, {
+    access: "private",
+    useCache: false,
+  });
 
-    if (!result || result.statusCode !== 200) {
-      return readLocalJsonFile<T>(fallbackFilePath);
-    }
-
-    const raw = await new Response(result.stream).text();
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
+  if (!result || result.statusCode !== 200) {
     return readLocalJsonFile<T>(fallbackFilePath);
+  }
+
+  const raw = await new Response(result.stream).text();
+  const parsed = JSON.parse(raw);
+  if (!Array.isArray(parsed)) {
+    throw new Error(`Stored data at ${blobPath} is not a valid list.`);
+  }
+  return parsed as T[];
+}
+
+async function readSupabaseJsonFile<T>(
+  blobPath: string,
+  fallbackFilePath: string
+): Promise<T[]> {
+  const response = await fetch(
+    getSupabaseTableUrl({
+      key: `eq.${blobPath}`,
+      select: "value",
+      limit: "1",
+    }),
+    {
+      headers: getSupabaseHeaders(),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Supabase storage read failed (${response.status}). Check the portfolio_store table and Supabase configuration.`
+    );
+  }
+
+  const rows = (await response.json()) as Array<{ value: unknown }>;
+  if (rows.length > 0) {
+    if (!Array.isArray(rows[0].value)) {
+      throw new Error(`Supabase data at ${blobPath} is not a valid list.`);
+    }
+    return rows[0].value as T[];
+  }
+
+  let legacyData: T[];
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      legacyData = await readBlobJsonFile<T>(blobPath, fallbackFilePath);
+    } catch (error) {
+      console.error(
+        `Could not import legacy Vercel Blob data at ${blobPath}; initializing Supabase from local data instead.`,
+        error
+      );
+      legacyData = await readLocalJsonFile<T>(fallbackFilePath);
+    }
+  } else {
+    legacyData = await readLocalJsonFile<T>(fallbackFilePath);
+  }
+  await writeSupabaseJsonFile(blobPath, legacyData);
+  return legacyData;
+}
+
+async function writeSupabaseJsonFile<T>(blobPath: string, value: T[]) {
+  const response = await fetch(
+    getSupabaseTableUrl({ on_conflict: "key" }),
+    {
+      method: "POST",
+      headers: {
+        ...getSupabaseHeaders(),
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=minimal",
+      },
+      body: JSON.stringify({ key: blobPath, value }),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Supabase storage write failed (${response.status}). Check the portfolio_store table and Supabase configuration.`
+    );
   }
 }
 
@@ -123,6 +224,10 @@ async function readJsonFile<T>(
   filePath: string,
   blobPath: string
 ): Promise<T[]> {
+  if (getStorageMode() === "supabase") {
+    return readSupabaseJsonFile<T>(blobPath, filePath);
+  }
+
   if (getStorageMode() === "blob") {
     return readBlobJsonFile<T>(blobPath, filePath);
   }
@@ -137,6 +242,11 @@ async function writeJsonFile<T>(
 ) {
   const payload = `${JSON.stringify(value, null, 2)}\n`;
 
+  if (getStorageMode() === "supabase") {
+    await writeSupabaseJsonFile(blobPath, value);
+    return;
+  }
+
   if (getStorageMode() === "blob") {
     await put(blobPath, payload, {
       access: "private",
@@ -149,10 +259,6 @@ async function writeJsonFile<T>(
 
   await ensureStore();
   await fs.writeFile(filePath, payload, "utf8");
-}
-
-function sanitizeName(fileName: string) {
-  return fileName.replace(/[^a-zA-Z0-9._-]/g, "-").replace(/-+/g, "-");
 }
 
 function cleanOptionalString(value?: string) {
@@ -186,6 +292,7 @@ function applyReviewInput(
 ): PortfolioRecord {
   return {
     ...portfolio,
+    program: review.program?.trim() || "FTC",
     teamName: review.teamName.trim(),
     teamNumber: review.teamNumber,
     country: review.country.trim(),
@@ -210,6 +317,7 @@ function createPublicPortfolio(
   return applyReviewInput(
     {
       id: submission.id,
+      program: submission.program || "FTC",
       teamName: submission.teamName,
       teamNumber: submission.teamNumber,
       country: submission.country,
@@ -217,7 +325,7 @@ function createPublicPortfolio(
       level: submission.level,
       stars: "New submission",
       award: submission.eventName,
-      pdf: createPortfolioPdfUrl(submission.id),
+      pdf: submission.portfolioUrl || submission.pdfUrl || createPortfolioPdfUrl(submission.id),
       pdfStoragePath: submission.pdfPath,
       source: "Community submission",
       eventName: submission.eventName,
@@ -225,10 +333,6 @@ function createPublicPortfolio(
     },
     review
   );
-}
-
-export function getMaxPdfSizeBytes() {
-  return MAX_PDF_SIZE_BYTES;
 }
 
 export async function getPendingSubmissions() {
@@ -253,33 +357,13 @@ export async function getPublishedPortfolios() {
 }
 
 export async function createSubmission(input: SubmissionInput) {
-  assertProductionUploadsConfigured();
+  assertProductionStoreConfigured();
 
   const id = crypto.randomUUID();
-  const safeName = sanitizeName(input.fileName || `${id}.pdf`);
-  const finalFileName = `${id}-${safeName.toLowerCase().endsWith(".pdf") ? safeName : `${safeName}.pdf`}`;
-  let pdfUrl = "";
-  let pdfPath = "";
-
-  if (getStorageMode() === "blob") {
-    const uploadedPdf = await put(`${uploadsBlobPrefix}/${finalFileName}`, input.fileBuffer, {
-      access: "private",
-      addRandomSuffix: false,
-      contentType: "application/pdf",
-      multipart: input.fileBuffer.length > 5 * 1024 * 1024,
-    });
-    pdfUrl = createPortfolioPdfUrl(id);
-    pdfPath = uploadedPdf.url;
-  } else {
-    await ensureStore();
-    const diskPath = path.join(uploadsDir, finalFileName);
-    await fs.writeFile(diskPath, input.fileBuffer);
-    pdfUrl = createPortfolioPdfUrl(id);
-    pdfPath = diskPath;
-  }
 
   const submission: SubmissionRecord = {
     id,
+    program: input.program || "FTC",
     teamName: input.teamName,
     teamNumber: input.teamNumber,
     country: input.country,
@@ -287,9 +371,8 @@ export async function createSubmission(input: SubmissionInput) {
     level: input.level,
     eventName: input.eventName,
     email: input.email,
-    pdfUrl,
-    pdfPath,
-    originalFileName: input.fileName,
+    pdfUrl: input.portfolioUrl,
+    portfolioUrl: input.portfolioUrl,
     submittedAt: new Date().toISOString(),
   };
 
@@ -304,7 +387,7 @@ export async function approveSubmission(
   submissionId: string,
   review: PortfolioReviewInput
 ) {
-  assertProductionUploadsConfigured();
+  assertProductionStoreConfigured();
   const submissions = await getPendingSubmissions();
   const submission = submissions.find((item) => item.id === submissionId);
 
@@ -329,7 +412,7 @@ export async function updateApprovedPortfolio(
   portfolioId: string,
   review: PortfolioReviewInput
 ) {
-  assertProductionUploadsConfigured();
+  assertProductionStoreConfigured();
   const approved = await getApprovedPortfolios();
   const portfolioIndex = approved.findIndex((item) => item.id === portfolioId);
 
@@ -352,7 +435,7 @@ export async function updateApprovedPortfolio(
 }
 
 export async function deleteApprovedPortfolio(portfolioId: string) {
-  assertProductionUploadsConfigured();
+  assertProductionStoreConfigured();
   const approved = await getApprovedPortfolios();
   const portfolio = approved.find((item) => item.id === portfolioId);
 
@@ -387,7 +470,7 @@ export async function deleteApprovedPortfolio(portfolioId: string) {
 }
 
 export async function rejectSubmission(submissionId: string) {
-  assertProductionUploadsConfigured();
+  assertProductionStoreConfigured();
   const submissions = await getPendingSubmissions();
   const submission = submissions.find((item) => item.id === submissionId);
 
@@ -398,13 +481,13 @@ export async function rejectSubmission(submissionId: string) {
   const remaining = submissions.filter((item) => item.id !== submissionId);
   await writeJsonFile(submissionsFile, submissionsBlobPath, remaining);
 
-  if (isBlobUrl(submission.pdfPath)) {
+  if (submission.pdfPath && isBlobUrl(submission.pdfPath)) {
     try {
       await del(submission.pdfPath);
     } catch {
       // Ignore missing files during cleanup.
     }
-  } else {
+  } else if (submission.pdfPath && !submission.pdfPath.startsWith("http")) {
     try {
       await fs.unlink(submission.pdfPath);
     } catch {

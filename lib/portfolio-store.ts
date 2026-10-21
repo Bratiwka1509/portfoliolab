@@ -140,7 +140,7 @@ async function readBlobJsonFile<T>(
       useCache: false,
     });
   } catch (error) {
-    console.error(
+    console.warn(
       `Could not read Vercel Blob data at ${blobPath}; using local data instead.`,
       error
     );
@@ -361,8 +361,16 @@ export async function getApprovedPortfolios() {
 }
 
 export async function getPublishedPortfolios() {
-  const approved = await getApprovedPortfolios();
-  return [...approved, ...(staticPortfolios as PortfolioRecord[])];
+  try {
+    const approved = await getApprovedPortfolios();
+    return [...approved, ...(staticPortfolios as PortfolioRecord[])];
+  } catch (error) {
+    console.warn(
+      "Could not load approved portfolios; showing the built-in portfolio catalog instead.",
+      error
+    );
+    return staticPortfolios as PortfolioRecord[];
+  }
 }
 
 export async function createSubmission(input: SubmissionInput) {

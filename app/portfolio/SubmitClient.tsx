@@ -105,7 +105,7 @@ const FRC_SEASONS = [
 
 const ALL_SEASONS = [...new Set([...FTC_SEASONS, ...FRC_SEASONS])];
 
-const LEVELS = [
+const FTC_LEVELS = [
   "All Levels",
   "Regionals",
   "Nationals",
@@ -114,7 +114,18 @@ const LEVELS = [
   "Not specified",
 ];
 
-const AWARDS = [
+const FRC_LEVELS = [
+  "All Levels",
+  "Regional",
+  "District",
+  "District Championship",
+  "FIRST Championship",
+  "Not specified",
+];
+
+const ALL_LEVELS = [...new Set([...FTC_LEVELS, ...FRC_LEVELS])];
+
+const FTC_AWARDS = [
   "All Awards",
   "Inspire",
   "Think",
@@ -127,6 +138,36 @@ const AWARDS = [
   "Motivate",
   "Not specified",
 ];
+
+const FRC_AWARDS = [
+  "All Awards",
+  "FIRST Impact Award",
+  "Engineering Inspiration Award",
+  "Rookie All Star Award",
+  "Rookie Inspiration Award",
+  "Entrepreneurship Award",
+  "Excellence in Engineering Award",
+  "Creativity Award",
+  "Industrial Design Award",
+  "Innovation in Control Award",
+  "Quality Award",
+  "Safety Award",
+  "Sustainability Award",
+  "Team Spirit Award",
+  "Gracious Professionalism Award",
+  "Judges' Choice Award",
+  "Imagery Award",
+  "Autonomous Award",
+  "Highest Rookie Seed Award",
+  "Dean's List Award",
+  "Woodie Flowers Award",
+  "FIRST Leadership Award",
+  "Event Winner",
+  "Event Finalist",
+  "Not specified",
+];
+
+const ALL_AWARDS = [...new Set([...FTC_AWARDS, ...FRC_AWARDS])];
 
 const STARS = [
   "All Stars",
@@ -143,6 +184,33 @@ type Props = {
   portfolios: PortfolioRecord[];
 };
 
+function FilterHint({
+  message,
+  onDismiss,
+}: {
+  message: string;
+  onDismiss: (message: string) => void;
+}) {
+  useEffect(() => {
+    if (!message) return;
+    const dismissTimer = setTimeout(() => onDismiss(""), 2300);
+
+    return () => clearTimeout(dismissTimer);
+  }, [message, onDismiss]);
+
+  if (!message) return null;
+
+  return (
+    <p
+      key={message}
+      className="filter-hint-fade absolute left-0 top-full z-20 mt-1 w-max max-w-[min(90vw,24rem)] rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-amber-300 shadow-lg"
+      role="alert"
+    >
+      {message}
+    </p>
+  );
+}
+
 export default function SubmitClient({ portfolios }: Props) {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") || "").toLowerCase();
@@ -150,8 +218,10 @@ export default function SubmitClient({ portfolios }: Props) {
   const [category, setCategory] = useState("All Categories");
   const [season, setSeason] = useState("");
   const [seasonMessage, setSeasonMessage] = useState("");
-  const [level, setLevel] = useState("All Levels");
-  const [award, setAward] = useState("All Awards");
+  const [level, setLevel] = useState("");
+  const [levelMessage, setLevelMessage] = useState("");
+  const [award, setAward] = useState("");
+  const [awardMessage, setAwardMessage] = useState("");
   const [stars, setStars] = useState("All Stars");
 
   const [randomized, setRandomized] = useState<typeof portfolios>([]);
@@ -165,6 +235,16 @@ export default function SubmitClient({ portfolios }: Props) {
       ? FTC_SEASONS
       : FRC_SEASONS
     : ALL_SEASONS;
+  const levelOptions = hasSelectedCategory
+    ? category === "FTC"
+      ? FTC_LEVELS
+      : FRC_LEVELS
+    : ALL_LEVELS;
+  const awardOptions = hasSelectedCategory
+    ? category === "FTC"
+      ? FTC_AWARDS
+      : FRC_AWARDS
+    : ALL_AWARDS;
 
   useEffect(() => {
     setRandomized(shuffleArray(portfolios));
@@ -175,8 +255,8 @@ export default function SubmitClient({ portfolios }: Props) {
       const itemCategory = p.program || "FTC";
       if (hasSelectedCategory && itemCategory !== category) return false;
       if (season && season !== "All Seasons" && p.season !== season) return false;
-      if (level !== "All Levels" && p.level !== level) return false;
-      if (award !== "All Awards" && !p.award.includes(award)) return false;
+      if (level && level !== "All Levels" && p.level !== level) return false;
+      if (award && award !== "All Awards" && !p.award.includes(award)) return false;
       if (stars !== "All Stars" && p.stars !== stars) return false;
 
       if (query) {
@@ -231,7 +311,7 @@ export default function SubmitClient({ portfolios }: Props) {
         </section>
 
         {/* FILTERS */}
-        <section className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <section className="flex flex-wrap items-center gap-1 sm:gap-1">
           {/* Category filter */}
           <select
             aria-label="Category"
@@ -240,6 +320,10 @@ export default function SubmitClient({ portfolios }: Props) {
               setCategory(e.target.value);
               setSeason("");
               setSeasonMessage("");
+              setLevel("");
+              setLevelMessage("");
+              setAward("");
+              setAwardMessage("");
             }}
             value={category}
           >
@@ -281,32 +365,95 @@ export default function SubmitClient({ portfolios }: Props) {
                 </option>
               ))}
             </select>
-            {seasonMessage && (
-              <p
-                className="absolute left-0 top-full z-20 mt-1 w-max max-w-[min(90vw,24rem)] rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-amber-300 shadow-lg"
-                role="alert"
-              >
-                {seasonMessage}
-              </p>
-            )}
+            <FilterHint message={seasonMessage} onDismiss={setSeasonMessage} />
           </div>
 
-          {/* Other filters */}
-          {[
-            { opts: LEVELS, setter: setLevel, width: "w-32" },
-            { opts: AWARDS, setter: setAward, width: "w-32" },
-            { opts: STARS, setter: setStars, width: "w-24" },
-          ].map(({ opts, setter, width }) => (
+          <div className="relative">
             <select
-              key={opts[0]}
-              className={`${width} bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm`}
-              onChange={(e) => setter(e.target.value)}
+              aria-label="Level"
+              className="w-32 bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+              value={hasSelectedCategory ? level || "All Levels" : ""}
+              onMouseDown={(event) => {
+                if (!hasSelectedCategory) {
+                  event.preventDefault();
+                  setLevelMessage("Choose a category first to see its levels.");
+                }
+              }}
+              onKeyDown={(event) => {
+                if (!hasSelectedCategory && event.key !== "Tab") {
+                  event.preventDefault();
+                  setLevelMessage("Choose a category first to see its levels.");
+                }
+              }}
+              onChange={(event) => {
+                if (!hasSelectedCategory) {
+                  setLevelMessage("Choose a category first to see its levels.");
+                  return;
+                }
+                setLevel(event.target.value);
+                setLevelMessage("");
+              }}
             >
-              {opts.map((o) => (
-                <option key={o}>{o}</option>
+              {!hasSelectedCategory && <option value="">Level</option>}
+              {levelOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
-          ))}
+            <FilterHint message={levelMessage} onDismiss={setLevelMessage} />
+          </div>
+
+          {category !== "FRC" && (
+            <div className="relative">
+              <select
+                aria-label="Award"
+                className="w-36 bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+                value={hasSelectedCategory ? award || "All Awards" : ""}
+                onMouseDown={(event) => {
+                  if (!hasSelectedCategory) {
+                    event.preventDefault();
+                    setAwardMessage("Choose a category first to see its awards.");
+                  }
+                }}
+                onKeyDown={(event) => {
+                  if (!hasSelectedCategory && event.key !== "Tab") {
+                    event.preventDefault();
+                    setAwardMessage("Choose a category first to see its awards.");
+                  }
+                }}
+                onChange={(event) => {
+                  if (!hasSelectedCategory) {
+                    setAwardMessage("Choose a category first to see its awards.");
+                    return;
+                  }
+                  setAward(event.target.value);
+                  setAwardMessage("");
+                }}
+              >
+                {!hasSelectedCategory && <option value="">Award</option>}
+                {awardOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <FilterHint message={awardMessage} onDismiss={setAwardMessage} />
+            </div>
+          )}
+
+          <select
+            aria-label="Stars"
+            className="w-28 bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+            value={stars}
+            onChange={(event) => setStars(event.target.value)}
+          >
+            {STARS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </section>
 
         {/* GRID */}

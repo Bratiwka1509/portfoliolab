@@ -139,10 +139,9 @@ async function readBlobJsonFile<T>(
       access: "private",
       useCache: false,
     });
-  } catch (error) {
-    console.warn(
-      `Could not read Vercel Blob data at ${blobPath}; using local data instead.`,
-      error
+  } catch {
+    console.info(
+      `Vercel Blob data at ${blobPath} is unavailable; using local data instead.`
     );
     return readLocalJsonFile<T>(fallbackFilePath);
   }
@@ -193,10 +192,9 @@ async function readSupabaseJsonFile<T>(
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       legacyData = await readBlobJsonFile<T>(blobPath, fallbackFilePath);
-    } catch (error) {
-      console.error(
-        `Could not import legacy Vercel Blob data at ${blobPath}; initializing Supabase from local data instead.`,
-        error
+    } catch {
+      console.info(
+        `Legacy Vercel Blob data at ${blobPath} is unavailable; initializing Supabase from local data instead.`
       );
       legacyData = await readLocalJsonFile<T>(fallbackFilePath);
     }
@@ -364,10 +362,9 @@ export async function getPublishedPortfolios() {
   try {
     const approved = await getApprovedPortfolios();
     return [...approved, ...(staticPortfolios as PortfolioRecord[])];
-  } catch (error) {
-    console.warn(
-      "Could not load approved portfolios; showing the built-in portfolio catalog instead.",
-      error
+  } catch {
+    console.info(
+      "Could not load approved portfolios; showing the built-in portfolio catalog instead."
     );
     return staticPortfolios as PortfolioRecord[];
   }

@@ -25,6 +25,22 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@keyframes filterHintFade {
+  to {
+    opacity: 0;
+  }
+}
+
+.filter-hint-fade {
+  animation: filterHintFade 300ms ease 2s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-hint-fade {
+    animation-duration: 1ms;
+  }
+}
+
 @keyframes adminOrbDrift {
   0%,
   100% {

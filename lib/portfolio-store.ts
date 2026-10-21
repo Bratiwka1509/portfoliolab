@@ -133,10 +133,19 @@ async function readBlobJsonFile<T>(
   blobPath: string,
   fallbackFilePath: string
 ): Promise<T[]> {
-  const result = await get(blobPath, {
-    access: "private",
-    useCache: false,
-  });
+  let result;
+  try {
+    result = await get(blobPath, {
+      access: "private",
+      useCache: false,
+    });
+  } catch (error) {
+    console.error(
+      `Could not read Vercel Blob data at ${blobPath}; using local data instead.`,
+      error
+    );
+    return readLocalJsonFile<T>(fallbackFilePath);
+  }
 
   if (!result || result.statusCode !== 200) {
     return readLocalJsonFile<T>(fallbackFilePath);

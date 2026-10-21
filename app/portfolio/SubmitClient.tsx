@@ -70,18 +70,40 @@ function highlight(text: string, query: string) {
 
 /* ================= FILTER OPTIONS ================= */
 
-const SEASONS = [
+const CATEGORIES = [
+  "All Categories",
+  "FTC",
+  "FRC",
+];
+
+const FTC_SEASONS = [
   "All Seasons",
-  "Biobuzz",
+  "2026 BioBuzz",
   "2025 Decode",
   "2024 Into The Deep",
   "2023 Centerstage",
   "2022 Power Play",
+  "2021 Power Play",
   "2021 Freight Frenzy",
   "2020 Ultimate Goal",
   "2019 Skystone",
   "Not specified",
 ];
+
+const FRC_SEASONS = [
+  "All Seasons",
+  "2026 REBUILT",
+  "2025 REEFSCAPE",
+  "2024 CRESCENDO",
+  "2023 CHARGED UP",
+  "2022 RAPID REACT",
+  "2021 INFINITE RECHARGE at Home",
+  "2020 INFINITE RECHARGE",
+  "2019 DESTINATION: DEEP",
+  "Not specified",
+];
+
+const ALL_SEASONS = [...new Set([...FTC_SEASONS, ...FRC_SEASONS])];
 
 const LEVELS = [
   "All Levels",
@@ -125,7 +147,9 @@ export default function SubmitClient({ portfolios }: Props) {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") || "").toLowerCase();
 
-  const [season, setSeason] = useState("All Seasons");
+  const [category, setCategory] = useState("All Categories");
+  const [season, setSeason] = useState("");
+  const [seasonMessage, setSeasonMessage] = useState("");
   const [level, setLevel] = useState("All Levels");
   const [award, setAward] = useState("All Awards");
   const [stars, setStars] = useState("All Stars");
@@ -135,6 +159,12 @@ export default function SubmitClient({ portfolios }: Props) {
 
   const [showEvaluationInfo, setShowEvaluationInfo] = useState(false);
   const [showSources, setShowSources] = useState(false);
+  const hasSelectedCategory = category !== "All Categories";
+  const seasonOptions = hasSelectedCategory
+    ? category === "FTC"
+      ? FTC_SEASONS
+      : FRC_SEASONS
+    : ALL_SEASONS;
 
   useEffect(() => {
     setRandomized(shuffleArray(portfolios));
@@ -142,7 +172,9 @@ export default function SubmitClient({ portfolios }: Props) {
 
   const filtered = useMemo(() => {
     return randomized.filter((p) => {
-      if (season !== "All Seasons" && p.season !== season) return false;
+      const itemCategory = p.program || "FTC";
+      if (hasSelectedCategory && itemCategory !== category) return false;
+      if (season && season !== "All Seasons" && p.season !== season) return false;
       if (level !== "All Levels" && p.level !== level) return false;
       if (award !== "All Awards" && !p.award.includes(award)) return false;
       if (stars !== "All Stars" && p.stars !== stars) return false;
@@ -158,7 +190,7 @@ export default function SubmitClient({ portfolios }: Props) {
       }
       return true;
     });
-  }, [randomized, season, level, award, stars, query]);
+  }, [randomized, category, hasSelectedCategory, season, level, award, stars, query]);
 
   return (
     <main className="min-h-screen text-white px-4 sm:px-6 py-20 sm:py-24 bg-gradient-to-b from-[#0b0000] via-[#140404] to-black">
@@ -200,13 +232,75 @@ export default function SubmitClient({ portfolios }: Props) {
 
         {/* FILTERS */}
         <section className="flex flex-wrap items-center gap-2 sm:gap-3">
-          {[SEASONS, LEVELS, AWARDS, STARS].map((opts, i) => (
+          {/* Category filter */}
+          <select
+            aria-label="Category"
+            className="w-36 bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setSeason("");
+              setSeasonMessage("");
+            }}
+            value={category}
+          >
+            {CATEGORIES.map((o) => (
+              <option key={o}>{o}</option>
+            ))}
+          </select>
+
+          <div className="relative">
             <select
-              key={i}
-              className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
-              onChange={(e) =>
-                [setSeason, setLevel, setAward, setStars][i](e.target.value)
-              }
+              aria-label="Season"
+              className="w-36 bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm"
+              value={hasSelectedCategory ? season || "All Seasons" : ""}
+              onMouseDown={(event) => {
+                if (!hasSelectedCategory) {
+                  event.preventDefault();
+                  setSeasonMessage("Choose a category first to see its seasons.");
+                }
+              }}
+              onKeyDown={(event) => {
+                if (!hasSelectedCategory && event.key !== "Tab") {
+                  event.preventDefault();
+                  setSeasonMessage("Choose a category first to see its seasons.");
+                }
+              }}
+              onChange={(event) => {
+                if (!hasSelectedCategory) {
+                  setSeasonMessage("Choose a category first to see its seasons.");
+                  return;
+                }
+                setSeason(event.target.value);
+                setSeasonMessage("");
+              }}
+            >
+              {!hasSelectedCategory && <option value="">Season</option>}
+              {seasonOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {seasonMessage && (
+              <p
+                className="absolute left-0 top-full z-20 mt-1 w-max max-w-[min(90vw,24rem)] rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-amber-300 shadow-lg"
+                role="alert"
+              >
+                {seasonMessage}
+              </p>
+            )}
+          </div>
+
+          {/* Other filters */}
+          {[
+            { opts: LEVELS, setter: setLevel, width: "w-32" },
+            { opts: AWARDS, setter: setAward, width: "w-32" },
+            { opts: STARS, setter: setStars, width: "w-24" },
+          ].map(({ opts, setter, width }) => (
+            <select
+              key={opts[0]}
+              className={`${width} bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-md text-sm`}
+              onChange={(e) => setter(e.target.value)}
             >
               {opts.map((o) => (
                 <option key={o}>{o}</option>
@@ -221,12 +315,17 @@ export default function SubmitClient({ portfolios }: Props) {
             <button
               key={p.id}
               onClick={() => setOpenPortfolio(p)}
-              className="rounded-xl border border-zinc-800 bg-zinc-950 hover:border-red-600 transition text-left overflow-hidden"
+              className="rounded-xl border border-zinc-800 bg-zinc-950 hover:border-red-600 transition text-left overflow-hidden relative flex flex-col"
             >
               <div
-                className="relative aspect-[210/297] overflow-hidden bg-cover bg-center"
+                className="relative aspect-[210/297] overflow-hidden bg-cover bg-center w-full"
                 style={getPreviewStyle(p)}
               >
+                {/* Program Badge */}
+                <span className="absolute top-2 left-2 z-10 bg-red-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                  {p.program || "FTC"}
+                </span>
+
                 {!getDrivePreview(p.pdf) && !p.cover && getPdfPreviewUrl(p.pdf) ? (
                   <>
                     <iframe
@@ -246,18 +345,22 @@ export default function SubmitClient({ portfolios }: Props) {
                 )}
               </div>
 
-              <div className="p-3 space-y-1">
-                <h3 className="text-sm font-semibold">
-                  {query ? highlight(p.teamName, query) : p.teamName}
-                </h3>
+              <div className="p-3 space-y-1 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-sm font-semibold">
+                    {query ? highlight(p.teamName, query) : p.teamName}
+                  </h3>
 
-                <p className="text-xs text-gray-400">
-                  #{p.teamNumber} · {p.season} · {p.level}
-                </p>
+                  <p className="text-xs text-gray-400">
+                    #{p.teamNumber} · {p.season} · {p.level}
+                  </p>
 
-                <p className="text-xs text-gray-500">{p.country}</p>
-                <div className="text-red-500 text-sm">{p.stars}</div>
-                <p className="text-xs text-yellow-400">🏆 {p.award}</p>
+                  <p className="text-xs text-gray-500">{p.country}</p>
+                </div>
+                <div>
+                  <div className="text-red-500 text-sm">{p.stars}</div>
+                  <p className="text-xs text-yellow-400">🏆 {p.award}</p>
+                </div>
               </div>
             </button>
           ))}
@@ -290,12 +393,10 @@ export default function SubmitClient({ portfolios }: Props) {
               <li>Clarity & Structure - Medium</li>
               <li>Design as Tool - Medium</li>
               <li>Claim Realism - Medium</li>
-             
-
             </ul>
 
-            <p className="text-gray-400 text-sm mb-4 space-y-1">
-            ★★★★★ is extremely rare (top ~1%). Automatic caps apply if outreach, engineering thinking, or technical depth are weak. PortfolioLab ratings are independent and not official FIRST scores. Portfolios evaluated using PortAI.
+            <p className="text-gray-400 text-sm mb-4 space-y-1 mt-4">
+              ★★★★★ is extremely rare (top ~1%). Automatic caps apply if outreach, engineering thinking, or technical depth are weak. PortfolioLab ratings are independent and not official FIRST scores. Portfolios evaluated using PortAI.
             </p>
 
             <div className="flex justify-end mt-6">
@@ -370,150 +471,154 @@ export default function SubmitClient({ portfolios }: Props) {
           </div>
         </div>
       )}
+
+      {/* ========== PORTFOLIO DETAILS MODAL ========== */}
       {openPortfolio && (
-  <div
-    className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4"
-    onClick={() => setOpenPortfolio(null)}
-  >
-    <div
-      className="
-        bg-zinc-950 border border-zinc-800 rounded-2xl
-        max-w-5xl w-full
-        max-h-[85vh]
-        relative
-        flex flex-col
-      "
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* ===== HEADER ===== */}
-      <div className="flex items-start justify-between px-8 pt-6 pb-4 border-b border-zinc-800">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold">
-            {openPortfolio.teamName} #{openPortfolio.teamNumber}
-          </h2>
-
-          <p className="text-gray-400 text-sm">
-            {openPortfolio.country} · {openPortfolio.season} · {openPortfolio.level}
-          </p>
-
-          {(openPortfolio.stars || openPortfolio.score) && (
-            <div className="flex items-center gap-3 mt-2">
-              {openPortfolio.stars && (
-                <span className="text-red-500 text-lg">
-                  {openPortfolio.stars}
-                </span>
-              )}
-              {openPortfolio.score && (
-                <span className="text-gray-400 text-sm">
-                  {openPortfolio.score}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ACTIONS */}
-        <div className="flex items-center gap-2">
-          <a
-            href={openPortfolio.pdf}
-            target="_blank"
-            className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 text-sm"
+        <div
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4"
+          onClick={() => setOpenPortfolio(null)}
+        >
+          <div
+            className="
+              bg-zinc-950 border border-zinc-800 rounded-2xl
+              max-w-5xl w-full
+              max-h-[85vh]
+              relative
+              flex flex-col
+            "
+            onClick={(e) => e.stopPropagation()}
           >
-            Open portfolio
-          </a>
-          <button
-            onClick={() => setOpenPortfolio(null)}
-            className="px-3 py-2 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
+            {/* ===== HEADER ===== */}
+            <div className="flex items-start justify-between px-8 pt-6 pb-4 border-b border-zinc-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded uppercase">
+                    {openPortfolio.program || "FTC"}
+                  </span>
+                  <h2 className="text-2xl font-bold">
+                    {openPortfolio.teamName} #{openPortfolio.teamNumber}
+                  </h2>
+                </div>
 
-      {/* ===== SCROLLABLE CONTENT ===== */}
-      <div className="overflow-y-auto px-8 py-6 space-y-10">
+                <p className="text-gray-400 text-sm">
+                  {openPortfolio.country} · {openPortfolio.season} · {openPortfolio.level}
+                </p>
 
-        {/* SUMMARY */}
-        {openPortfolio.summary && (
-          <p className="text-gray-300 leading-relaxed">
-            {openPortfolio.summary}
-          </p>
-        )}
-
-        {/* ===== AWARDS ===== */}
-        {openPortfolio.awardsBreakdown && (
-          <div>
-            <h3 className="font-semibold mb-3">Awards</h3>
-            <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
-              {openPortfolio.awardsBreakdown.map(
-                ([name, value]: PortfolioBreakdown, i: number) => (
-                  <div key={i}>
-                    {name} — {value}
+                {(openPortfolio.stars || openPortfolio.score) && (
+                  <div className="flex items-center gap-3 mt-2">
+                    {openPortfolio.stars && (
+                      <span className="text-red-500 text-lg">
+                        {openPortfolio.stars}
+                      </span>
+                    )}
+                    {openPortfolio.score && (
+                      <span className="text-gray-400 text-sm">
+                        {openPortfolio.score}
+                      </span>
+                    )}
                   </div>
-                )
+                )}
+              </div>
+
+              {/* ACTIONS */}
+              <div className="flex items-center gap-2">
+                <a
+                  href={openPortfolio.pdf}
+                  target="_blank"
+                  className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 text-sm"
+                >
+                  Open portfolio
+                </a>
+                <button
+                  onClick={() => setOpenPortfolio(null)}
+                  className="px-3 py-2 rounded-md bg-zinc-800 hover:bg-zinc-700 text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* ===== SCROLLABLE CONTENT ===== */}
+            <div className="overflow-y-auto px-8 py-6 space-y-10">
+
+              {/* SUMMARY */}
+              {openPortfolio.summary && (
+                <p className="text-gray-300 leading-relaxed">
+                  {openPortfolio.summary}
+                </p>
               )}
+
+              {/* ===== AWARDS ===== */}
+              {openPortfolio.awardsBreakdown && (
+                <div>
+                  <h3 className="font-semibold mb-3">Awards</h3>
+                  <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
+                    {openPortfolio.awardsBreakdown.map(
+                      ([name, value]: PortfolioBreakdown, i: number) => (
+                        <div key={i}>
+                          {name} — {value}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* ===== CRITERIA ===== */}
+              {(openPortfolio.criteriaBreakdown || openPortfolio.criteria) && (
+                <div>
+                  <h3 className="font-semibold mb-3">Criteria</h3>
+                  <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
+                    {(openPortfolio.criteriaBreakdown || openPortfolio.criteria || []).map(
+                      ([name, value]: PortfolioBreakdown, i: number) => (
+                        <div key={i}>
+                          {name} — {value}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* ===== STRENGTHS / WEAKNESSES / IMPROVEMENTS ===== */}
+              <div className="grid md:grid-cols-3 gap-8">
+                {openPortfolio.strengths && (
+                  <div>
+                    <h4 className="font-semibold mb-2">Strengths</h4>
+                    <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
+                      {openPortfolio.strengths.map((s: string, i: number) => (
+                        <li key={i}>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {openPortfolio.weaknesses && (
+                  <div>
+                    <h4 className="font-semibold mb-2">Weaknesses</h4>
+                    <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
+                      {openPortfolio.weaknesses.map((w: string, i: number) => (
+                        <li key={i}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {openPortfolio.improvements && (
+                  <div>
+                    <h4 className="font-semibold mb-2">Improvements</h4>
+                    <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
+                      {openPortfolio.improvements.map((im: string, i: number) => (
+                        <li key={i}>{im}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        )}
-
-        {/* ===== CRITERIA ===== */}
-        {(openPortfolio.criteriaBreakdown || openPortfolio.criteria) && (
-          <div>
-            <h3 className="font-semibold mb-3">Criteria</h3>
-            <div className="grid md:grid-cols-2 gap-x-12 gap-y-1 text-sm text-gray-300">
-              {(openPortfolio.criteriaBreakdown || openPortfolio.criteria || []).map(
-                ([name, value]: PortfolioBreakdown, i: number) => (
-                  <div key={i}>
-                    {name} — {value}
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ===== STRENGTHS / WEAKNESSES / IMPROVEMENTS ===== */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {openPortfolio.strengths && (
-            <div>
-              <h4 className="font-semibold mb-2">Strengths</h4>
-              <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.strengths.map((s: string, i: number) => (
-                  <li key={i}>{s}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {openPortfolio.weaknesses && (
-            <div>
-              <h4 className="font-semibold mb-2">Weaknesses</h4>
-              <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.weaknesses.map((w: string, i: number) => (
-                  <li key={i}>{w}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {openPortfolio.improvements && (
-            <div>
-              <h4 className="font-semibold mb-2">Improvements</h4>
-              <ul className="text-sm text-gray-300 list-disc list-inside space-y-1">
-                {openPortfolio.improvements.map((im: string, i: number) => (
-                  <li key={i}>{im}</li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
-      </div>
-    </div>
-  </div>
-)}
- 
-
- 
+      )}
     </main>
   );
 }

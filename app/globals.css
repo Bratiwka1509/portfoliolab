@@ -31,13 +31,49 @@ body {
   }
 }
 
+@keyframes filterHintEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .filter-hint-fade {
-  animation: filterHintFade 300ms ease 2s forwards;
+  animation:
+    filterHintEnter 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    filterHintFade 300ms ease 2s forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .filter-hint-fade {
-    animation-duration: 1ms;
+    animation: none;
+  }
+}
+
+@keyframes portfolioCoverEnter {
+  from {
+    opacity: 0.55;
+    translate: 0 10px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.portfolio-cover-enter {
+  animation: portfolioCoverEnter 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-cover-enter {
+    animation: none;
   }
 }
 

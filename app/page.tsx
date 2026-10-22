@@ -1,7 +1,34 @@
 import Image from "next/image";
 import Link from "next/link";
+import PortfolioShowcase from "@/components/PortfolioShowcase";
+import { getPublishedPortfolios } from "@/lib/portfolio-store";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+function shuffle<T>(items: T[]) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+  return shuffled;
+}
+
+export default async function HomePage() {
+  const portfolios = await getPublishedPortfolios();
+  const showcasePortfolios = shuffle(
+    portfolios.map(({ id, teamName, teamNumber, cover, pdf }) => ({
+      id,
+      teamName,
+      teamNumber,
+      cover,
+      pdf,
+    }))
+  );
+
   return (
     <main
       className="
@@ -71,50 +98,32 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="relative h-[360px] hidden lg:block">
-            <Link
-              href="/portfolio"
-              className="absolute left-0 top-12 rotate-[-12deg] group"
-            >
-              <div className="relative w-[200px] h-[290px] rounded-md overflow-hidden transition group-hover:scale-[1.04] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.35)]">
-                <Image
-                  src="/portfolio/page-1.png"
-                  alt="Portfolio example"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
-
-            <Link
-              href="/portfolio"
-              className="absolute left-36 top-0 z-10 group"
-            >
-              <div className="relative w-[220px] h-[320px] rounded-md overflow-hidden transition group-hover:scale-[1.05] group-hover:shadow-[0_0_55px_rgba(220,38,38,0.45)]">
-                <Image
-                  src="/portfolio/page-2.png"
-                  alt="Portfolio example"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
-
-            <Link
-              href="/portfolio"
-              className="absolute left-[320px] top-16 rotate-[12deg] group"
-            >
-              <div className="relative w-[200px] h-[290px] rounded-md overflow-hidden transition group-hover:scale-[1.04] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.35)]">
-                <Image
-                  src="/portfolio/page-3.png"
-                  alt="Portfolio example"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
+          <div className="hidden justify-center lg:flex">
+            <PortfolioShowcase portfolios={showcasePortfolios.slice(0, 3)} />
           </div>
         </section>
+
+        <a
+          href="https://ftc-resources.firstinspires.org/ftc/game/manual"
+          target="_blank"
+          rel="noreferrer"
+          className="group block rounded-xl border border-red-900/50 bg-black/35 p-6 transition hover:border-red-600 hover:shadow-[0_0_25px_rgba(220,38,38,0.25)] sm:p-8"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold sm:text-2xl">
+                Explore portfolio criteria and awards
+              </h2>
+              <p className="max-w-3xl text-sm leading-relaxed text-gray-300 sm:text-base">
+                Review official FTC award criteria and requirements to see what
+                judges look for in an engineering portfolio.
+              </p>
+            </div>
+            <span className="shrink-0 font-semibold text-red-400 transition group-hover:text-red-300">
+              Explore the criteria →
+            </span>
+          </div>
+        </a>
 
         {/* PUBLISH YOUR PORTFOLIO */}
         <section className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">

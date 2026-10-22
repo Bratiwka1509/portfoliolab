@@ -203,9 +203,23 @@ function FilterHint({
   return (
     <p
       key={message}
-      className="filter-hint-fade absolute left-0 top-full z-20 mt-1 w-max max-w-[min(90vw,24rem)] rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-amber-300 shadow-lg"
+      className="filter-hint-fade absolute left-0 top-full z-20 mt-2 flex w-max max-w-[min(90vw,24rem)] items-start gap-2.5 rounded-lg border border-amber-400/50 bg-zinc-950/95 px-3.5 py-2.5 text-sm leading-snug text-amber-100 shadow-[0_8px_24px_rgba(0,0,0,0.45),0_0_18px_rgba(251,191,36,0.12)] backdrop-blur"
       role="alert"
     >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="mt-0.5 h-4 w-4 shrink-0 text-amber-400"
+      >
+        <circle cx="10" cy="10" r="7.25" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M10 6.5v4M10 13.5h.01"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="1.5"
+        />
+      </svg>
       {message}
     </p>
   );
@@ -309,6 +323,28 @@ export default function SubmitClient({ portfolios }: Props) {
             </button>
           </div>
         </section>
+
+        <a
+          href="https://ftc-resources.firstinspires.org/ftc/game/manual"
+          target="_blank"
+          rel="noreferrer"
+          className="group block rounded-xl border border-red-900/50 bg-black/35 p-5 transition hover:border-red-600 hover:shadow-[0_0_25px_rgba(220,38,38,0.25)] sm:p-6"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <h2 className="text-lg font-semibold sm:text-xl">
+                Explore portfolio criteria and awards
+              </h2>
+              <p className="max-w-3xl text-sm leading-relaxed text-gray-300 sm:text-base">
+                Review official FTC award criteria and requirements to see what
+                judges look for in an engineering portfolio.
+              </p>
+            </div>
+            <span className="shrink-0 text-sm font-semibold text-red-400 transition group-hover:text-red-300 sm:text-base">
+              Explore the criteria →
+            </span>
+          </div>
+        </a>
 
         {/* FILTERS */}
         <section className="flex flex-wrap items-center gap-1 sm:gap-1">

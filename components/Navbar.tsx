@@ -150,6 +150,7 @@ export default function Navbar() {
             <Link href="/" className="hover:text-red-400">Home</Link>
             <Link href="/portfolio" className="hover:text-red-400">Portfolio</Link>
             <Link href="/guide" className="hover:text-red-400">Guide</Link>
+            <Link href="/about" className="hover:text-red-400">About</Link>
             <Link
               href="/portai"
               className="px-4 py-2 rounded-md border border-red-600 text-red-500 hover:bg-red-600 hover:text-white transition"
@@ -216,7 +217,7 @@ export default function Navbar() {
                       onClick={() => goSearch(r.teamName)}
                       className="w-full px-4 py-2 text-sm text-left hover:bg-zinc-700"
                     >
-                      #{r.teamNumber} — {r.teamName}
+                      #{r.teamNumber} - {r.teamName}
                     </button>
                   ))}
                 </div>
@@ -228,6 +229,7 @@ export default function Navbar() {
               <Link href="/" onClick={() => setOpen(false)}>Home</Link>
               <Link href="/portfolio" onClick={() => setOpen(false)}>Portfolio</Link>
               <Link href="/guide" onClick={() => setOpen(false)}>Guide</Link>
+              <Link href="/about" onClick={() => setOpen(false)}>About</Link>
               <Link href="/portai" onClick={() => setOpen(false)}>PortAI</Link>
               <Link
                 href="/submit"
